@@ -240,14 +240,14 @@ export default function Home() {
               <div className="grid gap-12 lg:grid-cols-[0.92fr_1.08fr] lg:items-center">
                 <div>
                   <Reveal>
-                    <p className="text-[11px] font-medium uppercase tracking-[0.24em] text-primary">Coming soon</p>
+                    <p className="text-[11px] font-medium uppercase tracking-[0.24em] text-primary">In development</p>
                     <h2 className="mt-5 text-[clamp(2rem,4.2vw,3.2rem)] font-bold leading-[1.06] tracking-[-0.025em] text-foreground">
                       AI Measurement
                     </h2>
                     <p className="mt-6 max-w-[46ch] text-[16px] leading-relaxed text-foreground/58">
                       Record a room with your phone and Think Decor returns a precise, editable
                       floor plan — wall lengths, room dimensions, doors, windows and total area.
-                      In minutes, not site visits — arriving with the Think Decor scanning app.
+                      Not available yet: measurement is in development.
                     </p>
                   </Reveal>
                 </div>

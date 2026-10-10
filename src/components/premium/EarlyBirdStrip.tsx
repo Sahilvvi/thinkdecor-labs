@@ -39,7 +39,7 @@ export function EarlyBirdStrip() {
                   <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-mint" />
                 </span>
                 <span>
-                  <span className="font-bold">{INTRO}</span> early-bird price for your first month
+                  <span className="font-bold">{INTRO}</span> for your first month
                   <span className="hidden text-primary-foreground/70 sm:inline"> · then {MONTHLY}/month</span>
                 </span>
               </p>

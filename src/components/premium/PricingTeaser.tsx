@@ -38,7 +38,7 @@ export function PricingTeaser() {
         <Reveal delay={0.1} className="mx-auto mt-12 max-w-[420px]">
           <div className="relative flex flex-col gap-4 rounded-[20px] p-7 text-white shadow-[0_26px_44px_-20px_rgba(0,89,78,0.7)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_34px_56px_-20px_rgba(0,89,78,0.8)]" style={{ background: 'linear-gradient(160deg, #00A08C 0%, #00594E 55%, #003B33 100%)' }}>
             <span className="absolute -top-3 left-6 rounded-full bg-[#00A08C] px-2.5 py-1.5 font-label text-[11px] font-bold uppercase tracking-[0.1em] text-white shadow-[0_8px_18px_-6px_rgba(0,89,78,0.6)]">
-              Early access price
+              First month
             </span>
 
             <span className="font-label text-[12px] font-medium uppercase tracking-[0.14em] text-[#8FE3D4]">{plan.name}</span>

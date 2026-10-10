@@ -6,10 +6,10 @@
 export function seoTitle(title: string, suffix = ' | Think Decor', max = 60): string {
   const full = `${title}${suffix}`;
   if (full.length <= max) return full;
-  if (title.length <= max) return title;
-  const cut = title.slice(0, max - 1);
-  const at = cut.lastIndexOf(' ');
-  return `${(at > 30 ? cut.slice(0, at) : cut).replace(/[\s,;:.-]+$/, '')}\u2026`;
+  // Too long with the suffix: drop the suffix. Never cut the title itself
+  // (a literal "..." in <title> reads as unfinished); search engines truncate
+  // long titles on their own.
+  return title;
 }
 
 export function seoDescription(text: string | null | undefined, fallback: string, max = 155): string {

@@ -140,7 +140,7 @@ export function SmartWizard() {
           {/* ---------- copy ---------- */}
           <div>
             <Reveal>
-              <p className="text-[11px] font-medium uppercase tracking-[0.24em] text-primary">Coming soon</p>
+              <p className="text-[11px] font-medium uppercase tracking-[0.24em] text-primary">In development</p>
               <h2 className="mt-5 text-[clamp(2rem,4.2vw,3.2rem)] font-bold leading-[1.06] tracking-[-0.025em] text-foreground">
                 Smart Wizard
               </h2>

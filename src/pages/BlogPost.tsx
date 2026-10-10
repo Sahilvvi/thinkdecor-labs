@@ -16,7 +16,7 @@ const FALLBACK_COVER = '/assets/samples/styled_room.png';
 
 function fmt(d: string | null) {
   if (!d) return '';
-  return new Date(d).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+  return new Date(d).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'Europe/London' });
 }
 
 export default function BlogPostPage() {

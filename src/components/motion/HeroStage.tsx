@@ -335,9 +335,9 @@ export function HeroStage({ onStageBoxMount }: { onStageBoxMount?: (el: HTMLDivE
               <span>
                 {styleKey
                   ? `● ${styleKey} redesign — tap another style to compare`
-                  : '● Tap a dot to see what it is and what it costs'}
+                  : '● Tap a dot for an example item and price'}
               </span>
-              <span>{styleKey ? `${room.label} · ${styleKey}` : `${room.label} · ${room.items.length} items tagged`}</span>
+              <span>{styleKey ? `${room.label} · ${styleKey}` : `${room.label} · example prices`}</span>
             </figcaption>
 
             <div role="tablist" aria-label="Choose a room" className="mt-[18px] grid grid-cols-2 gap-2.5">

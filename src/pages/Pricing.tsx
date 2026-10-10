@@ -115,7 +115,7 @@ export default function Pricing() {
             <div className="container relative mx-auto max-w-[1120px] px-6 text-center sm:px-8">
               <Reveal>
                 <p className="font-label text-[11px] font-bold uppercase tracking-[0.16em] text-[#8FE3D4]">
-                  Early access
+                  One simple plan
                 </p>
               </Reveal>
               <h1 className="mx-auto mt-5 max-w-[16ch] font-display text-[clamp(2.2rem,5vw,3.7rem)] font-medium leading-[1.04] tracking-[-0.035em] text-white">

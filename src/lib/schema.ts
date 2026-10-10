@@ -10,8 +10,17 @@ export function organizationSchema() {
   return {
     '@type': 'Organization',
     name: 'Think Decor',
+    legalName: 'Dreamverse Limited',
     url: SITE_URL,
     logo: `${SITE_URL}/favicon.png`,
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: 'Flat 3, 20-22 St. Giles Street',
+      addressLocality: 'Northampton',
+      postalCode: 'NN1 1JA',
+      addressCountry: 'GB',
+    },
+    contactPoint: { '@type': 'ContactPoint', contactType: 'customer support', email: 'info@thinkdecor.app', availableLanguage: 'English' },
     // Real profiles linked from the site footer. Add new ones here as they are created.
     sameAs: ['https://www.instagram.com/thinkdecor.app/', 'https://www.linkedin.com/company/thinkdecor/'],
   };

@@ -84,7 +84,7 @@ export function HeroVideo() {
         className="absolute -left-4 top-[22%] hidden rounded-2xl border border-foreground/[0.12] bg-black/38 px-4 py-2.5 backdrop-blur-xl lg:block"
       >
         <span className="block text-[10px] uppercase tracking-[0.14em] text-foreground/50">Room scanning</span>
-        <span className="block text-[15px] font-semibold text-foreground">Coming soon</span>
+        <span className="block text-[15px] font-semibold text-foreground">In development</span>
       </motion.span>
 
       <motion.span

@@ -73,7 +73,7 @@ export function NewsletterBand() {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Your email for early access"
+                  placeholder="Your email address"
                   aria-label="Email address"
                   className="w-full flex-1 rounded-full border border-foreground/[0.12] bg-white px-5 py-3 text-[14px] text-foreground shadow-[0_4px_14px_-8px_hsl(168_30%_15%/0.25)] outline-none transition-colors focus:border-primary"
                 />

@@ -173,7 +173,7 @@ export function FourSteps() {
     <section id="get-started" className="scroll-mt-24 border-y border-foreground/[0.07] py-20 lg:py-24">
       <div className="container mx-auto max-w-[1200px] px-6 sm:px-8">
         <Reveal className="text-center">
-          <p className="text-[11px] font-medium uppercase tracking-[0.24em] text-primary">Coming soon · Scanning app</p>
+          <p className="text-[11px] font-medium uppercase tracking-[0.24em] text-primary">In development · Scanning app</p>
           <h2 className="mx-auto mt-5 max-w-[20ch] text-[clamp(1.9rem,4vw,3.2rem)] font-bold leading-[1.08] tracking-[-0.02em] text-foreground">
             Floor plans in four steps.
           </h2>

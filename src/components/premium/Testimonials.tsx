@@ -165,9 +165,6 @@ export function Testimonials() {
                   {s.quote}
                 </blockquote>
                 <div className="flex items-center gap-3 border-t border-border pt-3.5">
-                  <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-[hsl(var(--primary))] font-display text-[18px] text-white">
-                    {s.name[0]}
-                  </span>
                   <span>
                     <b className="block font-label text-[15.5px] font-bold text-primary">{s.name}</b>
                     <span className="text-[13.5px] leading-[1.3] text-muted-foreground">{s.role}</span>

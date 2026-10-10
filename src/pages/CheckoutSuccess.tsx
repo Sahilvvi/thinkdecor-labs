@@ -86,7 +86,7 @@ export default function CheckoutSuccess() {
     },
     'signed-out': {
       title: 'Payment received',
-      body: 'Your receipt is on its way by email. Sign in with the same email address you paid with to start designing.',
+      body: 'Your receipt is on its way by email. Sign in to your account to start designing.',
     },
   };
 

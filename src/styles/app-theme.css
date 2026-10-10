@@ -606,3 +606,6 @@
   .app-x .tc .use,.app-x .tp .use{opacity:1;transform:none}
   .app-x .tc:hover,.app-x .tp:hover,.app-x .dcard:hover,.app-x .ft:hover{transform:none}
 }
+
+/* Keyboard-shortcut hints mean nothing on a touch screen. */
+@media (pointer: coarse) { .app-x kbd { display: none; } }

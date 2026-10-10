@@ -256,7 +256,7 @@ export function AppShell({ children }: { children: ReactNode }) {
                   aria-controls="app-search-list"
                   autoComplete="off"
                 />
-                <kbd>⌘K</kbd>
+                <kbd>{/Mac|iPhone|iPad/.test(typeof navigator !== 'undefined' ? navigator.platform : '') ? '⌘K' : 'Ctrl K'}</kbd>
               </label>
               {searchOpen && (
                 <div className="sresults" id="app-search-list" role="listbox">
@@ -298,10 +298,10 @@ export function AppShell({ children }: { children: ReactNode }) {
 
         <nav className="tabbar" aria-label="Quick navigation">
           <NavLink to="/app" end className={({ isActive }) => (isActive ? 'on' : '')}>
-            <LayoutDashboard width={20} height={20} /><span>Home</span>
+            <LayoutDashboard width={20} height={20} /><span>Overview</span>
           </NavLink>
           <NavLink to="/app/templates" className={({ isActive }) => (isActive ? 'on' : '')}>
-            <LayoutGrid width={20} height={20} /><span>Styles</span>
+            <LayoutGrid width={20} height={20} /><span>Templates</span>
           </NavLink>
           <NavLink to="/app/create" className={({ isActive }) => `mid${isActive ? ' on' : ''}`}>
             <Plus width={22} height={22} strokeWidth={2.4} /><span>Create</span>

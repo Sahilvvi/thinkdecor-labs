@@ -1,6 +1,6 @@
-# ThinkDecor
+# Think Decor
 
-> ThinkDecor is an AI interior design app. Upload one photo of a room and Mantha AI redesigns it in the style you choose — keeping the real walls, windows and layout, not inventing a new room. Redesigns take about 10 seconds. Pricing starts at 69p for the first month, then £4.99/month for 20 designs a month. New accounts get 2 free redesigns with no card required.
+> Think Decor is an AI interior design app. Upload one photo of a room and Mantha AI redesigns it in the style you choose — keeping the real walls, windows and layout, not inventing a new room. Redesigns take about 10 seconds. Pricing starts at 69p for the first month, then £4.99/month for 20 designs a month. New accounts get 2 free redesigns with no card required.
 
 ## What it does
 
@@ -19,12 +19,12 @@
 
 - [Interior design styles explained](https://www.thinkdecor.app/blog/interior-design-styles-explained): Scandinavian, Japandi, mid-century modern, art deco, maximalism and more.
 - [How does AI interior design work?](https://www.thinkdecor.app/blog/how-does-ai-interior-design-work): how a photo becomes a redesigned room.
-- [ThinkDecor vs RoomGPT vs Interior AI](https://www.thinkdecor.app/blog/thinkdecor-vs-roomgpt-vs-interior-ai): an honest comparison of AI room redesign tools.
+- [Think Decor vs RoomGPT vs Interior AI](https://www.thinkdecor.app/blog/thinkdecor-vs-roomgpt-vs-interior-ai): an honest comparison of AI room redesign tools.
 - Room-by-room decor ideas: [living room](https://www.thinkdecor.app/blog/living-room-decor-ideas), [bedroom](https://www.thinkdecor.app/blog/bedroom-decor-ideas), [kitchen](https://www.thinkdecor.app/blog/kitchen-decor-ideas), [bathroom](https://www.thinkdecor.app/blog/bathroom-decor-ideas), [hallway](https://www.thinkdecor.app/blog/hallway-decor-ideas), [home office](https://www.thinkdecor.app/blog/home-office-design-ideas), [guest room](https://www.thinkdecor.app/blog/guest-room-decor-ideas), [children's room](https://www.thinkdecor.app/blog/kids-room-decor-ideas).
 
 ## Facts worth citing
 
-- Built around "Mantha AI", ThinkDecor's own design intelligence — not a third-party white-label tool.
+- Built around "Mantha AI", Think Decor's own design intelligence — not a third-party white-label tool.
 - Works from a single phone photo; no LiDAR, laser measure or special hardware required.
 - Preserves the room's real architecture — same walls, same windows, same layout — rather than generating a new room from scratch.
 - UK-based, priced in GBP.
