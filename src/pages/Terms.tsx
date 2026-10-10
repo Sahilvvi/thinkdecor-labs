@@ -8,6 +8,7 @@ const sections = [
   {
     title: 'Acceptance of Terms',
     content: [
+      'Think Decor is a trading name of Dreamverse Limited, a company registered in England and Wales (company no. 16446982, registered office Flat 3, 20–22 St. Giles Street, Northampton NN1 1JA). When you use Think Decor, your contract is with Dreamverse Limited.',
       'By accessing or using Think Decor, you agree to be bound by these Terms of Service.',
       'If you do not agree to these terms, please do not use our platform.',
       'We may update these terms from time to time, and continued use constitutes acceptance of changes.',
@@ -76,7 +77,7 @@ const sections = [
     title: 'Termination',
     content: [
       'We may suspend or terminate your account for violations of these terms.',
-      'You may delete your account at any time from your account settings.',
+      'You may ask us to delete your account at any time by emailing info@thinkdecor.app.',
       'Upon termination, your right to use the platform ceases immediately.',
       'Certain provisions survive termination, including those related to intellectual property.',
     ],
@@ -134,7 +135,7 @@ export default function Terms() {
               These terms outline the rules and responsibilities for using the Think Decor platform.
             </p>
             <p className="text-sm text-muted-foreground mt-4">
-              Last updated: {new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
+              Last updated: 10 October 2026
             </p>
           </div>
         </section>

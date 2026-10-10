@@ -2,6 +2,7 @@ import { Logo } from '@/components/brand/Logo';
 import { Link } from 'react-router-dom';
 import { Linkedin, Instagram, MapPin, Mail } from 'lucide-react';
 import { PHASE1_PLAN, money, pence } from '@/lib/billing';
+import { openCookieSettings } from '@/lib/consent';
 
 // Read from the billing config so the footer can never quote a stale price.
 const INTRO = pence(PHASE1_PLAN.introPrice ?? 0.69);
@@ -133,12 +134,23 @@ export function Footer() {
                 {link.label}
               </Link>
             ))}
+            <button
+              type="button"
+              onClick={openCookieSettings}
+              className="text-xs text-muted-foreground transition-colors hover:text-primary"
+            >
+              Cookie settings
+            </button>
           </div>
 
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-sm text-muted-foreground">
-            &copy; {new Date().getFullYear()} Think Decor Ltd. All rights reserved.
-          </p>
+          <div className="text-sm text-muted-foreground">
+            <p>&copy; {new Date().getFullYear()} Think Decor. All rights reserved.</p>
+            <p className="mt-1 text-xs text-muted-foreground/80">
+              Think Decor is a trading name of Dreamverse Limited, registered in England and Wales, company no. 16446982.
+              Registered office: Flat 3, 20–22 St. Giles Street, Northampton NN1 1JA.
+            </p>
+          </div>
           <p className="text-xs text-muted-foreground/70 uppercase tracking-[0.2em]">
             Decor that thinks before you buy
           </p>

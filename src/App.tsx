@@ -12,6 +12,7 @@ import { useAuthStore } from "@/stores/authStore";
 import { AnimatePresence } from "framer-motion";
 import { PageTransition } from "@/components/layout/PageTransition";
 import { usePageViewTracking } from "@/lib/analytics";
+import { CookieBanner } from "@/components/shared/CookieBanner";
 import { MaintenanceBanner } from "@/components/shared/MaintenanceBanner";
 
 // Pages — single-page B2B landing + product demo + app
@@ -199,6 +200,7 @@ const App = () => {
           <ErrorBoundary>
             <AppRoutes />
           </ErrorBoundary>
+          <CookieBanner />
         </BrowserRouter>
       </TooltipProvider>
     </QueryClientProvider>

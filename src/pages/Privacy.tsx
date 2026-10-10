@@ -4,12 +4,21 @@ import { SEO } from '@/components/shared/SEO';
 import { useScrollAnimation } from '@/hooks/useScrollAnimation';
 import { Shield, FileText } from 'lucide-react';
 
+const LAST_UPDATED = '10 October 2026';
+
 const sections = [
+  {
+    title: 'Who We Are',
+    content: [
+      'Think Decor is a trading name of Dreamverse Limited, a company registered in England and Wales (company no. 16446982). Our registered office is Flat 3, 20–22 St. Giles Street, Northampton NN1 1JA.',
+      'Dreamverse Limited is the controller of the personal data described in this policy. You can contact us at info@thinkdecor.app.',
+    ],
+  },
   {
     title: 'Information We Collect',
     content: [
       'Personal information such as your name, email address, and phone number when you register or contact us.',
-      'Room photos and visual content that you upload to use our AI visualisation features.',
+      'Room photos and visual content that you upload to use our AI visualisation features. Please avoid including people, documents or house numbers in your photos.',
       'Usage data including how you interact with the platform, features used, and session duration.',
       'Device and browser information to ensure compatibility and improve performance.',
     ],
@@ -27,8 +36,12 @@ const sections = [
     title: 'Data Sharing and Disclosure',
     content: [
       'We do not sell your personal information to third parties.',
+      'AI image generation: when you create a redesign, your room photo and your written brief are sent to Google (the Gemini API) to generate the result. We do not use your photos to train our own models.',
+      'Hosting and infrastructure: the website is served by Vercel, and our email is handled by Hostinger.',
+      'Advertising and analytics: if you accept cookies, Google (Tag Manager, Analytics and Ads), Meta, Reddit, Spotify and Pinterest receive information about your visit (see Cookies below). They receive nothing from us if you reject non-essential cookies.',
       'Payments are processed by Stripe Payments Europe Ltd. Card details go directly to Stripe and are never stored on our servers. Stripe receives your name, email and billing address in order to take payment.',
-      'Our application data and authentication are hosted on Supabase, which stores data within the region selected for our project.',
+      'Our application data, photos and authentication are hosted on Supabase, which stores data within the region selected for our project.',
+      'Some of these providers (for example Google, Vercel and Meta) may process data outside the UK. Where they do, we rely on the UK-approved safeguards they offer, such as the UK International Data Transfer Addendum.',
       'We may disclose information if required by law or to protect our legal rights.',
       'Brand partners may receive aggregated, anonymised insights — never individual user data.',
     ],
@@ -37,7 +50,7 @@ const sections = [
     title: 'Legal Basis and Retention',
     content: [
       'We process your data to perform our contract with you (providing the service and taking payment), and on the basis of legitimate interest for security and service improvement.',
-      'Account and room scan data is kept for as long as your account is open, then deleted within 90 days of closure.',
+      'Account data and the room photos and designs you create are kept for as long as your account is open, then deleted within 90 days of closure.',
       'Payment and invoice records are retained for 7 years, as required by UK tax law. This is why some billing data survives account deletion.',
       'Enquiries sent through our contact form are kept for up to 24 months.',
     ],
@@ -57,23 +70,23 @@ const sections = [
       'You have rights under UK GDPR, including the right to access, correct, or delete your personal data.',
       'You can request a copy of the data we hold about you (Subject Access Request).',
       'You can opt out of marketing communications whenever you choose.',
-      'You can delete your account, which removes your data from our active systems.',
+      'You can ask us to delete your account at any time by emailing info@thinkdecor.app. We will delete your data from our active systems (see Legal Basis and Retention for what we must keep).',
       'You have the right to lodge a complaint with the UK Information Commissioner\'s Office (ICO).',
     ],
   },
   {
     title: 'Cookies and Tracking',
     content: [
-      'We use cookies to maintain sessions and remember preferences.',
-      'Analytics cookies help us understand how visitors use the platform.',
-      'You can control cookie preferences through your browser settings.',
-      'Third-party analytics tools are used with privacy-preserving configurations.',
+      'Essential: we store a sign-in session and your cookie choice so the site works. These do not need consent.',
+      'Analytics and advertising (only if you choose "Accept all"): Google Tag Manager, Google Analytics and Google Ads; the Meta (Facebook) pixel; the Reddit pixel; the Spotify pixel; and Pinterest. These set cookies such as _ga, _fbp and _rdt_uuid to measure visits and the performance of our adverts.',
+      'Nothing in the second group is loaded until you accept. "Reject non-essential" keeps it all off.',
+      'You can change your mind at any time with "Cookie settings" in the footer of every page, and you can also clear cookies in your browser.',
     ],
   },
   {
     title: 'Contact Us',
     content: [
-      'Think Decor Ltd is registered in England and Wales.',
+      'Think Decor is a trading name of Dreamverse Limited, registered in England and Wales, company no. 16446982.',
       'If you have any questions about this Privacy Policy, please contact us at info@thinkdecor.app.',
       'We are committed to resolving any privacy concerns promptly and transparently.',
     ],
@@ -117,7 +130,7 @@ export default function Privacy() {
               We are committed to protecting your privacy and being transparent about how we handle your information.
             </p>
             <p className="text-sm text-muted-foreground mt-4">
-              Last updated: {new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
+              Last updated: {LAST_UPDATED}
             </p>
           </div>
         </section>
@@ -137,6 +150,7 @@ export default function Privacy() {
               {sections.map((section, i) => (
                 <div
                   key={section.title}
+                  id={section.title === 'Cookies and Tracking' ? 'cookies' : undefined}
                   className="p-6 sm:p-8 rounded-2xl bg-card/50 border border-border/30 hover:border-primary/20 transition-all duration-500"
                   style={{ transitionDelay: `${i * 100}ms` }}
                 >
