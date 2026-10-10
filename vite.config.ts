@@ -21,6 +21,9 @@ export default defineConfig(({ mode }) => ({
     },
   },
   build: {
+    // Content-hashed bundles live in /static (cached for a year, see vercel.json).
+    // /assets holds the hand-named files from public/, which can change in place.
+    assetsDir: 'static',
     rollupOptions: {
       output: {
         // Long-lived vendor files: they rarely change, so returning visitors keep them cached
