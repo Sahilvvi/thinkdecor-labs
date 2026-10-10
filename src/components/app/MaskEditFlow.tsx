@@ -249,7 +249,7 @@ export function MaskEditFlow({
           : err instanceof RateLimitError || err instanceof GenerationError
             ? err.message
             : isSetupError(err)
-              ? `${title} isn't switched on yet — the latest database update still needs to be applied.`
+              ? `${title} is temporarily unavailable. Please try again shortly.`
               : 'Something went wrong. No worries — try again.';
       setError(message);
     }

@@ -281,7 +281,7 @@ export default function Create() {
           : err instanceof RateLimitError || err instanceof GenerationError
             ? err.message
             : isSetupError(err)
-              ? "Generation isn't switched on yet — the latest database update still needs to be applied."
+              ? "Design generation is temporarily unavailable. Please try again shortly."
               : 'Something went wrong generating that design. No worries — try again.';
       setTurns((prev) => prev.map((t) => (t.id === id ? { ...t, status: 'error', error: message } : t)));
       if (args.restorePromptOnError && args.prompt) setPrompt((current) => current || args.prompt);

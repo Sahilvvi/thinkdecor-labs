@@ -5,7 +5,9 @@ import { useGenerationProductDetails, productShopUrl } from '@/lib/products';
  *  buy it — a full list to complement the on-image "shop this" dots, which
  *  are easy to miss and only show for products whose position was detected. */
 export function ShopThisLook({ generationId }: { generationId?: string | null }) {
-  const { data: products } = useGenerationProductDetails(generationId);
+  const { data } = useGenerationProductDetails(generationId);
+  // A product with no listing link would open a dead page — only list ones that can actually be bought.
+  const products = data?.filter((p) => p.source_url);
   if (!products?.length) return null;
 
   return (

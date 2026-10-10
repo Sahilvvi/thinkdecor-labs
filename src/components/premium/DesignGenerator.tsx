@@ -399,7 +399,7 @@ export function DesignGenerator() {
                   >
                     <Sparkles className="h-6 w-6 text-[#8FE3D4]" />
                     <p className="font-display text-[19px] font-medium text-white">You've used your free preview</p>
-                    <p className="max-w-[30ch] text-[13px] text-white/70">Sign up for unlimited redesigns of your own rooms.</p>
+                    <p className="max-w-[30ch] text-[13px] text-white/70">Create a free account for 2 more redesigns of your own rooms.</p>
                   </motion.div>
                 )}
 
@@ -536,7 +536,7 @@ export function DesignGenerator() {
               </AnimatePresence>
 
               <p className="mt-3 text-center font-label text-[11.5px] text-muted-foreground">
-                One free redesign per visitor · sign up for unlimited redesigns
+                One free try here · a free account adds 2 more redesigns
               </p>
             </div>
           </Reveal>
