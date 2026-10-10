@@ -5,6 +5,7 @@ import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 import { SEO } from '@/components/shared/SEO';
 import { Reveal, Stagger, staggerItem } from '@/components/premium/Motion';
+import { leadErrorMessage } from '@/lib/leadErrors';
 import { supabase } from '@/integrations/supabase/client';
 import {
   Mail, Phone, MapPin, Clock, ArrowRight, Send, Check,
@@ -125,7 +126,7 @@ export default function Contact() {
       toast.success("Message sent — we'll be in touch.");
     } catch (err) {
       console.error('Contact form error:', err);
-      toast.error('Something went wrong. Please email info@thinkdecor.app.');
+      toast.error(leadErrorMessage(err, 'Something went wrong. Please email info@thinkdecor.app.'));
     } finally {
       setLoading(false);
     }

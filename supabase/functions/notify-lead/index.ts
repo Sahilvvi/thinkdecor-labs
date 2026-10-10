@@ -7,6 +7,7 @@
 // Email is best-effort: if it fails, the lead is still safe in the panel.
 
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -47,7 +48,7 @@ serve(async (req) => {
 
   try {
     const b = await req.json();
-    const {
+    let {
       name, email, phone, company, company_size,
       industry, region, reason, message,
     } = b ?? {};
@@ -55,6 +56,38 @@ serve(async (req) => {
     if (!name || !email || !message) {
       return json({ error: "Missing required fields" }, 400);
     }
+
+    // Only email about a lead that really was stored (the database rate-limits and validates
+    // inserts), and only once. This function is publicly callable, so without this check anyone
+    // could use it to flood the inbox with arbitrary text.
+    const admin = createClient(
+      Deno.env.get("SUPABASE_URL") ?? "",
+      Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? "",
+      { auth: { persistSession: false } },
+    );
+    const { data: lead } = await admin
+      .from("contact_submissions")
+      .select("*")
+      .eq("email", String(email))
+      .eq("message", String(message))
+      .is("notified_at", null)
+      .gte("created_at", new Date(Date.now() - 10 * 60 * 1000).toISOString())
+      .order("created_at", { ascending: false })
+      .limit(1)
+      .maybeSingle();
+    if (!lead) return json({ ok: true, emailed: false, reason: "no_matching_lead" });
+
+    // Claim it; if another request got there first, do nothing.
+    const { data: claimed } = await admin
+      .from("contact_submissions")
+      .update({ notified_at: new Date().toISOString() })
+      .eq("id", lead.id)
+      .is("notified_at", null)
+      .select("id");
+    if (!claimed || claimed.length === 0) return json({ ok: true, emailed: false, reason: "already_notified" });
+
+    // Use what is stored, not what the request claims.
+    ({ name, email, phone, company, company_size, industry, region, reason, message } = lead);
 
     const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY");
     if (!RESEND_API_KEY) {

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Check, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
+import { leadErrorMessage } from '@/lib/leadErrors';
 import { supabase } from '@/integrations/supabase/client';
 import { Magnetic, Reveal } from '@/components/premium/Motion';
 
@@ -25,7 +26,7 @@ export function NewsletterBand() {
         name: 'Newsletter signup',
         email: trimmed,
         reason: 'newsletter',
-        message: 'Early-access email signup from footer',
+        message: 'Email signup from footer',
       });
       if (error) throw error;
       setSent(true);
@@ -33,7 +34,7 @@ export function NewsletterBand() {
       toast.success("You're on the list — we'll be in touch.");
     } catch (err) {
       console.error('Newsletter signup failed:', err);
-      toast.error('Something went wrong. Please try again.');
+      toast.error(leadErrorMessage(err, 'Something went wrong. Please try again.'));
     } finally {
       setLoading(false);
     }
