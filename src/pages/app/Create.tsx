@@ -613,7 +613,7 @@ export default function Create() {
                 )}
                 {selectedProductIds.length > 0 && (
                   <p className="muted" style={{ fontSize: 12, marginTop: 8 }}>
-                    {selectedProductIds.length} selected — these exact products will appear in the design.
+                    {selectedProductIds.length} selected — Mantha will style similar pieces. The real product may differ in size, shape and colour.
                   </p>
                 )}
                 {lastPicked && (
@@ -651,7 +651,11 @@ export default function Create() {
             ))}
             <span className="cost">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round"><path d="M13 2L4 14h7l-1 8 9-12h-7z" /></svg>
-              Uses <b>1</b> of your {credits ?? '—'} credits
+              {outOfCredits
+                ? (<>You're out of credits. {subscribed
+                    ? 'They renew with your next payment.'
+                    : <Link to="/pricing" style={{ fontWeight: 700, color: 'var(--brass)' }}>See plans</Link>}</>)
+                : (<>Uses <b>1</b> of your {credits ?? '—'} {credits === 1 ? 'credit' : 'credits'}</>)}
             </span>
             {voice.supported && (
               <button

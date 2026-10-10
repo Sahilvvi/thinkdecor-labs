@@ -26,14 +26,14 @@ const details = [
   { icon: Mail, label: 'Email', value: 'info@thinkdecor.app', href: 'mailto:info@thinkdecor.app', note: 'Replies within a day' },
   { icon: Phone, label: 'Phone', value: '+44 7741 018327', href: 'tel:+447741018327', note: 'UK line · +91 8692 964404 (India)' },
   { icon: MapPin, label: 'Studio', value: 'Northampton, United Kingdom', note: 'Visits by appointment' },
-  { icon: Clock, label: 'Hours', value: '9:00 – 18:00 GMT', note: 'Monday to Friday' },
+  { icon: Clock, label: 'Hours', value: '9:00 – 18:00 UK time', note: 'Monday to Friday' },
 ];
 
 const faqs = [
-  { q: 'How long does it take to get set up?', a: 'Most partners are live inside two to four weeks. We handle the catalogue ingestion and model tuning so your team only has to review the output.' },
-  { q: 'Can I try it before committing?', a: 'Yes. Join the waitlist and we will send you an early-access build along with a sandbox catalogue you can test against your own SKUs.' },
-  { q: 'Does it carry our branding?', a: 'The whole visualisation surface can be white-labelled — colours, type, iconography and the embed shell all follow your brand.' },
-  { q: 'What kind of support comes with it?', a: 'Guided onboarding, priority email support, and a shared channel with the engineering team for partners on an annual plan.' },
+  { q: 'Can I try Think Decor before paying?', a: 'Yes. Try the free demo on the homepage, or create a free account for 2 more redesigns of your own rooms.' },
+  { q: 'How do I cancel or get a refund?', a: 'Manage or cancel your plan from Settings in your account. Our Refund Policy explains the 14-day refund on your first payment.' },
+  { q: 'Do you work with brands and retailers?', a: 'We are open to conversations about partnerships. Choose "Brand partnership" above and tell us what you have in mind. We do not offer a ready-made integration yet.' },
+  { q: 'How quickly will you reply?', a: 'Usually within one working day, UK time.' },
 ];
 
 /* ------------------------------------------------------------------ */

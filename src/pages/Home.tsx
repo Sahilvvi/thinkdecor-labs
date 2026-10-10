@@ -14,7 +14,6 @@ import { FloorPlanStage } from '@/components/premium/FloorPlanStage';
 import { FloorPlanRecognition } from '@/components/premium/FloorPlanRecognition';
 import { DesignGenerator } from '@/components/premium/DesignGenerator';
 import { EarlyBirdStrip } from '@/components/premium/EarlyBirdStrip';
-import { Comparison } from '@/components/premium/Comparison';
 import { PricingTeaser } from '@/components/premium/PricingTeaser';
 import { AboutBlurb } from '@/components/premium/AboutBlurb';
 import { Testimonials } from '@/components/premium/Testimonials';
@@ -145,10 +144,6 @@ export default function Home() {
           {/* ================= ABOUT ================= */}
           <StackPanel>
             <AboutBlurb />
-          </StackPanel>
-
-          <StackPanel>
-            <Comparison />
           </StackPanel>
 
           <StackPanel>

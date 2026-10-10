@@ -103,7 +103,7 @@ export function HeroStage({ onStageBoxMount }: { onStageBoxMount?: (el: HTMLDivE
         {/* ---------------- copy ---------------- */}
         <div className="flex flex-col gap-[22px] pt-2">
           <span className="font-label text-[11px] font-bold uppercase tracking-[0.16em] text-[#8FE3D4]">
-            AI Room Redesign · Paint · Wallpaper · Floor
+            AI Room Redesign · 7 styles · Describe any change
           </span>
 
           <h1 className="font-display text-[clamp(2.75rem,6.2vw,5.5rem)] font-medium leading-[0.98] text-white">
@@ -115,8 +115,8 @@ export function HeroStage({ onStageBoxMount }: { onStageBoxMount?: (el: HTMLDivE
 
           <Reveal delay={0.35}>
             <p className="max-w-[40ch] text-[18px] text-white/75">
-              Photograph your room once. See new paint, wallpaper or flooring on your own
-              walls, before you spend a penny.
+              Photograph your room once. Pick a style or describe a change, and see it on
+              your own room before you spend a penny.
             </p>
           </Reveal>
 

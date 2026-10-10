@@ -179,6 +179,21 @@ Deno.serve(async (req) => {
       // Collect the customer's name (comes with the billing address block)
       // and their phone number, alongside the email Checkout always takes.
       billing_address_collection: "required" as const,
+
+      // Shown beside the Pay button on paid plans: makes the start-now request
+      // and the renewal explicit, and points at our own terms (Stripe's
+      // consent_collection needs a Terms URL set in the Stripe dashboard, so
+      // this uses custom text only).
+      ...(isFree
+        ? {}
+        : {
+            custom_text: {
+              submit: {
+                message:
+                  "By subscribing you ask us to start your plan immediately. It renews monthly at the price shown until you cancel, and you can cancel any time from Settings. Think Decor is a trading name of Dreamverse Limited. See our Terms, Privacy Policy and Refund Policy at thinkdecor.app.",
+              },
+            },
+          }),
       phone_number_collection: { enabled: true },
 
       automatic_tax: { enabled: false },

@@ -13,7 +13,6 @@ const MONTHLY = money(PHASE1_PLAN.monthly);
 const exploreLinks = [
   { label: 'AI Room Redesign', href: '/ai-room-redesign' },
   { label: 'How it works', href: '/#how-it-works' },
-  { label: 'Compare', href: '/#comparison' },
   { label: 'Pricing', href: '/pricing' },
   { label: 'FAQ', href: '/#faq' },
 ];
@@ -29,7 +28,7 @@ const legalLinks = [
 // bounce the visitor to the homepage via the catch-all — use the homepage
 // #about section instead.
 const companyLinks = [
-  { label: 'About', href: '/#about' },
+  { label: 'About', href: '/about' },
   { label: 'Blog', href: '/blog' },
   { label: 'Contact', href: '/contact' },
 ];

@@ -20,6 +20,7 @@ const STATIC_PAGES = [
   { loc: '/terms', changefreq: 'yearly', priority: '0.2' },
   { loc: '/privacy', changefreq: 'yearly', priority: '0.2' },
   { loc: '/refunds', changefreq: 'yearly', priority: '0.2' },
+  { loc: '/about', changefreq: 'yearly', priority: '0.4' },
 ];
 
 async function fetchPublishedSlugs() {

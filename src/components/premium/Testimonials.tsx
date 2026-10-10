@@ -11,17 +11,17 @@ import { useInViewOrStacked } from '@/components/motion/StackPanels';
  * Swap in real, permissioned customer quotes here once there are some.
  */
 const SLIDES = [
-  { image: '/assets/rooms/t-teal.jpg', caption: 'Harbour Teal · Living room', name: 'Repainting', role: 'Try paint colours on your own wall',
+  { image: '/assets/rooms/t-teal.jpg', caption: 'Living room', name: 'Repainting', role: 'Try paint colours on your own wall',
     quote: 'See a bold colour like teal on your own wall for 69p before you buy four litres, and go a shade lighter if it is too much.' },
-  { image: '/assets/rooms/room-bedroom.jpg', caption: 'Evening Noir · Bedroom', name: 'Furnishing', role: 'Price a whole room before you buy',
-    quote: 'Tap a piece in the redesign to see what it costs, and price the whole room without leaving the sofa.' },
+  { image: '/assets/rooms/room-bedroom.jpg', caption: 'Bedroom', name: 'Furnishing', role: 'Price a whole room before you buy',
+    quote: 'See a new look in your own room first, then decide what is worth buying.' },
   { image: '/assets/rooms/s-scandi.jpg', caption: 'Scandinavian · Dining', name: 'Client previews', role: 'For interior designers',
     quote: 'Send a client a preview of their actual room instead of a mood board of stock photos.' },
-  { image: '/assets/rooms/room-kitchen.jpg', caption: 'Warm Oak · Kitchen', name: 'Flooring', role: 'Swap floors, keep the furniture',
+  { image: '/assets/rooms/room-kitchen.jpg', caption: 'Kitchen', name: 'Flooring', role: 'Swap floors, keep the furniture',
     quote: 'Swap the floor and the new material follows the angle of the room while your furniture stays put.' },
-  { image: '/assets/rooms/tpl-wallpaper.jpg', caption: 'Star wallpaper · Nursery', name: 'Wallpaper', role: 'Compare patterns before you commit',
+  { image: '/assets/rooms/tpl-wallpaper.jpg', caption: 'Nursery', name: 'Wallpaper', role: 'Compare patterns before you commit',
     quote: 'Wallpaper is expensive to get wrong. Try three patterns on the same wall first.' },
-  { image: '/assets/rooms/room-hall.jpg', caption: 'Maximalism · Hall', name: 'Small spaces', role: 'Check dark walls will not shrink a room',
+  { image: '/assets/rooms/room-hall.jpg', caption: 'Hall', name: 'Small spaces', role: 'Check dark walls will not shrink a room',
     quote: 'Not sure dark walls suit a tiny hallway? Preview them on your own photo before picking up a brush.' },
 ];
 

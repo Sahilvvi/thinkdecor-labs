@@ -307,7 +307,7 @@ export default function Signup() {
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="phone">Phone number</Label>
+                    <Label htmlFor="phone">Phone number <span className="text-muted-foreground font-normal">(optional)</span></Label>
                     <Input
                       id="phone"
                       type="tel"
@@ -315,7 +315,6 @@ export default function Signup() {
                       placeholder="+44 7700 900000"
                       value={phone}
                       onChange={(e) => setPhone(e.target.value)}
-                      required
                     />
                   </div>
 

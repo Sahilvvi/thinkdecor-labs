@@ -218,10 +218,10 @@ function ScreenUpload({ phase }: { phase: Phase }) {
 }
 
 const SWATCHES = [
-  { img: 't-teal.jpg', name: 'Harbour Teal', meta: 'Paint · matt' },
-  { img: 't-blush.jpg', name: 'Cottage Blush', meta: 'Paint · eggshell' },
-  { img: 't-noir.jpg', name: 'Evening Noir', meta: 'Paint · flat' },
-  { img: 't-japandi.jpg', name: 'Linen White', meta: 'Paint · matt' },
+  { img: 't-scandi.jpg', name: 'Scandinavian', meta: 'Room style' },
+  { img: 't-blush.jpg', name: 'Warm Natural', meta: 'Room style' },
+  { img: 't-classic.jpg', name: 'Classic', meta: 'Room style' },
+  { img: 't-japandi.jpg', name: 'Japandi', meta: 'Room style' },
 ];
 
 function ScreenTemplates({ phase }: { phase: Phase }) {
@@ -233,10 +233,10 @@ function ScreenTemplates({ phase }: { phase: Phase }) {
       <StatusBar />
       <div className="px-3.5 pb-1.5 pt-2.5">
         <small className="text-[10px] text-[#4F6F6A]">Front lounge</small>
-        <b className="block font-display text-[19px] font-medium leading-[1.1] text-foreground">Templates</b>
+        <b className="block font-display text-[19px] font-medium leading-[1.1] text-foreground">Styles</b>
       </div>
       <div className="mx-3.5 mb-2 mt-1 flex rounded-full bg-[#F2F8F7] p-[3px]">
-        {['Paint', 'Wallpaper', 'Floor'].map((c, i) => (
+        {['Styles', 'Describe your own'].map((c, i) => (
           <span
             key={c}
             className={`flex-1 rounded-full py-1 text-center text-[9.5px] font-semibold transition-colors duration-300 ${i === 0 ? 'bg-[#00594E] text-white' : 'text-foreground'}`}
@@ -279,15 +279,15 @@ function ScreenTemplates({ phase }: { phase: Phase }) {
 function ScreenSaved({ phase }: { phase: Phase }) {
   const saving = phase === 'saving';
   const saved = [
-    { img: 't-classic.jpg', label: 'Front lounge · Warm Classic', meta: 'HD · 2.4 MB' },
-    { img: 't-noir.jpg', label: 'Bedroom · Evening Noir', meta: 'HD · 2.1 MB' },
+    { img: 't-classic.jpg', label: 'Front lounge · Classic', meta: 'Saved' },
+    { img: 't-noir.jpg', label: 'Bedroom · Japandi', meta: 'Saved' },
   ];
 
   return (
     <>
       <StatusBar />
       <div className="px-3.5 pb-1.5 pt-2.5">
-        <small className="text-[10px] text-[#4F6F6A]">{saving ? 'Harbour Teal · applying…' : 'Your preview'}</small>
+        <small className="text-[10px] text-[#4F6F6A]">{saving ? 'Scandinavian · applying…' : 'Your preview'}</small>
         <b className="block font-display text-[19px] font-medium leading-[1.1] text-foreground">Your preview</b>
       </div>
       <div className="relative mx-3.5 mt-1.5 overflow-hidden rounded-[14px]" style={{ aspectRatio: '4/3.4' }}>
@@ -343,8 +343,8 @@ const STEPS = [
     label: 'App home screen',
   },
   {
-    numeral: 'ii', title: 'View the templates',
-    body: 'Ready-made paint, wallpaper and floor looks. Tap one and it lands on your walls.',
+    numeral: 'ii', title: 'Pick a style',
+    body: 'Choose one of seven room styles, or describe your own change. Mantha redesigns your photo.',
     label: 'App templates screen',
   },
   {

@@ -10,7 +10,7 @@ const sections = [
     title: 'Cancelling a subscription',
     content: [
       'You can cancel at any time — from your account, or by emailing info@thinkdecor.app from the address on the account.',
-      'Cancelling stops the next renewal. Your plan stays active until the end of the period you have already paid for, and you keep your remaining scans for that period.',
+      'Cancelling stops the next renewal. Your plan stays active until the end of the period you have already paid for, and you keep your remaining credits for that period.',
       'There is no cancellation fee and no notice period.',
     ],
   },
@@ -20,14 +20,6 @@ const sections = [
       'If Think Decor does not work for your rooms, email us within 14 days of your first payment and we will refund it in full.',
       'This applies to the first payment on a new account. It is not a rolling monthly guarantee.',
       'You do not need to give a reason, though telling us what went wrong genuinely helps us fix it.',
-    ],
-  },
-  {
-    title: 'Top-up credit packs',
-    content: [
-      'Unused packs can be refunded in full within 14 days of purchase.',
-      'Partly used packs are refunded pro rata — we refund the value of the credits you have not spent.',
-      'Fully used packs cannot be refunded, since the service has been delivered.',
     ],
   },
   {

@@ -43,7 +43,7 @@ function fileToBase64(file: Blob): Promise<string> {
 /** Cycled while a real generation is in flight, so the wait still feels alive. */
 const STATUS_LINES = ['Reading your room…', 'Applying the style…', 'Finishing details…'];
 
-const CAPABILITIES = ['Wall paint & wallpaper', 'Flooring swaps', 'Keeps real light & shadow'];
+const CAPABILITIES = ['Seven room styles', 'Describe any change', 'Keeps real light & shadow'];
 
 const STEPS = [
   'Stand in a corner, phone level.',
@@ -259,9 +259,9 @@ export function DesignGenerator() {
                 surfaces you choose.
               </p>
               <p>
-                Your sofa stays your sofa. The window light stays where it was. What changes is the
-                paint, the paper or the boards underfoot, drawn in the right perspective so it looks
-                like it was always there.
+                The room's layout, the window light and the shadows stay put. What changes is the
+                style or the edit you describe, such as new paint, flooring or furniture, drawn in the
+                right perspective so it looks like it was always there.
               </p>
             </Reveal>
 

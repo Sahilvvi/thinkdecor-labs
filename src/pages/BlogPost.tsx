@@ -188,18 +188,18 @@ export default function BlogPostPage() {
                   <div className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-white/[0.07] blur-3xl" />
                   <div className="pointer-events-none absolute -bottom-28 -left-20 h-72 w-72 rounded-full bg-white/[0.05] blur-3xl" />
                   <div className="relative">
-                    <p className="text-[11px] font-medium uppercase tracking-[0.24em] text-primary-foreground/60">Early access</p>
+                    <p className="text-[11px] font-medium uppercase tracking-[0.24em] text-primary-foreground/60">Try it free</p>
                     <h2 className="mx-auto mt-4 max-w-[20ch] text-[clamp(1.6rem,3vw,2.4rem)] font-bold leading-[1.1] tracking-[-0.03em] text-primary-foreground">
                       Redesign your first room with Think Decor.
                     </h2>
                     <p className="mx-auto mt-4 max-w-[46ch] text-[15px] leading-relaxed text-primary-foreground/70">
-                      Join the waitlist and we&apos;ll send you an early build as soon as your region opens up.
+                      Create a free account and try a redesign on a photo of your own room.
                     </p>
                     <Link
-                      to="/pricing"
+                      to="/signup"
                       className="group mt-9 inline-flex items-center gap-2.5 rounded-full bg-background px-8 py-4 text-[15px] font-semibold text-primary transition-transform duration-300 hover:scale-[1.03]"
                     >
-                      Start for 69p
+                      Try it on your room
                       <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                     </Link>
                   </div>

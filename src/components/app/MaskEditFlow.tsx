@@ -312,7 +312,7 @@ export function MaskEditFlow({
                 </>
               ) : (
                 <>
-                  <b style={{ color: '#fff' }}>You've used your {FREE_SIGNUP_CREDITS} free redesigns.</b>{' '}
+                  <b style={{ color: '#fff' }}>You're out of credits.</b>{' '}
                   Subscribe for {INTRO} your first month, then {MONTHLY}/month.
                   <Link to="/pricing" className="btn btn-w btn-sm" style={{ marginLeft: 12 }}>See plans</Link>
                 </>

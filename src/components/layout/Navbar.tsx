@@ -12,7 +12,6 @@ const INTRO = pence(PHASE1_PLAN.introPrice ?? 0.69);
 
 const navLinks = [
   { href: '/#how-it-works', label: 'How it works' },
-  { href: '/#comparison', label: 'Compare' },
   { href: '/pricing', label: 'Pricing' },
   { href: '/blog', label: 'Blog' },
   { href: '/#faq', label: 'FAQ' },
@@ -81,7 +80,7 @@ export function Navbar({ overHero = false }: { overHero?: boolean }) {
             >
               {account.label}
             </Link>
-            <Link to="/pricing">
+            <Link to={user ? '/pricing' : '/signup'}>
               <Button variant="hero" size="sm">
                 Start for {INTRO}
               </Button>
@@ -119,7 +118,7 @@ export function Navbar({ overHero = false }: { overHero?: boolean }) {
                     {account.label}
                   </Button>
                 </Link>
-                <Link to="/pricing" onClick={() => setMobileOpen(false)}>
+                <Link to={user ? '/pricing' : '/signup'} onClick={() => setMobileOpen(false)}>
                   <Button variant="hero" className="w-full">
                     Start for {INTRO}
                   </Button>

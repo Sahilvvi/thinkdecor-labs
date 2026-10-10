@@ -150,7 +150,7 @@ async function main() {
   const slugs = await fetchPublishedPosts();
   // Every indexable page in the sitemap needs real HTML, so the small ones (contact, legal) are included too.
   const routes = [
-    '/', '/ai-room-redesign', '/pricing', '/blog', '/contact', '/terms', '/privacy', '/refunds',
+    '/', '/ai-room-redesign', '/pricing', '/blog', '/contact', '/terms', '/privacy', '/refunds', '/about',
     ...slugs.map((s) => `/blog/${s}`),
   ];
 

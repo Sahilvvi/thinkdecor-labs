@@ -44,10 +44,9 @@ const sections = [
   {
     title: 'Subscriptions and Payments',
     content: [
-      'Paid plans are billed in advance, monthly or yearly, at the prices shown on our Pricing page. All prices are in GBP.',
+      'Paid plans are billed in advance, monthly, at the prices shown on our Pricing page. All prices are in GBP.',
       'Payments are processed by Stripe. We never see or store your full card details.',
-      'Each plan includes a monthly allowance of room scans. Plan allowances reset at the start of each billing period and do not roll over.',
-      'Top-up credit packs are one-off purchases. Top-up credits do not expire and are used only once your plan allowance is spent.',
+      'Each plan includes a monthly allowance of redesign credits (shown on our Pricing page). The allowance resets at the start of each billing period and does not roll over.',
       'Subscriptions renew automatically until cancelled. You may cancel at any time and keep access until the end of the period you have already paid for.',
       'We may change prices with at least 30 days notice. Price changes never apply to a period you have already paid for.',
       'If a payment fails we will retry it. Persistent failure may result in the plan being suspended until payment succeeds.',
@@ -59,7 +58,6 @@ const sections = [
       'You can cancel a subscription at any time from your account, or by emailing info@thinkdecor.app.',
       'Cancelling stops future renewals. It does not refund the current period, which remains active until it ends.',
       'New customers may request a full refund of their first payment within 14 days of that payment.',
-      'Unused top-up credit packs may be refunded within 14 days of purchase. Packs that have been partly used are refunded pro rata.',
       'Refunds are returned to the original payment method and typically take 5 to 10 business days to appear.',
       'Full details are on our Refund Policy page.',
     ],

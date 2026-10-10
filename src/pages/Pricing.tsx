@@ -6,7 +6,6 @@ import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 import { SEO } from '@/components/shared/SEO';
 import { Magnetic, Reveal, RevealWords } from '@/components/premium/Motion';
-import { Comparison } from '@/components/premium/Comparison';
 import { Testimonials } from '@/components/premium/Testimonials';
 import { NewsletterBand } from '@/components/motion/NewsletterBand';
 import { PHASE1_PLAN, money, pence } from '@/lib/billing';
@@ -222,7 +221,6 @@ export default function Pricing() {
           </div>
         </section>
 
-        <Comparison />
 
         <Testimonials />
 

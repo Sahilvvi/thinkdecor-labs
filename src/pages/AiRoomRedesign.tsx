@@ -7,7 +7,6 @@ import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 import { SEO } from '@/components/shared/SEO';
 import { Reveal, Stagger, staggerItem, Magnetic } from '@/components/premium/Motion';
-import { Comparison } from '@/components/premium/Comparison';
 import { motion } from 'framer-motion';
 import { TEMPLATES } from '@/lib/templates';
 import { FREE_SIGNUP_CREDITS } from '@/lib/generation';
@@ -254,7 +253,6 @@ export default function AiRoomRedesign() {
         </section>
 
         {/* ---------------- COMPARISON ---------------- */}
-        <Comparison />
 
         {/* ---------------- READ MORE ---------------- */}
         <section className="px-3 py-14 sm:px-4">
