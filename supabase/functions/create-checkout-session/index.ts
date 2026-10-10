@@ -116,6 +116,27 @@ Deno.serve(async (req) => {
       }
     }
 
+    // ---- the 69p intro price is for a first subscription only -----------------
+    // Without this, cancelling and re-subscribing would hand out the intro coupon
+    // again every time. A prior (non-abandoned) subscription on this same price
+    // means the customer pays the standard price.
+    let introCouponId = couponId;
+    if (userId && mode === "subscription" && !isFree && couponId) {
+      const history = createClient(
+        Deno.env.get("SUPABASE_URL") ?? "",
+        Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? "",
+      );
+      const { data: prior, error: priorErr } = await history
+        .from("subscriptions")
+        .select("id")
+        .eq("user_id", userId)
+        .eq("price_id", priceId)
+        .not("status", "in", "(incomplete,incomplete_expired)")
+        .limit(1);
+      // If the lookup fails, keep today's behaviour rather than blocking checkout.
+      if (!priorErr && prior && prior.length > 0) introCouponId = undefined;
+    }
+
     // ---- reuse an existing Stripe customer where we can --------------------
     let customerId: string | undefined;
     if (userId) {
@@ -172,8 +193,8 @@ Deno.serve(async (req) => {
         ? { payment_method_collection: "if_required" as const }
         : promoDiscount
         ? { discounts: [promoDiscount] }
-        : couponId
-        ? { discounts: [{ coupon: couponId }] }
+        : introCouponId
+        ? { discounts: [{ coupon: introCouponId }] }
         : { allow_promotion_codes: true }),
 
       // Collect the customer's name (comes with the billing address block)

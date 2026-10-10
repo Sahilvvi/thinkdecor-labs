@@ -46,7 +46,7 @@ const sections = [
     content: [
       'Paid plans are billed in advance, monthly, at the prices shown on our Pricing page. All prices are in GBP.',
       'Payments are processed by Stripe. We never see or store your full card details.',
-      'Each plan includes a monthly allowance of redesign credits (shown on our Pricing page). The allowance resets at the start of each billing period and does not roll over.',
+      'Each plan includes a monthly allowance of redesign credits (shown on our Pricing page). Credits are added at the start of each billing period, and unused credits stay on your account.',
       'Subscriptions renew automatically until cancelled. You may cancel at any time and keep access until the end of the period you have already paid for.',
       'We may change prices with at least 30 days notice. Price changes never apply to a period you have already paid for.',
       'If a payment fails we will retry it. Persistent failure may result in the plan being suspended until payment succeeds.',

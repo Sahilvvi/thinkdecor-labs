@@ -66,6 +66,9 @@ export async function startCheckout(productKey: string, interval?: Interval, pro
         'STRIPE_SECRET_KEY is not set on the Supabase project. See STRIPE-SETUP.md step 2.',
       );
     }
+    if (status === 409) {
+      throw new CheckoutError('already_subscribed', 'You already have an active plan. Manage it from Settings.');
+    }
     throw new CheckoutError(
       'server',
       'Could not start checkout.',
