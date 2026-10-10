@@ -151,7 +151,7 @@ export function Testimonials() {
               className="group flex flex-col overflow-hidden rounded-[22px] bg-card shadow-[inset_0_0_0_1px_hsl(var(--border))] [scroll-snap-align:start] transition-all duration-300 hover:-translate-y-1 hover:shadow-[inset_0_0_0_1px_hsl(var(--primary)/0.35),0_24px_40px_-26px_hsl(168_40%_15%/0.5)]"
             >
               <figure className="relative m-0 aspect-video overflow-hidden">
-                <img
+                <img loading="lazy" decoding="async"
                   src={s.image}
                   alt={s.caption}
                   className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"

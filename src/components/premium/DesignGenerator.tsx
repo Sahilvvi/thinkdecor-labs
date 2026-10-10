@@ -291,7 +291,7 @@ export function DesignGenerator() {
                 className="relative aspect-[4/3] select-none overflow-hidden rounded-[18px] bg-[hsl(168_28%_96%)]"
               >
                 {/* base photo — always present underneath every phase */}
-                <img
+                <img loading="lazy" decoding="async"
                   src={beforeImage}
                   alt={uploaded ? 'Your uploaded room' : 'Example empty room, ready for a redesign'}
                   draggable={false}
@@ -415,7 +415,7 @@ export function DesignGenerator() {
                       style={{ clipPath: `polygon(${split}% 0, 100% 0, 100% 100%, ${split}% 100%)` }}
                       className="absolute inset-0"
                     >
-                      <img
+                      <img loading="lazy" decoding="async"
                         src={resultImage}
                         alt="Your Mantha redesign"
                         draggable={false}
@@ -561,7 +561,7 @@ export function DesignGenerator() {
                 aria-label={`Apply ${t.label} template`}
                 className="group relative block aspect-[4/4.4] overflow-hidden rounded-[18px] bg-foreground"
               >
-                <img
+                <img loading="lazy" decoding="async"
                   src={t.image}
                   alt={t.alt}
                   className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
@@ -596,7 +596,7 @@ export function DesignGenerator() {
               aria-label="Create your own template"
               className="group relative block aspect-[4/4.4] overflow-hidden rounded-[18px] bg-[hsl(28_30%_30%)]"
             >
-              <img src="/assets/rooms/t-own.jpg" alt="" className="h-full w-full object-cover opacity-35 grayscale transition-opacity duration-500 group-hover:opacity-45" />
+              <img loading="lazy" decoding="async" src="/assets/rooms/t-own.jpg" alt="" className="h-full w-full object-cover opacity-35 grayscale transition-opacity duration-500 group-hover:opacity-45" />
               <span className="pointer-events-none absolute left-3.5 top-3.5 flex h-9 w-9 items-center justify-center rounded-full bg-primary text-[22px] leading-none text-primary-foreground">+</span>
               <span className="pointer-events-none absolute inset-x-3.5 bottom-3.5">
                 <span className="block font-label text-[10.5px] uppercase tracking-[0.08em] text-[#8FE3D4]">Your mix</span>

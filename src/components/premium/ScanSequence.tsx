@@ -89,7 +89,7 @@ export function ScanSequence() {
 
         <div className="relative aspect-[16/10]">
           {/* base room photo */}
-          <img
+          <img loading="lazy" decoding="async"
             src="/assets/samples/empty_room.png"
             alt=""
             className={`absolute inset-0 h-full w-full object-cover transition-all duration-1000 ${
@@ -97,7 +97,7 @@ export function ScanSequence() {
             }`}
           />
           {/* redesigned room */}
-          <img
+          <img loading="lazy" decoding="async"
             src="/assets/samples/styled_room.png"
             alt=""
             className={`absolute inset-0 h-full w-full object-cover transition-all duration-1000 ${stage === 3 ? 'opacity-100' : 'opacity-0'}`}

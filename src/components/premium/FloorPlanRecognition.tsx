@@ -36,7 +36,7 @@ export function FloorPlanRecognition() {
               className="relative aspect-[4/3] select-none overflow-hidden rounded-[26px] border border-foreground/[0.10] bg-white shadow-[0_30px_80px_-24px_hsl(168_30%_15%/0.20)]"
             >
               {/* 3D render (base) */}
-              <img
+              <img loading="lazy" decoding="async"
                 src="/assets/samples/styled_room.png"
                 alt="Generated 3D floor plan"
                 draggable={false}

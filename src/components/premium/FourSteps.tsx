@@ -92,7 +92,7 @@ function Stage({ n }: { n: number }) {
   if (n === 3) {
     return (
       <div className="relative h-full overflow-hidden">
-        <img src="/assets/samples/empty_room.png" alt="Room photo ready for AI redesign" className="absolute inset-0 h-full w-full object-cover" />
+        <img loading="lazy" decoding="async" src="/assets/samples/empty_room.png" alt="Room photo ready for AI redesign" className="absolute inset-0 h-full w-full object-cover" />
         <div className="absolute inset-0 bg-gradient-to-t from-black/25 to-transparent" />
         <div className="absolute inset-0 flex items-center justify-center">
           <motion.div
