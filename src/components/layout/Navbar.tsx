@@ -19,8 +19,8 @@ const navLinks = [
   { href: '/contact', label: 'Contact' },
 ];
 
-/** `floating` keeps the glass pill on from the top — for pages that open on a dark hero. */
-export function Navbar({ floating = false }: { floating?: boolean }) {
+/** `overHero` lets the bar start transparent with light text — only for a page that opens on a dark hero (the homepage). Every other page gets the solid bar from the first pixel, so the nav is never white-on-white. */
+export function Navbar({ overHero = false }: { overHero?: boolean }) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const { user } = useAuthStore();
   const account = user ? { to: '/app', label: 'Dashboard' } : { to: '/login', label: 'Sign in' };
@@ -34,7 +34,7 @@ export function Navbar({ floating = false }: { floating?: boolean }) {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  const raised = floating || scrolled || mobileOpen;
+  const raised = !overHero || scrolled || mobileOpen;
   // Before the page scrolls, the pill is transparent and sits directly on the
   // dark hero — the usual dark nav-link/logo colours lose contrast there, so
   // this state alone goes light-on-dark. Once raised (scrolled, or the menu is
@@ -91,6 +91,8 @@ export function Navbar({ floating = false }: { floating?: boolean }) {
           {/* Mobile Menu Button */}
           <button
             className={cn('md:hidden p-2 transition-colors', light ? 'text-white' : 'text-foreground')}
+            aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
+            aria-expanded={mobileOpen}
             onClick={() => setMobileOpen(!mobileOpen)}
           >
             {mobileOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}

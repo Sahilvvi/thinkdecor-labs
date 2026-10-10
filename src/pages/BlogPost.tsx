@@ -60,7 +60,7 @@ export default function BlogPostPage() {
         canonical={`https://www.thinkdecor.app/blog/${slug}`}
         type="article"
         image={post?.cover_url}
-        publishedTime={post?.published_at}
+        publishedTime={post?.created_at}
         modifiedTime={post?.updated_at}
         noindex={!loading && !post}
         schema={post && slug ? [breadcrumbSchema([{ name: 'Home', path: '/' }, { name: 'Journal', path: '/blog' }, { name: post.title, path: `/blog/${slug}` }]), blogPostingSchema({
@@ -68,7 +68,7 @@ export default function BlogPostPage() {
           excerpt: post.excerpt,
           slug,
           coverUrl: post.cover_url,
-          publishedAt: post.published_at,
+          publishedAt: post.created_at,
           updatedAt: post.updated_at,
           authorName: post.author_name,
         })] : undefined}
@@ -108,7 +108,7 @@ export default function BlogPostPage() {
 
                   <div className="mt-7 flex flex-wrap items-center gap-3 text-[11.5px] uppercase tracking-[0.16em]">
                     {post.tag && <span className="rounded-full bg-primary/12 px-3 py-1 font-medium text-primary">{post.tag}</span>}
-                    <span className="text-foreground/42">{fmt(post.published_at ?? post.created_at)}</span>
+                    <span className="text-foreground/42">{fmt(post.created_at)}</span>
                     <span className="flex items-center gap-1.5 text-foreground/42"><Clock className="h-3 w-3" />{post.read_minutes ?? 4} min</span>
                   </div>
 
@@ -127,7 +127,7 @@ export default function BlogPostPage() {
                       {(post.author_name ?? 'T').slice(0, 1)}
                     </span>
                     <span className="text-[13.5px] text-foreground/65">{post.author_name ?? 'Think Decor'}</span>
-                    {post.updated_at && post.published_at && new Date(post.updated_at).getTime() - new Date(post.published_at).getTime() > 86400000 && (
+                    {post.updated_at && new Date(post.updated_at).getTime() - new Date(post.created_at).getTime() > 86400000 && (
                       <span className="ml-auto text-[12.5px] text-foreground/45">Updated {fmt(post.updated_at)}</span>
                     )}
                   </div>

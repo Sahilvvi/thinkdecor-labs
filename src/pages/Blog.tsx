@@ -198,7 +198,7 @@ export default function Blog() {
                   <div className="relative flex flex-col justify-center gap-4 bg-[radial-gradient(70%_60%_at_100%_0%,rgba(0,160,140,0.4),transparent_60%)] p-[clamp(28px,4vw,56px)]">
                     <span className="flex flex-wrap items-center gap-2.5 font-label text-[12.5px] font-bold uppercase tracking-[0.1em]">
                       <span className="rounded-full bg-white/[0.14] px-[11px] py-1.5 text-white">{lead.tag ?? 'Featured'}</span>
-                      <span className="text-white/65">{fmt(lead.published_at)} · {lead.read_minutes ?? 4} min</span>
+                      <span className="text-white/65">{fmt(lead.created_at)} · {lead.read_minutes ?? 4} min</span>
                     </span>
                     <h2 className="font-display text-[clamp(2.1rem,3.8vw,3.5rem)] font-normal leading-[1.02] text-white">
                       {lead.title}
@@ -248,7 +248,7 @@ export default function Blog() {
                         <p className="line-clamp-3 text-[15px] text-muted-foreground">{p.excerpt}</p>
                       )}
                       <span className="mt-auto flex items-center gap-2 pt-2.5 font-label text-[12.5px] font-bold uppercase tracking-[0.06em] text-muted-foreground">
-                        <span>{fmt(p.published_at)}</span>
+                        <span>{fmt(p.created_at)}</span>
                         <span className="h-1 w-1 rounded-full bg-foreground/20" />
                         <span>{p.read_minutes ?? 4} min</span>
                         <ArrowRight className="ml-auto h-3.5 w-3.5 text-primary opacity-0 transition-all duration-300 group-hover:translate-x-0.5 group-hover:opacity-100" />

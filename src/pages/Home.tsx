@@ -97,7 +97,7 @@ export default function Home() {
       <div>
         <ScrollProgress />
         <CursorAura />
-        <Navbar />
+        <Navbar overHero />
 
         <main className="relative z-10 overflow-clip">
 

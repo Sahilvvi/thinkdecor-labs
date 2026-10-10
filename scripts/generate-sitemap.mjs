@@ -32,7 +32,7 @@ async function fetchPublishedSlugs() {
   const supabase = createClient(url, key);
   const { data, error } = await supabase
     .from('blog_posts')
-    .select('slug, title, excerpt, tag, published_at, updated_at')
+    .select('slug, title, excerpt, tag, published_at, created_at, updated_at')
     .eq('published', true);
   if (error) {
     console.warn('[sitemap] could not read blog_posts, skipping post URLs:', error.message);
@@ -69,7 +69,7 @@ async function main() {
       <guid isPermaLink="true">${SITE_URL}/blog/${p.slug}</guid>
       <description>${esc(p.excerpt)}</description>
       ${p.tag ? `<category>${esc(p.tag)}</category>
-      ` : ''}<pubDate>${new Date(p.published_at ?? p.updated_at ?? Date.now()).toUTCString()}</pubDate>
+      ` : ''}<pubDate>${new Date(p.created_at ?? p.updated_at ?? Date.now()).toUTCString()}</pubDate>
     </item>`);
   const rss = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">

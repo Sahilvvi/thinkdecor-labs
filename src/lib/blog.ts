@@ -123,7 +123,9 @@ export function renderMarkdown(md: string) {
     t.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
      .replace(/\*(.+?)\*/g, '<em>$1</em>')
      .replace(/`(.+?)`/g, '<code>$1</code>')
-     .replace(/\[(.+?)\]\((https?:\/\/[^\s)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
+     .replace(/\[(.+?)\]\((https?:\/\/[^\s)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>')
+     // Site-relative links ("/ai-room-redesign") stay in the same tab.
+     .replace(/\[(.+?)\]\((\/[^\s)]*)\)/g, '<a href="$2">$1</a>');
 
   for (const raw of lines) {
     const l = raw.trimEnd();
