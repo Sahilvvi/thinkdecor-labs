@@ -28,6 +28,7 @@ import Terms from "./pages/Terms";
 import Privacy from "./pages/Privacy";
 import Refunds from "./pages/Refunds";
 import About from "./pages/About";
+import ItemUnavailable from "./pages/ItemUnavailable";
 import BlogPostPage from "./pages/BlogPost";
 const AdminAuth = lazyPage(() => import("./pages/admin/AdminAuth"));
 const BlogAdmin = lazyPage(() => import("./pages/admin/BlogAdmin"));
@@ -132,6 +133,7 @@ function AppRoutes() {
         <Route path="/privacy" element={<PageTransition><Privacy /></PageTransition>} />
         <Route path="/refunds" element={<PageTransition><Refunds /></PageTransition>} />
         <Route path="/about" element={<PageTransition><About /></PageTransition>} />
+        <Route path="/item-unavailable" element={<PageTransition><ItemUnavailable /></PageTransition>} />
 
         {/* Journal */}
         <Route path="/blog" element={<PageTransition><Blog /></PageTransition>} />

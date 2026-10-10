@@ -41,10 +41,10 @@ function wrapAffiliate(destUrl: string): string {
   return SOVRN_REDIRECT_BASE + encodeURIComponent(destUrl);
 }
 
-/** Branded fallback for a product with no live listing, instead of a bare text 404. */
+/** A product with no live listing sends the shopper to a real page on the site.
+ *  (Returning HTML here would not work: Supabase serves function HTML as plain text.) */
 function unavailablePage(): Response {
-  const html = `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex"><title>Item unavailable | Think Decor</title><style>body{font-family:system-ui,sans-serif;background:#f2f8f7;color:#00332c;display:grid;place-items:center;min-height:100vh;margin:0;padding:24px;text-align:center}main{max-width:420px}a{display:inline-block;margin-top:16px;padding:12px 20px;border-radius:999px;background:#00594e;color:#fff;text-decoration:none;font-weight:600}</style></head><body><main><h1>This item isn't available right now</h1><p>We couldn't find a live listing for it. Head back to Think Decor to pick something similar.</p><a href="https://www.thinkdecor.app/app/create">Back to Think Decor</a></main></body></html>`;
-  return new Response(html, { status: 404, headers: { "Content-Type": "text/html; charset=utf-8" } });
+  return Response.redirect("https://www.thinkdecor.app/item-unavailable", 302);
 }
 
 Deno.serve(async (req) => {
