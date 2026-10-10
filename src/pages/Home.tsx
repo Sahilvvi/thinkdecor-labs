@@ -5,12 +5,10 @@ import {
   FileDown, Clock, Smartphone, Gift, Mail,
 } from 'lucide-react';
 
-import { useRef, useState } from 'react';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 import { SEO } from '@/components/shared/SEO';
 import { motion } from 'framer-motion';
-import { IntroTakeover } from '@/components/motion/IntroTakeover';
 import { Magnetic, Reveal, Stagger, staggerItem } from '@/components/premium/Motion';
 import { FloorPlanStage } from '@/components/premium/FloorPlanStage';
 import { FloorPlanRecognition } from '@/components/premium/FloorPlanRecognition';
@@ -77,39 +75,7 @@ const FAQS = [
 
 /* ================================================================ */
 
-// Plain in-memory flag — NOT sessionStorage/localStorage, which would
-// survive a real refresh too. This only lives as long as the current JS
-// execution context does: a genuine browser reload re-runs the whole
-// module from scratch (flag back to false, intro plays), while React
-// Router swapping back to "/" from another route (e.g. /signup, /contact)
-// keeps this module alive (flag stays true, intro is skipped). That's the
-// exact "only on a real refresh, never on in-app navigation" distinction
-// this needs — the intro is unskippable and plays on every full load by
-// product decision, but it was never meant to replay on every route change.
-let introPlayedThisSession = false;
-
-// Puppeteer, Playwright and every other automated browser set this flag —
-// real visitors never have it. The prerender script (scripts/prerender.mjs)
-// needs the actual page content in the DOM, not a paused video it has no
-// way to scroll through, so an automated browser is treated the same as a
-// returning visitor and skips straight past the intro.
-const isAutomatedBrowser = typeof navigator !== 'undefined' && navigator.webdriver === true;
-
 export default function Home() {
-  // Page content stays invisible until the intro's video starts shrinking,
-  // so it "arrives" alongside the video settling into the hero rather than
-  // popping in only once the whole takeover finishes. Skipped entirely if
-  // the intro already played earlier in this same browser session (see
-  // `introPlayedThisSession` above), or for an automated browser (see
-  // `isAutomatedBrowser` above).
-  const skipIntro = introPlayedThisSession || isAutomatedBrowser;
-  const [pageVisible, setPageVisible] = useState(skipIntro);
-  const [introDone, setIntroDone] = useState(skipIntro);
-  // The hero's own room photo, mounted underneath the intro the whole time
-  // (just invisible) — its real on-screen box is what the video shrinks
-  // into, measured live rather than guessed, so the handoff lines up on
-  // any viewport.
-  const heroStageBoxRef = useRef<HTMLDivElement | null>(null);
 
   return (
     <div className="min-h-screen bg-background">
@@ -128,19 +94,7 @@ export default function Home() {
         ]}
       />
 
-      {!introDone && (
-        <IntroTakeover
-          onShrinkStart={() => setPageVisible(true)}
-          onDone={() => { introPlayedThisSession = true; setIntroDone(true); }}
-          getTargetRect={() => heroStageBoxRef.current?.getBoundingClientRect() ?? null}
-        />
-      )}
-
-      <motion.div
-        initial={false}
-        animate={{ opacity: pageVisible ? 1 : 0 }}
-        transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-      >
+      <div>
         <ScrollProgress />
         <CursorAura />
         <Navbar />
@@ -164,7 +118,7 @@ export default function Home() {
         */}
         <StackPanelGroup className="px-3 sm:px-4">
           <StackPanel>
-            <HeroStage onStageBoxMount={(el) => { heroStageBoxRef.current = el; }} />
+            <HeroStage />
           </StackPanel>
 
           <StackPanel className="bg-gradient-to-b from-white to-[#EEF8F6]">
@@ -333,7 +287,7 @@ export default function Home() {
       </main>
 
         <Footer />
-      </motion.div>
+      </div>
     </div>
   );
 }
