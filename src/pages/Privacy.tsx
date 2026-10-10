@@ -70,7 +70,7 @@ const sections = [
       'You have rights under UK GDPR, including the right to access, correct, or delete your personal data.',
       'You can request a copy of the data we hold about you (Subject Access Request).',
       'You can opt out of marketing communications whenever you choose.',
-      'You can ask us to delete your account at any time by emailing info@thinkdecor.app. We will delete your data from our active systems (see Legal Basis and Retention for what we must keep).',
+      'You can delete your account at any time from Settings > Security in your account (or by emailing info@thinkdecor.app). We then delete your data from our active systems (see Legal Basis and Retention for what we must keep).',
       'You have the right to lodge a complaint with the UK Information Commissioner\'s Office (ICO).',
     ],
   },

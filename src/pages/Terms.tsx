@@ -75,7 +75,7 @@ const sections = [
     title: 'Termination',
     content: [
       'We may suspend or terminate your account for violations of these terms.',
-      'You may ask us to delete your account at any time by emailing info@thinkdecor.app.',
+      'You may delete your account at any time from Settings > Security in your account.',
       'Upon termination, your right to use the platform ceases immediately.',
       'Certain provisions survive termination, including those related to intellectual property.',
     ],

@@ -7,6 +7,7 @@ import {
 } from 'lucide-react';
 
 import { SEO } from '@/components/shared/SEO';
+import { supabase } from '@/integrations/supabase/client';
 import { useAuthStore } from '@/stores/authStore';
 import {
   isActiveSubscription, useProfile, useSubscription, useUpdateProfile,
@@ -165,6 +166,28 @@ export default function Settings() {
           : "Couldn't send that. Please try again.",
       );
     }
+  };
+
+  const [deleteOpen, setDeleteOpen] = useState(false);
+  const [deleteEmail, setDeleteEmail] = useState('');
+  const [deleting, setDeleting] = useState(false);
+
+  const deleteAccount = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setDeleting(true);
+    const { data, error } = await supabase.functions.invoke('delete-account', { body: { confirmEmail: deleteEmail } });
+    if (error || data?.error) {
+      let message = data?.error as string | undefined;
+      if (!message) {
+        try { message = (await (error as { context?: Response }).context?.json())?.error; } catch { /* use the fallback */ }
+      }
+      toast.error(message || "Couldn't delete your account. Please email info@thinkdecor.app.");
+      setDeleting(false);
+      return;
+    }
+    await signOut();
+    toast.success('Your account and data have been deleted.');
+    navigate('/', { replace: true });
   };
 
   const handleSignOut = async () => {
@@ -360,6 +383,47 @@ export default function Settings() {
                       <LogOut width={15} height={15} /> Sign out
                     </button>
                   </div>
+                </div>
+
+                <div className="scard danger-zone">
+                  <h3>Delete account</h3>
+                  <p className="lede">
+                    Permanently deletes your account, your room photos, designs and saved items, and any credits left.
+                    An active plan is cancelled straight away. Payment records are kept for 7 years, as the law requires,
+                    without your email address. This can&apos;t be undone.
+                  </p>
+                  {!deleteOpen ? (
+                    <div className="scard-foot" style={{ justifyContent: 'flex-start' }}>
+                      <button type="button" className="btn btn-line" onClick={() => setDeleteOpen(true)}>Delete my account…</button>
+                    </div>
+                  ) : (
+                    <form onSubmit={deleteAccount}>
+                      <div className="fld" style={{ marginTop: 18 }}>
+                        <label htmlFor="delete-confirm">Type your email ({user?.email}) to confirm</label>
+                        <input
+                          id="delete-confirm"
+                          className="inp"
+                          type="email"
+                          autoComplete="off"
+                          value={deleteEmail}
+                          onChange={(ev) => setDeleteEmail(ev.target.value)}
+                          required
+                        />
+                      </div>
+                      <div className="scard-foot" style={{ justifyContent: 'flex-start', gap: 10 }}>
+                        <button
+                          type="submit"
+                          className="btn btn-dark"
+                          disabled={deleting || deleteEmail.trim().toLowerCase() !== (user?.email ?? '').toLowerCase()}
+                        >
+                          {deleting && <Spinner />} Permanently delete my account
+                        </button>
+                        <button type="button" className="btn btn-line" disabled={deleting} onClick={() => { setDeleteOpen(false); setDeleteEmail(''); }}>
+                          Cancel
+                        </button>
+                      </div>
+                    </form>
+                  )}
                 </div>
               </>
             )}
