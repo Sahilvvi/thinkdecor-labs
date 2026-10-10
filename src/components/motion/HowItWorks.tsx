@@ -206,7 +206,7 @@ function ScreenUpload({ phase }: { phase: Phase }) {
           </figcaption>
         </figure>
         <figure className="m-0">
-          <img src="/assets/rooms/t-scandi.jpg" alt="" className="aspect-square w-full rounded-[10px] object-cover" />
+          <img src="/assets/rooms/thumbs/t-scandi.jpg" alt="" className="aspect-square w-full rounded-[10px] object-cover" />
           <figcaption className="mt-[3px] text-[9.5px] font-semibold text-foreground">
             Dining nook<span className="block text-[9px] font-normal text-[#4F6F6A]">Yesterday</span>
           </figcaption>
@@ -253,7 +253,7 @@ function ScreenTemplates({ phase }: { phase: Phase }) {
               transition={{ duration: 0.55, times: [0, 0.35, 0.7, 1], ease: 'easeOut' }}
               className={`relative overflow-hidden rounded-[10px] transition-shadow duration-300 ${i === 0 && selected ? 'shadow-[0_0_0_2px_#00A08C]' : 'shadow-[0_0_0_1px_rgba(0,89,78,0.08)]'}`}
             >
-              <img src={`/assets/rooms/${s.img}`} alt="" className="aspect-square w-full object-cover" />
+              <img src={`/assets/rooms/thumbs/${s.img}`} alt="" className="aspect-square w-full object-cover" />
               {i === 0 && (
                 <motion.span
                   initial={false}
@@ -323,7 +323,7 @@ function ScreenSaved({ phase }: { phase: Phase }) {
       <div className="grid gap-1.5 px-3.5">
         {saved.map((s) => (
           <div key={s.label} className="flex items-center gap-2 rounded-[10px] bg-[#F2F8F7] p-[5px]">
-            <img src={`/assets/rooms/${s.img}`} alt="" className="h-[34px] w-[34px] rounded-[7px] object-cover" />
+            <img src={`/assets/rooms/thumbs/${s.img}`} alt="" className="h-[34px] w-[34px] rounded-[7px] object-cover" />
             <span>
               <b className="block text-[10px] font-semibold text-foreground">{s.label}</b>
               <span className="text-[9px] text-[#4F6F6A]">{s.meta}</span>
