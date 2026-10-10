@@ -27,7 +27,8 @@ import { consumePendingRemix } from '@/lib/remix';
 /** How long to wait after the last keystroke before searching for real products matching the prompt. */
 const PROMPT_PRODUCT_DEBOUNCE_MS = 700;
 /** Roughly 3 rows at the side panel's usual ~4 columns, before "View more" kicks in. */
-const INITIAL_VISIBLE_PRODUCTS = 12;
+// On a phone the product grid sits above the brief, so show fewer to keep the page short.
+const INITIAL_VISIBLE_PRODUCTS = typeof window !== 'undefined' && window.innerWidth < 640 ? 4 : 12;
 
 const MAX_UPLOAD_BYTES = 10 * 1024 * 1024;
 
