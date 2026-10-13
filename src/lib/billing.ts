@@ -90,7 +90,7 @@ export const PLANS: Plan[] = [
     cta: 'Start free',
     features: [
       '3 room scans a month',
-      'AI Measurement to ±1.2 cm',
+      'Room Measurement to ±1.2 cm',
       'PDF floor plan export',
       'Mantha AI redesigns',
       'No card required',
@@ -108,7 +108,7 @@ export const PLANS: Plan[] = [
     cta: 'Choose Personal',
     features: [
       '25 room scans a month',
-      'AI Measurement to ±1.2 cm',
+      'Room Measurement to ±1.2 cm',
       'PDF and SVG floor plan export',
       'Mantha AI redesigns',
       'Email support',

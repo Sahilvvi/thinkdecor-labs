@@ -19,6 +19,9 @@ import { AboutBlurb } from '@/components/premium/AboutBlurb';
 import { Testimonials } from '@/components/premium/Testimonials';
 import { BlogTeaser } from '@/components/premium/BlogTeaser';
 import { GetTheApp } from '@/components/premium/GetTheApp';
+import { FeatureBento } from '@/components/premium/FeatureBento';
+import { StyleGallery } from '@/components/motion/StyleGallery';
+import { TinyPlanet } from '@/components/motion/TinyPlanet';
 import { CursorAura, ScrollProgress } from '@/components/motion/primitives';
 import type { TrustItem } from '@/components/motion/hooks';
 import { StackPanel, StackPanelGroup } from '@/components/motion/StackPanels';
@@ -60,7 +63,7 @@ const FAQS = [
     a: 'Mantha is the design intelligence inside Think Decor. Give it a photo, a style and a few words about what you want, and it restyles your actual room — keeping the walls, windows and layout you already have.',
   },
   {
-    q: 'Can I change what the AI creates?',
+    q: 'Can I change what Mantha AI creates?',
     a: 'Yes. Regenerate for a new variation, or describe what to change — "lighter floors", "a green velvet sofa" — and Mantha refines the same photo. Every design is saved to your library to compare and download.',
   },
   {
@@ -80,7 +83,7 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-background">
       <SEO
-        title="Think Decor | AI Interior Design From a Photo"
+        title="Think Decor | Interior Design From a Photo, by Mantha AI"
         description={`Upload a photo of any room and Mantha AI redesigns it in the style you choose. Start with ${FREE_SIGNUP_CREDITS} free redesigns, then ${INTRO} for your first month.`}
         canonical="https://www.thinkdecor.app/"
         schema={[
@@ -120,7 +123,15 @@ export default function Home() {
           <StackPanel>
             <HeroStage />
           </StackPanel>
+        </StackPanelGroup>
 
+        {/* Pinned, scroll-driven sections sit between stacks, not inside a
+            StackPanel: panels are overflow-hidden, which breaks sticky pinning. */}
+        <div className="pt-4">
+          <TinyPlanet />
+        </div>
+
+        <StackPanelGroup className="px-3 sm:px-4">
           <StackPanel className="bg-gradient-to-b from-white to-[#EEF8F6]">
             <HowItWorks />
           </StackPanel>
@@ -137,11 +148,24 @@ export default function Home() {
               photos, e.g. an empty garage under "Warm Natural"). Needs a proper
               rebuild before it goes back in; tracked in the pending changes list. */}
 
+          <StackPanel className="bg-gradient-to-b from-[#F4FAF8] to-white">
+            <FeatureBento />
+          </StackPanel>
+
           {/* ================= TESTIMONIALS ================= */}
           <StackPanel className="bg-gradient-to-b from-[#E6F4F1] to-white">
             <Testimonials />
           </StackPanel>
 
+        </StackPanelGroup>
+
+        {/* Pinned, scroll-driven section sits between stacks, not inside a
+            StackPanel: panels are overflow-hidden, which breaks sticky pinning. */}
+        <div className="pt-4">
+          <StyleGallery />
+        </div>
+
+        <StackPanelGroup className="px-3 sm:px-4">
           {/* ================= GET THE APP ================= */}
           <StackPanel id="get-app" className="scroll-mt-24">
             <GetTheApp />
@@ -248,7 +272,7 @@ export default function Home() {
                   <Reveal>
                     <p className="text-[11px] font-medium uppercase tracking-[0.24em] text-primary">In development</p>
                     <h2 className="mt-5 text-[clamp(2rem,4.2vw,3.2rem)] font-bold leading-[1.06] tracking-[-0.025em] text-foreground">
-                      AI Measurement
+                      Room Measurement
                     </h2>
                     <p className="mt-6 max-w-[46ch] text-[16px] leading-relaxed text-foreground/58">
                       Record a room with your phone and Think Decor returns a precise, editable

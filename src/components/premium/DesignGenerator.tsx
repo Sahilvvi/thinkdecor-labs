@@ -248,7 +248,7 @@ export function DesignGenerator() {
                 Mantha
               </h2>
               <p className="mt-4 max-w-[26ch] font-display text-[clamp(1.35rem,2.1vw,1.7rem)] font-medium leading-[1.25] text-foreground">
-                What is Mantha? The AI that reads your room like a decorator.
+                What is Mantha? The design intelligence that reads your room like a decorator.
               </p>
             </Reveal>
 

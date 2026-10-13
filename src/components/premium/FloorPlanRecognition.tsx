@@ -146,7 +146,7 @@ export function FloorPlanRecognition() {
             <Reveal>
               <p className="text-[11px] font-medium uppercase tracking-[0.24em] text-primary">In development</p>
               <h2 className="mt-5 text-[clamp(2rem,4.2vw,3.2rem)] font-bold leading-[1.06] tracking-[-0.025em] text-foreground">
-                AI Floor Plan Recognition
+                Floor Plan Recognition
               </h2>
               <p className="mt-6 max-w-[46ch] text-[16px] leading-relaxed text-foreground/58">
                 Already have a plan on paper? Upload the image and Think Decor reads it —
@@ -158,7 +158,7 @@ export function FloorPlanRecognition() {
             <Stagger className="mt-9 space-y-3" gap={0.1}>
               {[
                 { icon: Upload, t: 'Upload your plan', d: 'JPEG, JPG, PNG or PDF — a photo works.' },
-                { icon: FileImage, t: 'AI reads the drawing', d: 'Walls, rooms, doors and windows detected automatically.' },
+                { icon: FileImage, t: 'Mantha AI reads the drawing', d: 'Walls, rooms, doors and windows detected automatically.' },
                 { icon: Boxes, t: 'Open your 3D home', d: 'We email you the moment the design is ready.' },
               ].map((s, i) => {
                 const Icon = s.icon;

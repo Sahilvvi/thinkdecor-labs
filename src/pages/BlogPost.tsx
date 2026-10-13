@@ -153,7 +153,7 @@ export default function BlogPostPage() {
                 <aside className="mt-12 rounded-2xl border border-foreground/[0.1] bg-card p-6">
                   <p className="font-display text-[20px] text-foreground">See it in your own room</p>
                   <p className="mt-2 text-[15px] leading-relaxed text-foreground/70">
-                    Upload one photo and get a redesign in seconds. Read how <Link to="/ai-room-redesign" className="text-primary underline underline-offset-2">AI room redesign works</Link>, or <Link to="/pricing" className="text-primary underline underline-offset-2">start from 69p</Link>.
+                    Upload one photo and get a redesign in seconds. Read how <Link to="/ai-room-redesign" className="text-primary underline underline-offset-2">Mantha AI room redesign works</Link>, or <Link to="/pricing" className="text-primary underline underline-offset-2">start from 69p</Link>.
                   </p>
                 </aside>
               </div>

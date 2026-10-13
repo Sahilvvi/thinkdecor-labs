@@ -18,7 +18,7 @@ const NotFound = () => (
       </p>
       <div className="mt-8 flex flex-wrap justify-center gap-3">
         <Link to="/" className="rounded-full bg-primary px-6 py-3 text-[14px] font-semibold text-primary-foreground">Home</Link>
-        <Link to="/ai-room-redesign" className="rounded-full px-6 py-3 text-[14px] font-semibold text-foreground ring-1 ring-inset ring-foreground/20">AI room redesign</Link>
+        <Link to="/ai-room-redesign" className="rounded-full px-6 py-3 text-[14px] font-semibold text-foreground ring-1 ring-inset ring-foreground/20">Room redesign</Link>
         <Link to="/blog" className="rounded-full px-6 py-3 text-[14px] font-semibold text-foreground ring-1 ring-inset ring-foreground/20">Journal</Link>
       </div>
     </main>

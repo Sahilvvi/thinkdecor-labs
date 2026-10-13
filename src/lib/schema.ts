@@ -96,7 +96,7 @@ export function breadcrumbSchema(items: { name: string; path: string }[]) {
 export function blogCollectionSchema(posts: { slug: string; title: string }[]) {
   return {
     '@type': 'CollectionPage',
-    name: 'Think Decor Journal: interior design ideas and AI room guides',
+    name: 'Think Decor Journal: interior design ideas and room redesign guides',
     url: `${SITE_URL}/blog`,
     isPartOf: { '@type': 'WebSite', name: 'Think Decor', url: SITE_URL },
     mainEntity: {

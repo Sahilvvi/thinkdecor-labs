@@ -84,7 +84,7 @@ export default function Pricing() {
   return (
     <div className="min-h-screen bg-background">
       <SEO
-        title="Pricing: AI Room Design From 69p | Think Decor"
+        title="Pricing: Room Design From 69p | Think Decor"
         description="Start for 69p, then £4.99 a month. Upload a photo of any room and Mantha AI redesigns it in the style you choose — 20 designs a month. Cancel anytime."
         canonical="https://www.thinkdecor.app/pricing"
         image="/og-pricing.png"

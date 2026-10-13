@@ -71,6 +71,18 @@ export function HeroStage({ onStageBoxMount }: { onStageBoxMount?: (el: HTMLDivE
   const isAvailable = (sw: { key: string; image: string }) =>
     sw.key === 'original' || (ready.has(sw.image) && !missing.has(sw.image));
 
+  // Idle hint on the photo: cycles through what this room can become
+  // ("Sofa → Sage velvet"), so the dots read as an invitation.
+  const ideas = room.pins.flatMap((pin) =>
+    pin.swatches.filter((sw) => sw.key !== 'original' && isAvailable(sw)).map((sw) => `${pin.name} → ${sw.label}`),
+  );
+  const [ideaIndex, setIdeaIndex] = useState(0);
+  useEffect(() => {
+    const t = window.setInterval(() => setIdeaIndex((n) => n + 1), 2600);
+    return () => window.clearInterval(t);
+  }, []);
+  const idea = ideas.length ? ideas[ideaIndex % ideas.length] : null;
+
   const selectRoom = (key: typeof room.key) => {
     if (generateTimer.current) window.clearTimeout(generateTimer.current);
     setPendingStyle(null);
@@ -181,13 +193,26 @@ export function HeroStage({ onStageBoxMount }: { onStageBoxMount?: (el: HTMLDivE
         {/* ---------------- copy ---------------- */}
         <div className="flex flex-col gap-[22px] pt-2">
           <span className="font-label text-[11px] font-bold uppercase tracking-[0.16em] text-[#8FE3D4]">
-            AI Room Redesign · 7 styles · Describe any change
+            Mantha AI · 7 styles · Describe any change
           </span>
 
           <h1 className="font-display text-[clamp(2.75rem,6.2vw,5.5rem)] font-medium leading-[0.98] text-white">
             <RevealWords text="Think it before" className="block" delay={0.1} />
-            <span className="block italic font-normal text-[#8FE3D4]">
+            <span className="relative block w-max italic font-normal text-[#8FE3D4]">
               <RevealWords text="you buy it." delay={0.22} />
+              {/* hand-drawn underline that draws itself in after the words land */}
+              <svg aria-hidden viewBox="0 0 220 24" preserveAspectRatio="none" className="pointer-events-none absolute -bottom-[0.14em] left-[38%] h-[0.3em] w-[62%] overflow-visible">
+                <motion.path
+                  d="M4 16C46 6 120 4 216 12"
+                  fill="none"
+                  stroke="#00A08C"
+                  strokeWidth="5"
+                  strokeLinecap="round"
+                  initial={{ pathLength: 0 }}
+                  animate={{ pathLength: 1 }}
+                  transition={{ duration: 1.1, delay: 0.9, ease: [0.65, 0, 0.35, 1] }}
+                />
+              </svg>
             </span>
           </h1>
 
@@ -317,6 +342,21 @@ export function HeroStage({ onStageBoxMount }: { onStageBoxMount?: (el: HTMLDivE
                   className="absolute inset-0 h-full w-full object-cover"
                 />
               </AnimatePresence>
+              <AnimatePresence mode="wait">
+                {!styleKey && openPin === null && !generating && !colour && idea && (
+                  <motion.span
+                    key={idea}
+                    initial={{ opacity: 0, x: 12 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -8 }}
+                    transition={{ duration: 0.35 }}
+                    className="pointer-events-none absolute left-3 top-3 z-[3] flex items-center gap-1.5 rounded-full bg-[#00231D]/65 px-3 py-1.5 font-label text-[11.5px] font-bold text-white backdrop-blur-md"
+                  >
+                    <Sparkles className="h-3 w-3 text-[#8FE3D4]" /> {idea}
+                  </motion.span>
+                )}
+              </AnimatePresence>
+
               {/* Light sweep that plays once per room/style change — a small
                   "reveal" flourish so the swap reads as a redesign, not a
                   blunt image replace. */}

@@ -18,7 +18,7 @@ const sections = [
     title: 'Information We Collect',
     content: [
       'Personal information such as your name, email address, and phone number when you register or contact us.',
-      'Room photos and visual content that you upload to use our AI visualisation features. Please avoid including people, documents or house numbers in your photos.',
+      'Room photos and visual content that you upload to use our Mantha AI visualisation features. Please avoid including people, documents or house numbers in your photos.',
       'Usage data including how you interact with the platform, features used, and session duration.',
       'Device and browser information to ensure compatibility and improve performance.',
     ],
@@ -26,7 +26,7 @@ const sections = [
   {
     title: 'How We Use Your Information',
     content: [
-      'To provide and improve our AI-powered decor visualisation services.',
+      'To provide and improve our Mantha AI decor visualisation services.',
       'To personalise your experience and recommend relevant products.',
       'To communicate with you about updates, support, and marketing (with your consent).',
       'To analyse usage patterns and improve platform performance and security.',
@@ -36,7 +36,7 @@ const sections = [
     title: 'Data Sharing and Disclosure',
     content: [
       'We do not sell your personal information to third parties.',
-      'AI image generation: when you create a redesign, your room photo and your written brief are sent to Google (the Gemini API) to generate the result. We do not use your photos to train our own models.',
+      'Image generation: when you create a redesign, your room photo and your written brief are sent to Google (the Gemini API) to generate the result. We do not use your photos to train our own models.',
       'Hosting and infrastructure: the website is served by Vercel, and our email is handled by Hostinger.',
       'Advertising and analytics: if you accept cookies, Google (Tag Manager, Analytics and Ads), Meta, Reddit, Spotify and Pinterest receive information about your visit (see Cookies below). They receive nothing from us if you reject non-essential cookies.',
       'Payments are processed by Stripe Payments Europe Ltd. Card details go directly to Stripe and are never stored on our servers. Stripe receives your name, email and billing address in order to take payment.',

@@ -56,8 +56,8 @@ export default function Blog() {
   return (
     <div className="min-h-screen bg-background">
       <SEO
-        title="Interior Design Ideas & AI Room Guides | Think Decor"
-        description="Room-by-room design ideas, style guides and how AI room redesign works, from the Think Decor team."
+        title="Interior Design Ideas & Room Redesign Guides | Think Decor"
+        description="Room-by-room design ideas, style guides and how Mantha AI room redesign works, from the Think Decor team."
         canonical="https://www.thinkdecor.app/blog"
         image="/og-journal.png"
         schema={[
@@ -74,10 +74,10 @@ export default function Blog() {
             <Reveal>
               <p className="text-[11px] font-medium uppercase tracking-[0.24em] text-primary">Journal</p>
               <h1 className="mt-3.5 max-w-[18ch] font-display text-[clamp(2.75rem,7.2vw,6.5rem)] font-normal leading-[0.92] tracking-[-0.02em] text-foreground">
-                Interior design ideas &amp; <em className="italic text-primary">AI room</em> guides.
+                Interior design ideas &amp; <em className="italic text-primary">room</em> guides.
               </h1>
               <p className="mt-5 max-w-[42ch] text-[17px] text-muted-foreground">
-                Room-by-room decor ideas, style guides, and how AI room redesign works, written by
+                Room-by-room decor ideas, style guides, and how Mantha AI room redesign works, written by
                 the people building it.
               </p>
             </Reveal>

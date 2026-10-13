@@ -11,7 +11,7 @@ const MONTHLY = money(PHASE1_PLAN.monthly);
 // Every target below is a real id on the homepage (src/pages/Home.tsx) or a
 // real route in App.tsx — nothing here points at a dead anchor.
 const exploreLinks = [
-  { label: 'AI Room Redesign', href: '/ai-room-redesign' },
+  { label: 'Room Redesign', href: '/ai-room-redesign' },
   { label: 'How it works', href: '/#how-it-works' },
   { label: 'Pricing', href: '/pricing' },
   { label: 'FAQ', href: '/#faq' },

@@ -1,5 +1,6 @@
-import { Camera, Images, Share2, Sparkles } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { useEffect, useRef, useState } from 'react';
+import { Camera, Check, Images, Pause, Play, Share2, Sparkles } from 'lucide-react';
+import { motion, useScroll, useTransform, type MotionValue } from 'framer-motion';
 import { Reveal, Stagger, staggerItem } from './Motion';
 import { APP_STORE_URL, PLAY_STORE_URL } from '@/lib/appLinks';
 
@@ -113,72 +114,95 @@ function StoreBadge({ href, store }: { href: string; store: 'apple' | 'google' }
 }
 
 /**
- * A CSS phone showing the app's redesign screen: the hero living room wiping
- * between the original and its Scandinavian redesign on a loop.
+ * A CSS phone playing the Think Decor launch reel. It turns in 3D as the
+ * section scrolls past, and the glass cards drift at their own speeds
+ * around it.
  */
 function PhoneDemo() {
+  const ref = useRef<HTMLDivElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [playing, setPlaying] = useState(false);
+  // Once someone pauses it, scrolling back into view doesn't restart it.
+  const userPaused = useRef(false);
+
+  // Play only while visible (saves battery and data), never for visitors who
+  // asked for reduced motion — they get the poster frame. A plain
+  // IntersectionObserver, since framer's useInView misreports inside panels.
+  useEffect(() => {
+    const v = videoRef.current;
+    if (!v || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const io = new IntersectionObserver(([e]) => {
+      if (e.isIntersecting && !userPaused.current) v.play().catch(() => {});
+      else if (!e.isIntersecting) v.pause();
+    }, { threshold: 0.25 });
+    io.observe(v);
+    return () => io.disconnect();
+  }, []);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] });
+  const rotateY = useTransform(scrollYProgress, [0, 1], [-26, 16]);
+  const rotateX = useTransform(scrollYProgress, [0, 1], [12, -6]);
+  const rotateZ = useTransform(scrollYProgress, [0, 1], [-4, 2]);
   return (
-    <div className="relative">
+    <div ref={ref} className="relative [perspective:1200px]">
       <div aria-hidden className="absolute -inset-10 rounded-full bg-[radial-gradient(circle,rgba(0,160,140,0.35),transparent_65%)] blur-2xl" />
+      <FloatCard progress={scrollYProgress} speed={-0.5} className="-left-6 top-[14%] sm:-left-40">
+        <span className="h-5 w-5 rounded-[6px]" style={{ background: '#8A9F82' }} /> Sage velvet <small className="text-white/60">applied</small>
+      </FloatCard>
+      <FloatCard progress={scrollYProgress} speed={0.4} className="-right-2 top-[46%] sm:-right-8">
+        <Sparkles className="h-4 w-4 text-[#8FE3D4]" /> Scandinavian
+      </FloatCard>
+      <FloatCard progress={scrollYProgress} speed={-0.25} className="-left-4 bottom-[14%] sm:-left-36">
+        <span className="grid h-5 w-5 place-items-center rounded-full bg-[#00A08C]"><Check className="h-3 w-3" /></span> Saved to Library
+      </FloatCard>
       <motion.div
-        animate={{ y: [0, -10, 0] }}
-        transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
+        style={{ rotateY, rotateX, rotateZ, transformStyle: 'preserve-3d' }}
         className="relative w-[min(290px,72vw)] rounded-[46px] bg-[#0B1513] p-[10px] shadow-[0_40px_80px_-30px_rgba(0,0,0,0.8),inset_0_0_0_1.5px_rgba(255,255,255,0.14)]"
       >
-        <div className="relative aspect-[9/19.5] overflow-hidden rounded-[37px] bg-[#F4FAF8]">
-          {/* status bar + dynamic island */}
-          <div className="absolute inset-x-0 top-0 z-10 flex items-center justify-between px-6 pt-3 text-[10px] font-semibold text-[#00332C]">
-            <span>9:41</span>
-            <span className="h-[22px] w-[78px] rounded-full bg-black" />
-            <span>100%</span>
-          </div>
-
-          <div className="absolute inset-x-0 top-11 px-4">
-            <p className="font-label text-[9px] font-bold uppercase tracking-[0.16em] text-[#00A08C]">Mantha AI</p>
-            <p className="font-display text-[19px] leading-tight text-[#00332C]">Living room</p>
-          </div>
-
-          {/* before / after wipe */}
-          <div className="absolute inset-x-3 top-[98px] aspect-[4/5] overflow-hidden rounded-[22px]">
-            <img src="/assets/rooms/hero.jpg" alt="" className="absolute inset-0 h-full w-full object-cover" />
-            <motion.div
-              className="absolute inset-0 overflow-hidden"
-              animate={{ clipPath: ['inset(0 100% 0 0)', 'inset(0 0% 0 0)', 'inset(0 0% 0 0)', 'inset(0 100% 0 0)', 'inset(0 100% 0 0)'] }}
-              transition={{ duration: 7, times: [0, 0.3, 0.6, 0.85, 1], repeat: Infinity, ease: 'easeInOut' }}
-            >
-              <img src="/assets/rooms/room-living-scandinavian.jpg" alt="" className="absolute inset-0 h-full w-full object-cover" />
-            </motion.div>
-            <motion.span
-              aria-hidden
-              className="absolute inset-y-0 w-[2px] bg-white shadow-[0_0_12px_rgba(255,255,255,0.9)]"
-              animate={{ left: ['0%', '100%', '100%', '0%', '0%'] }}
-              transition={{ duration: 7, times: [0, 0.3, 0.6, 0.85, 1], repeat: Infinity, ease: 'easeInOut' }}
-            />
-            <span className="absolute bottom-2 left-2 rounded-full bg-black/45 px-2 py-0.5 font-label text-[9px] font-bold text-white backdrop-blur">
-              Scandinavian
-            </span>
-          </div>
-
-          {/* style chips */}
-          <div className="absolute inset-x-3 bottom-[74px] flex gap-1.5 overflow-hidden">
-            {['Minimal', 'Scandinavian', 'Japanese', 'Maximalism'].map((s) => (
-              <span
-                key={s}
-                className={`whitespace-nowrap rounded-full px-2.5 py-1 font-label text-[9.5px] font-bold ${s === 'Scandinavian' ? 'bg-[#00A08C] text-white' : 'bg-white text-[#00594E] shadow-[inset_0_0_0_1px_#D3E6E2]'}`}
-              >
-                {s}
-              </span>
-            ))}
-          </div>
-
-          {/* capture button */}
-          <div className="absolute inset-x-0 bottom-5 flex justify-center">
-            <span className="grid h-12 w-12 place-items-center rounded-full bg-[#00A08C] shadow-[0_10px_24px_-8px_rgba(0,160,140,0.8)] ring-4 ring-[#00A08C]/20">
-              <Camera className="h-5 w-5 text-white" />
-            </span>
-          </div>
+        <div className="relative aspect-[9/19.5] overflow-hidden rounded-[37px] bg-[#00332C]">
+          {/* The launch reel, playing only while the phone is on screen. */}
+          <video
+            ref={videoRef}
+            src="/assets/video/app-reel.mp4"
+            poster="/assets/video/app-reel-poster.jpg"
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            aria-label="Think Decor app reel: one photo, style templates, tap a look"
+            onPlay={() => setPlaying(true)}
+            onPause={() => setPlaying(false)}
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+          <button
+            type="button"
+            onClick={() => {
+              const v = videoRef.current;
+              if (!v) return;
+              if (v.paused) { userPaused.current = false; v.play().catch(() => {}); }
+              else { userPaused.current = true; v.pause(); }
+            }}
+            aria-label={playing ? 'Pause the app reel' : 'Play the app reel'}
+            className="absolute bottom-4 right-4 z-10 grid h-9 w-9 place-items-center rounded-full bg-[#00231D]/60 text-white backdrop-blur transition-transform hover:scale-110"
+          >
+            {playing ? <Pause className="h-4 w-4" /> : <Play className="ml-0.5 h-4 w-4" />}
+          </button>
+          {/* dynamic island */}
+          <span aria-hidden className="absolute left-1/2 top-2.5 z-10 h-[22px] w-[78px] -translate-x-1/2 rounded-full bg-black" />
         </div>
       </motion.div>
     </div>
+  );
+}
+
+function FloatCard({ progress, speed, className, children }: { progress: MotionValue<number>; speed: number; className: string; children: React.ReactNode }) {
+  const y = useTransform(progress, [0, 1], [-speed * 260, speed * 260]);
+  const opacity = useTransform(progress, [0.1, 0.3, 0.75, 0.95], [0, 1, 1, 0]);
+  return (
+    <motion.div
+      style={{ y, opacity }}
+      className={`absolute z-10 flex items-center gap-2 whitespace-nowrap rounded-2xl bg-white/[0.08] px-3.5 py-2.5 text-[13px] font-medium text-white shadow-[0_16px_34px_-16px_rgba(0,0,0,0.7),inset_0_0_0_1px_rgba(255,255,255,0.16)] backdrop-blur-md ${className}`}
+    >
+      {children}
+    </motion.div>
   );
 }

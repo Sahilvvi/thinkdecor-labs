@@ -11,8 +11,8 @@ const sections = [
   {
     title: 'What Think Decor does',
     body: [
-      'Think Decor is an AI interior design tool. You upload a photo of a room, choose one of seven styles or describe the change you want, and Mantha AI redesigns the photo so you can see the result before you spend money on paint, flooring or furniture.',
-      'The results are AI visualisations. They are a guide to how a room could look, not an exact representation of a product or a finished room.',
+      'Think Decor is an interior design tool built around Mantha AI. You upload a photo of a room, choose one of seven styles or describe the change you want, and Mantha AI redesigns the photo so you can see the result before you spend money on paint, flooring or furniture.',
+      'The results are Mantha AI visualisations. They are a guide to how a room could look, not an exact representation of a product or a finished room.',
     ],
   },
   {
@@ -35,7 +35,7 @@ export default function About() {
   return (
     <div className="min-h-screen bg-background">
       <SEO
-        title="About Think Decor | AI Room Redesign From a Photo"
+        title="About Think Decor | Mantha AI Room Redesign From a Photo"
         description="Think Decor is a trading name of Dreamverse Limited (company no. 16446982), Northampton, UK. What we do, who is behind it and how we make money."
         canonical="https://www.thinkdecor.app/about"
       />

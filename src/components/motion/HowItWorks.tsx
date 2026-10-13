@@ -291,14 +291,14 @@ function ScreenSaved({ phase }: { phase: Phase }) {
         <b className="block font-display text-[19px] font-medium leading-[1.1] text-foreground">Your preview</b>
       </div>
       <div className="relative mx-3.5 mt-1.5 overflow-hidden rounded-[14px]" style={{ aspectRatio: '4/3.4' }}>
-        <img src={BEFORE_PHOTO} alt="Empty room before AI redesign" className="absolute inset-0 h-full w-full object-cover" />
+        <img src={BEFORE_PHOTO} alt="Empty room before its redesign" className="absolute inset-0 h-full w-full object-cover" />
         <motion.div
           className="absolute inset-0 overflow-hidden"
           initial={false}
           animate={{ clipPath: saving ? 'inset(0 0 0 0)' : 'inset(0 100% 0 0)' }}
           transition={{ duration: 1.6, ease: [0.22, 1, 0.36, 1], delay: saving ? 0.3 : 0 }}
         >
-          <img src={AFTER_PHOTO} alt="Same room after Think Decor AI redesign" className="h-full w-full object-cover" />
+          <img src={AFTER_PHOTO} alt="Same room after a Mantha AI redesign" className="h-full w-full object-cover" />
         </motion.div>
         <motion.div
           className="absolute inset-x-2 bottom-2 flex items-center gap-1.5 rounded-[10px] bg-[#00594E] px-2.5 py-1.5 text-[9.5px] text-white"

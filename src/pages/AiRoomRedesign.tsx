@@ -48,7 +48,7 @@ const TOOLS = [
 
 const FAQS = [
   {
-    q: 'Does AI room redesign actually keep my real room, or invent a new one?',
+    q: 'Does Mantha AI actually keep my real room, or invent a new one?',
     a: 'Think Decor keeps your real walls, windows and layout fixed and only changes the surfaces and furnishings you ask it to. That’s a deliberate difference from tools that regenerate the whole room from a text prompt and can move architecture that was never meant to change.',
   },
   {
@@ -73,12 +73,12 @@ export default function AiRoomRedesign() {
   return (
     <div className="min-h-screen bg-background">
       <SEO
-        title="AI Room Redesign From One Photo | Think Decor"
+        title="Mantha AI Room Redesign From One Photo | Think Decor"
         description="Upload one photo of a room and Mantha AI redesigns it in the style you choose — real walls, real windows, real layout, only the surfaces change. Free to try."
         canonical="https://www.thinkdecor.app/ai-room-redesign"
         image="/og-ai-room-redesign.png"
         schema={[
-          breadcrumbSchema([{ name: 'Home', path: '/' }, { name: 'AI Room Redesign', path: '/ai-room-redesign' }]),
+          breadcrumbSchema([{ name: 'Home', path: '/' }, { name: 'Mantha AI Room Redesign', path: '/ai-room-redesign' }]),
           softwareApplicationSchema({
             price: PHASE1_PLAN.introPrice ?? 0.69,
             currency: 'GBP',
@@ -104,7 +104,7 @@ export default function AiRoomRedesign() {
             <div className="container relative mx-auto max-w-[900px] px-6 text-center sm:px-8">
               <Reveal>
                 <p className="font-label text-[11px] font-bold uppercase tracking-[0.16em] text-[#8FE3D4]">
-                  AI Room Redesign · The Complete Guide
+                  Mantha AI Room Redesign · The Complete Guide
                 </p>
                 <h1 className="mx-auto mt-5 max-w-[22ch] font-display text-[clamp(2.2rem,5.5vw,4.2rem)] font-medium leading-[1.04] tracking-[-0.03em] text-white">
                   Redesign a room, <em className="italic font-normal text-[#8FE3D4]">keep the walls</em>.
@@ -139,14 +139,14 @@ export default function AiRoomRedesign() {
         {/* ---------------- DEFINITION (answer-first block: what search engines and AI answers quote) ---------------- */}
         <section className="px-3 pt-14 sm:px-4">
           <div className="container mx-auto max-w-[760px] px-6 sm:px-8">
-            <h2 className="font-display text-[clamp(1.6rem,3vw,2.2rem)] font-medium text-foreground">What is AI room redesign?</h2>
+            <h2 className="font-display text-[clamp(1.6rem,3vw,2.2rem)] font-medium text-foreground">What is Mantha AI room redesign?</h2>
             <p className="mt-4 text-[17px] leading-relaxed text-foreground/80">
-              AI room redesign is a tool that takes a photo of a real room and shows it restyled in a new colour scheme or
-              design style, such as Scandinavian or Japandi. You upload one photo, pick a style, and the AI returns a
+              Mantha AI room redesign takes a photo of a real room and shows it restyled in a new colour scheme or
+              design style, such as Scandinavian or Japandi. You upload one photo, pick a style, and Mantha AI returns a
               redesigned image in seconds so you can compare options before you paint or buy furniture.
             </p>
             <p className="mt-3 text-[15px] text-foreground/60">
-              Curious about the technology? Read <Link to="/blog/how-does-ai-interior-design-work" className="text-primary underline underline-offset-2">how AI interior design works</Link>, or browse{' '}
+              Curious about the technology? Read <Link to="/blog/how-does-ai-interior-design-work" className="text-primary underline underline-offset-2">how Mantha AI works</Link>, or browse{' '}
               <Link to="/blog/living-room-decor-ideas" className="text-primary underline underline-offset-2">living room decor ideas</Link> and{' '}
               <Link to="/blog/interior-design-styles-explained" className="text-primary underline underline-offset-2">interior design styles</Link> to pick a direction first.
             </p>
@@ -265,9 +265,9 @@ export default function AiRoomRedesign() {
             </Reveal>
             <Stagger className="mt-9 grid gap-4 sm:grid-cols-2 lg:grid-cols-3" gap={0.06}>
               {[
-                { slug: 'how-does-ai-interior-design-work', title: 'How AI room redesign actually works' },
-                { slug: 'thinkdecor-vs-roomgpt-vs-interior-ai', title: "Think Decor vs RoomGPT vs Interior AI" },
-                { slug: 'scandinavian-living-room-ideas', title: 'Scandinavian living room ideas, with AI' },
+                { slug: 'how-does-ai-interior-design-work', title: 'How Mantha AI room redesign actually works' },
+                { slug: 'thinkdecor-vs-roomgpt-vs-interior-ai', title: 'Think Decor compared with other redesign apps' },
+                { slug: 'scandinavian-living-room-ideas', title: 'Scandinavian living room ideas, with Mantha AI' },
                 { slug: 'small-living-room-ai-redesign', title: 'Small living room, big change' },
                 { slug: 'remove-clutter-room-photo-ai', title: 'Remove clutter before you redesign' },
                 { slug: 'japandi-bedroom-ideas', title: 'Japandi bedroom ideas, generated in seconds' },
@@ -292,7 +292,7 @@ export default function AiRoomRedesign() {
             <Reveal className="text-center">
               <p className="text-[11px] font-medium uppercase tracking-[0.24em] text-primary">Questions</p>
               <h2 className="mt-3 font-display text-[clamp(1.8rem,3.2vw,2.6rem)] font-medium text-foreground">
-                About AI room redesign.
+                About Mantha AI room redesign.
               </h2>
             </Reveal>
             <Stagger className="mt-10">

@@ -135,7 +135,7 @@ export default function Contact() {
   return (
     <div className="min-h-screen bg-background">
       <SEO
-        title="Contact Think Decor | AI Room Design App, UK"
+        title="Contact Think Decor | Room Design App, UK"
         description="Questions, partnerships or early access? Email the Think Decor team in Northampton. We reply within a day."
         canonical="https://www.thinkdecor.app/contact"
       />

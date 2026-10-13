@@ -78,7 +78,7 @@ async function main() {
     <title>ThinkDecor Journal</title>
     <link>${SITE_URL}/blog</link>
     <atom:link href="${SITE_URL}/rss.xml" rel="self" type="application/rss+xml" />
-    <description>Interior design ideas, style guides and how AI room redesign works.</description>
+    <description>Interior design ideas, style guides and how Mantha AI room redesign works.</description>
     <language>en-gb</language>
 ${items.join('\n')}
   </channel>

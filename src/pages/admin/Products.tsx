@@ -699,12 +699,12 @@ function ProductEditor({
                 if (e.target.checked) set('composite_image_url', form.display_image_url);
               }}
             />
-            Use this same photo for AI redesigns
+            Use this same photo for Mantha AI redesigns
           </label>
 
           {!useSameImage && (
             <div>
-              <p className="kicker">Photo sent to the AI (plain background works best)</p>
+              <p className="kicker">Photo sent to Mantha AI (plain background works best)</p>
               <div className="mt-3 flex items-center gap-3">
                 <div className="flex h-20 w-20 flex-none items-center justify-center overflow-hidden rounded-xl bg-black/[0.04]">
                   {form.composite_image_url
