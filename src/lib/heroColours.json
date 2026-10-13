@@ -1,0 +1,322 @@
+{
+  "living": [
+    {
+      "key": "sofa",
+      "x": 61,
+      "y": 52,
+      "name": "Sofa",
+      "target": "the dark leather chaise sofa and the matching leather footstool in front of it",
+      "swatches": [
+        {
+          "key": "original",
+          "label": "Espresso leather",
+          "hex": "#2E2723"
+        },
+        {
+          "key": "sage",
+          "label": "Sage velvet",
+          "hex": "#8A9F82",
+          "prompt": "a soft sage green velvet upholstery"
+        },
+        {
+          "key": "cream",
+          "label": "Cream bouclé",
+          "hex": "#E9E1D3",
+          "prompt": "a cream off-white boucle fabric upholstery"
+        }
+      ]
+    },
+    {
+      "key": "floor",
+      "x": 7,
+      "y": 74,
+      "name": "Floor",
+      "target": "the visible wooden floor surface (not the rug)",
+      "swatches": [
+        {
+          "key": "original",
+          "label": "Honey oak",
+          "hex": "#C28D5A"
+        },
+        {
+          "key": "whitewash",
+          "label": "Whitewashed oak",
+          "hex": "#E3D8C6",
+          "prompt": "pale whitewashed oak plank flooring"
+        },
+        {
+          "key": "walnut",
+          "label": "Dark walnut",
+          "hex": "#4E3423",
+          "prompt": "dark walnut plank flooring"
+        }
+      ]
+    },
+    {
+      "key": "storage",
+      "x": 25,
+      "y": 58,
+      "name": "Sideboard & cabinets",
+      "target": "the light oak sideboard on the left and the oak glass-front wall cabinets above it",
+      "swatches": [
+        {
+          "key": "original",
+          "label": "Light oak",
+          "hex": "#D2B48A"
+        },
+        {
+          "key": "white",
+          "label": "Matt white",
+          "hex": "#F2F0EB",
+          "prompt": "a smooth matt white painted finish"
+        },
+        {
+          "key": "green",
+          "label": "Forest green",
+          "hex": "#2F4A3A",
+          "prompt": "a deep forest green painted finish"
+        }
+      ]
+    }
+  ],
+  "bedroom": [
+    {
+      "key": "bedding",
+      "x": 30,
+      "y": 60,
+      "name": "Bedding",
+      "target": "the duvet cover, the grey bedspread and the pillows on the bed",
+      "swatches": [
+        {
+          "key": "original",
+          "label": "Beige check",
+          "hex": "#D8CDBF"
+        },
+        {
+          "key": "sage",
+          "label": "Sage linen",
+          "hex": "#9DB094",
+          "prompt": "plain sage green washed linen bedding"
+        },
+        {
+          "key": "rust",
+          "label": "Rust",
+          "hex": "#A9532F",
+          "prompt": "plain rust orange washed linen bedding"
+        }
+      ]
+    },
+    {
+      "key": "frame",
+      "x": 66,
+      "y": 62,
+      "name": "Bed frame",
+      "target": "the black wooden bed frame (headboard and footboard)",
+      "swatches": [
+        {
+          "key": "original",
+          "label": "Black-brown",
+          "hex": "#1F1B19"
+        },
+        {
+          "key": "white",
+          "label": "Painted white",
+          "hex": "#F2F0EB",
+          "prompt": "a white painted wood finish"
+        },
+        {
+          "key": "oak",
+          "label": "Natural oak",
+          "hex": "#C9A174",
+          "prompt": "a natural light oak wood finish"
+        }
+      ]
+    },
+    {
+      "key": "floor",
+      "x": 88,
+      "y": 82,
+      "name": "Floor",
+      "target": "the visible dark wooden floor surface (not the rugs)",
+      "swatches": [
+        {
+          "key": "original",
+          "label": "Dark stain",
+          "hex": "#3B2C25"
+        },
+        {
+          "key": "whitewash",
+          "label": "Whitewashed oak",
+          "hex": "#E3D8C6",
+          "prompt": "pale whitewashed oak plank flooring"
+        },
+        {
+          "key": "honey",
+          "label": "Honey oak",
+          "hex": "#C28D5A",
+          "prompt": "warm honey oak plank flooring"
+        }
+      ]
+    }
+  ],
+  "kitchen": [
+    {
+      "key": "units",
+      "x": 48,
+      "y": 62,
+      "name": "Kitchen units",
+      "target": "all the oak kitchen cabinet doors, drawer fronts and tall units (not the worktop, oven or table)",
+      "swatches": [
+        {
+          "key": "original",
+          "label": "Oak veneer",
+          "hex": "#CFA673"
+        },
+        {
+          "key": "sage",
+          "label": "Sage green",
+          "hex": "#8A9F82",
+          "prompt": "a sage green painted finish"
+        },
+        {
+          "key": "navy",
+          "label": "Navy",
+          "hex": "#2C3E5C",
+          "prompt": "a deep navy blue painted finish"
+        }
+      ]
+    },
+    {
+      "key": "floor",
+      "x": 24,
+      "y": 88,
+      "name": "Floor",
+      "target": "the visible grey tiled floor surface (not the rug)",
+      "swatches": [
+        {
+          "key": "original",
+          "label": "Grey tile",
+          "hex": "#8E8F8A"
+        },
+        {
+          "key": "terracotta",
+          "label": "Terracotta tile",
+          "hex": "#B76E4C",
+          "prompt": "square terracotta clay tiles"
+        },
+        {
+          "key": "marble",
+          "label": "White marble",
+          "hex": "#EDEBE6",
+          "prompt": "large-format white marble tiles with soft grey veining"
+        }
+      ]
+    },
+    {
+      "key": "chairs",
+      "x": 57,
+      "y": 68,
+      "name": "Dining chairs",
+      "target": "all the black dining chairs around the table",
+      "swatches": [
+        {
+          "key": "original",
+          "label": "Black",
+          "hex": "#1E1E1E"
+        },
+        {
+          "key": "oak",
+          "label": "Natural oak",
+          "hex": "#C9A174",
+          "prompt": "natural light oak wood"
+        },
+        {
+          "key": "mustard",
+          "label": "Mustard",
+          "hex": "#C9962C",
+          "prompt": "mustard yellow"
+        }
+      ]
+    }
+  ],
+  "hall": [
+    {
+      "key": "walls",
+      "x": 36,
+      "y": 24,
+      "name": "Wall paint",
+      "target": "the dark grey painted walls and wall panelling (not the pictures, mirror or furniture)",
+      "swatches": [
+        {
+          "key": "original",
+          "label": "Slate grey",
+          "hex": "#4A4C55"
+        },
+        {
+          "key": "white",
+          "label": "Warm white",
+          "hex": "#EFEAE0",
+          "prompt": "a warm white matt paint"
+        },
+        {
+          "key": "sage",
+          "label": "Sage",
+          "hex": "#8A9F82",
+          "prompt": "a sage green matt paint"
+        }
+      ]
+    },
+    {
+      "key": "console",
+      "x": 52,
+      "y": 76,
+      "name": "Console table",
+      "target": "the white two-tier console table",
+      "swatches": [
+        {
+          "key": "original",
+          "label": "White",
+          "hex": "#F2F0EB"
+        },
+        {
+          "key": "black",
+          "label": "Black",
+          "hex": "#1E1E1E",
+          "prompt": "a black painted finish"
+        },
+        {
+          "key": "oak",
+          "label": "Natural oak",
+          "hex": "#C9A174",
+          "prompt": "a natural light oak wood finish"
+        }
+      ]
+    },
+    {
+      "key": "chair",
+      "x": 86,
+      "y": 68,
+      "name": "Rattan chair",
+      "target": "the woven rattan chair on the right",
+      "swatches": [
+        {
+          "key": "original",
+          "label": "Black rattan",
+          "hex": "#262A33"
+        },
+        {
+          "key": "natural",
+          "label": "Natural rattan",
+          "hex": "#C9A46B",
+          "prompt": "natural honey-coloured rattan"
+        },
+        {
+          "key": "green",
+          "label": "Forest green",
+          "hex": "#2F4A3A",
+          "prompt": "deep forest green painted rattan"
+        }
+      ]
+    }
+  ]
+}

@@ -4,16 +4,15 @@ import { ArrowRight, Sparkles } from 'lucide-react';
 import { Magnetic, Reveal, RevealWords, Stagger, staggerItem } from '@/components/premium/Motion';
 import { AnimatePresence, motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
-import { DEMO_ROOMS, DEMO_STYLES, type RoomItem, type StyleKey } from '@/lib/heroRooms';
+import { DEMO_ROOMS, DEMO_STYLES, type StyleKey } from '@/lib/heroRooms';
 
 /** How long the "Mantha AI is redesigning…" beat plays before the new photo swaps in. */
 const GENERATE_MS = 700;
 
-const MAX_ITEMS = Math.max(...DEMO_ROOMS.map((r) => r.items.length));
-
 /**
  * Hero — an illustrative example room (not the visitor's own photo): tap a
- * dot to see what it is and what it would cost, switch rooms, try a style.
+ * dot on the sofa, floor or furniture and pick a colour to see it change,
+ * switch rooms, try a style.
  * Nothing here calls the API; it's a fixed demo, same "illustrative, not
  * live" convention the marquee testimonials use, just for the value prop
  * instead of social proof.
@@ -28,7 +27,13 @@ export function HeroStage({ onStageBoxMount }: { onStageBoxMount?: (el: HTMLDivE
   // Mantha AI processing beat instead of snapping straight to the new one —
   // it reads as a redesign happening, not an instant image swap.
   const [pendingStyle, setPendingStyle] = useState<StyleKey | null>(null);
-  const [activeItem, setActiveItem] = useState<{ item: RoomItem; index: number } | null>(null);
+  // Which colour pin has its swatch picker open, and which swatch is applied.
+  // One recolour at a time: picking a colour on another pin replaces it.
+  const [openPin, setOpenPin] = useState<number | null>(null);
+  const [colour, setColour] = useState<{ pin: string; swatch: string } | null>(null);
+  const [pendingColour, setPendingColour] = useState<{ pin: string; swatch: string } | null>(null);
+  // Swatch photos that failed to load — hidden from the picker.
+  const [missing, setMissing] = useState<Set<string>>(() => new Set());
   // Nudges the visitor toward the style tiles until they've tried one once.
   const [hasTriedStyle, setHasTriedStyle] = useState(false);
   const stageRef = useRef<HTMLDivElement>(null);
@@ -40,21 +45,46 @@ export function HeroStage({ onStageBoxMount }: { onStageBoxMount?: (el: HTMLDivE
 
   const room = DEMO_ROOMS.find((r) => r.key === roomKey) ?? DEMO_ROOMS[0];
   const styled = styleKey ? room.styles[styleKey] : null;
-  const stageImage = styled ?? room;
-  const stageKey = `${room.key}:${styleKey ?? 'base'}`;
-  const generating = pendingStyle !== null;
+  const appliedPin = colour ? room.pins.find((p) => p.key === colour.pin) : undefined;
+  const appliedSwatch = appliedPin?.swatches.find((s) => s.key === colour?.swatch);
+  const stageImage = styled ?? (appliedSwatch && appliedSwatch.key !== 'original'
+    ? { image: appliedSwatch.image, alt: `${room.alt}, with the ${appliedPin!.name.toLowerCase()} in ${appliedSwatch.label.toLowerCase()}` }
+    : room);
+  const stageKey = `${room.key}:${styleKey ?? 'base'}:${colour ? `${colour.pin}-${colour.swatch}` : ''}`;
+  const generating = pendingStyle !== null || pendingColour !== null;
+  const pendingLabel = pendingStyle
+    ?? (pendingColour ? room.pins.find((p) => p.key === pendingColour.pin)?.swatches.find((s) => s.key === pendingColour.swatch)?.label : null);
+  const activePin = openPin !== null ? room.pins[openPin] : null;
+
+  // Swatch photos confirmed to exist. A pin only appears once at least one
+  // of its colours has a photo, and the picker only lists those colours —
+  // so a room whose recolours haven't been made yet shows no empty pickers.
+  const [ready, setReady] = useState<Set<string>>(() => new Set());
+  useEffect(() => {
+    room.pins.forEach((pin) => pin.swatches.forEach((sw) => {
+      if (sw.key === 'original') return;
+      const img = new Image();
+      img.onload = () => setReady((r) => (r.has(sw.image) ? r : new Set(r).add(sw.image)));
+      img.src = sw.image;
+    }));
+  }, [room]);
+  const isAvailable = (sw: { key: string; image: string }) =>
+    sw.key === 'original' || (ready.has(sw.image) && !missing.has(sw.image));
 
   const selectRoom = (key: typeof room.key) => {
     if (generateTimer.current) window.clearTimeout(generateTimer.current);
     setPendingStyle(null);
-    setActiveItem(null);
+    setPendingColour(null);
+    setOpenPin(null);
+    setColour(null);
     setStyleKey(null);
     setRoomKey(key);
   };
 
   const selectStyle = (key: StyleKey) => {
     if (generating) return;
-    setActiveItem(null);
+    setOpenPin(null);
+    setColour(null);
     setHasTriedStyle(true);
     if (styleKey === key) {
       setStyleKey(null);
@@ -67,23 +97,71 @@ export function HeroStage({ onStageBoxMount }: { onStageBoxMount?: (el: HTMLDivE
     }, GENERATE_MS);
   };
 
-  const togglePin = (item: RoomItem, index: number) => {
-    setActiveItem((cur) => (cur?.index === index ? null : { item, index }));
+  const togglePin = (index: number) => {
+    setOpenPin((cur) => (cur === index ? null : index));
+    // Warm the cache so the swap after a swatch tap is instant, and drop any
+    // swatch whose photo hasn't been generated yet rather than offering a
+    // colour that would blank the stage.
+    room.pins[index].swatches.forEach((sw) => {
+      if (sw.key === 'original') return;
+      const img = new Image();
+      img.onerror = () => setMissing((m) => new Set(m).add(sw.image));
+      img.src = sw.image;
+    });
+  };
+
+  const selectSwatch = (pinKey: string, swatchKey: string) => {
+    if (generating) return;
+    const current = colour?.pin === pinKey ? colour.swatch : 'original';
+    if (current === swatchKey) return;
+    if (swatchKey === 'original') {
+      setColour(null);
+      return;
+    }
+    const sw = room.pins.find((p) => p.key === pinKey)?.swatches.find((x) => x.key === swatchKey);
+    if (!sw) return;
+    setPendingColour({ pin: pinKey, swatch: swatchKey });
+    // Swap only once the photo has actually loaded (and the processing beat
+    // has played), so the stage never shows a blank frame.
+    const img = new Image();
+    const loaded = new Promise<boolean>((resolve) => {
+      img.onload = () => resolve(true);
+      img.onerror = () => resolve(false);
+    });
+    img.src = sw.image;
+    const beat = new Promise((r) => { generateTimer.current = window.setTimeout(r, GENERATE_MS); });
+    Promise.all([loaded, beat]).then(([ok]) => {
+      setPendingColour((cur) => {
+        if (cur?.pin !== pinKey || cur.swatch !== swatchKey) return cur; // superseded (room changed)
+        if (ok) setColour({ pin: pinKey, swatch: swatchKey });
+        else setMissing((m) => new Set(m).add(sw.image));
+        return null;
+      });
+    });
   };
 
   // Popover position, clamped to the stage so it never spills off the image edge.
+  const POP_W = 236;
   const popStyle = (() => {
-    if (!activeItem || !stageRef.current) return undefined;
+    if (!activePin || !stageRef.current) return undefined;
     const W = stageRef.current.clientWidth;
     const H = stageRef.current.clientHeight;
-    const popW = 220;
-    const popH = 118;
-    let left = (activeItem.item.x / 100) * W + 18;
-    const top = Math.max(8, Math.min((activeItem.item.y / 100) * H - popH / 2, H - popH - 8));
-    if (left + popW > W - 8) left = (activeItem.item.x / 100) * W - 18 - popW;
+    const popW = Math.min(POP_W, W - 16);
+    const popH = 112;
+    let left = (activePin.x / 100) * W + 18;
+    const top = Math.max(8, Math.min((activePin.y / 100) * H - popH / 2, H - popH - 8));
+    if (left + popW > W - 8) left = (activePin.x / 100) * W - 18 - popW;
     left = Math.max(8, Math.min(left, W - popW - 8));
-    return { left, top };
+    return { left, top, width: popW };
   })();
+
+  const swatchCaption = (pin: (typeof room.pins)[number]) => {
+    const key = pendingColour?.pin === pin.key
+      ? pendingColour.swatch
+      : colour?.pin === pin.key ? colour.swatch : 'original';
+    const sw = pin.swatches.find((x) => x.key === key) ?? pin.swatches[0];
+    return sw.key === 'original' ? `${sw.label} · original` : sw.label;
+  };
 
   return (
     <section
@@ -140,7 +218,7 @@ export function HeroStage({ onStageBoxMount }: { onStageBoxMount?: (el: HTMLDivE
                   )}
                 </span>
                 <span className="font-label text-[12px] text-white/60">
-                  {generating
+                  {pendingStyle
                     ? `Redesigning in ${pendingStyle}…`
                     : styleKey
                       ? `${styleKey} selected`
@@ -225,7 +303,7 @@ export function HeroStage({ onStageBoxMount }: { onStageBoxMount?: (el: HTMLDivE
             <div
               ref={(el) => { stageRef.current = el; onStageBoxMount?.(el); }}
               className="relative aspect-[1024/765] overflow-hidden rounded-[20px]"
-              onClick={() => setActiveItem(null)}
+              onClick={() => setOpenPin(null)}
             >
               <AnimatePresence initial={false}>
                 <motion.img
@@ -278,72 +356,120 @@ export function HeroStage({ onStageBoxMount }: { onStageBoxMount?: (el: HTMLDivE
                       className="relative h-11 w-11 rounded-full border-2 border-white/20 border-t-[#8FE3D4]"
                     />
                     <span className="font-label text-[11px] font-bold uppercase tracking-[0.16em] text-[#8FE3D4]">
-                      Mantha AI redesigning
+                      {pendingColour ? 'Mantha AI recolouring' : 'Mantha AI redesigning'}
                     </span>
-                    <span className="font-label text-[12px] text-white/75">{pendingStyle}</span>
+                    <span className="font-label text-[12px] text-white/75">{pendingLabel}</span>
                   </motion.div>
                 )}
               </AnimatePresence>
 
-              {!styleKey && room.items.map((item, i) => (
-                <button
-                  key={`${room.key}-${i}`}
-                  type="button"
-                  aria-label={`${item.name}, ${item.price}`}
-                  aria-expanded={activeItem?.index === i}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    togglePin(item, i);
-                  }}
-                  className="absolute z-[2] grid h-[26px] w-[26px] -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-white/95 shadow-[0_2px_10px_rgba(0,0,0,0.35)]"
-                  style={{ left: `${item.x}%`, top: `${item.y}%` }}
-                >
-                  <span className="absolute inset-[-6px] animate-ping rounded-full border-[1.5px] border-white/80" />
-                  <span className={cn('h-2 w-2 rounded-full', activeItem?.index === i ? 'bg-[#00A08C]' : 'bg-[#00594E]')} />
-                </button>
-              ))}
-
-              {!styleKey && activeItem && popStyle && (
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.96 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  onClick={(e) => e.stopPropagation()}
-                  className="absolute z-[5] w-[220px] rounded-[14px] bg-white p-3.5 text-[#00594E] shadow-[0_18px_40px_rgba(0,0,0,0.35)]"
-                  style={popStyle}
-                  role="dialog"
-                  aria-label={activeItem.item.name}
-                >
+              {!styleKey && room.pins.map((pin, i) => {
+                if (!pin.swatches.some((sw) => sw.key !== 'original' && isAvailable(sw))) return null;
+                const open = openPin === i;
+                const applied = colour?.pin === pin.key ? pin.swatches.find((sw) => sw.key === colour.swatch) : undefined;
+                return (
                   <button
+                    key={`${room.key}-${pin.key}`}
                     type="button"
-                    onClick={() => setActiveItem(null)}
-                    aria-label="Close"
-                    className="absolute right-2 top-1.5 text-[18px] leading-none text-[#4F6F6A]"
+                    aria-label={`Change the ${pin.name.toLowerCase()} colour`}
+                    aria-expanded={open}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      togglePin(i);
+                    }}
+                    className="group absolute z-[2] grid h-[30px] w-[30px] -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-white/95 shadow-[0_2px_12px_rgba(0,0,0,0.35)] transition-transform hover:scale-110"
+                    style={{ left: `${pin.x}%`, top: `${pin.y}%` }}
                   >
-                    ×
+                    {!open && <span className="absolute inset-[-6px] animate-ping rounded-full border-[1.5px] border-white/80" />}
+                    {/* The dot shows the colour currently on that item, so a
+                        recoloured piece is visible at a glance. */}
+                    <span
+                      className={cn('h-3 w-3 rounded-full ring-1 ring-black/10 transition-colors', open && 'ring-2 ring-[#00A08C]')}
+                      style={{ background: applied?.hex ?? 'conic-gradient(#B5603F, #C9962C, #8A9F82, #2C3E5C, #D3A79E, #B5603F)' }}
+                    />
+                    <span className="pointer-events-none absolute left-1/2 top-full mt-1.5 -translate-x-1/2 whitespace-nowrap rounded-full bg-[#00231D]/80 px-2 py-0.5 font-label text-[10.5px] font-bold text-white opacity-0 backdrop-blur-sm transition-opacity group-hover:opacity-100">
+                      {pin.name}
+                    </span>
                   </button>
-                  <h3 className="pr-4 font-display text-[17px] leading-[1.15]">{activeItem.item.name}</h3>
-                  <p className="mt-1 text-[13px] leading-[1.4] text-[#4F6F6A]">{activeItem.item.description}</p>
-                  <div className="mt-2.5 flex items-center justify-between border-t border-[#D3E6E2] pt-2.5">
-                    <span className="font-label text-[10.5px] uppercase tracking-[0.08em] text-[#4F6F6A]">Price</span>
-                    <b className="font-display text-[19px]">{activeItem.item.price}</b>
-                  </div>
-                </motion.div>
-              )}
+                );
+              })}
+
+              <AnimatePresence>
+                {!styleKey && activePin && popStyle && (
+                  <motion.div
+                    key={`${room.key}-${activePin.key}`}
+                    initial={{ opacity: 0, scale: 0.96, y: 4 }}
+                    animate={{ opacity: 1, scale: 1, y: 0 }}
+                    exit={{ opacity: 0, scale: 0.96 }}
+                    transition={{ duration: 0.18 }}
+                    onClick={(e) => e.stopPropagation()}
+                    className="absolute z-[5] rounded-[16px] bg-white p-3.5 text-[#00594E] shadow-[0_18px_40px_rgba(0,0,0,0.35)]"
+                    style={popStyle}
+                    role="dialog"
+                    aria-label={`${activePin.name} colours`}
+                  >
+                    <button
+                      type="button"
+                      onClick={() => setOpenPin(null)}
+                      aria-label="Close"
+                      className="absolute right-2.5 top-1.5 text-[18px] leading-none text-[#4F6F6A]"
+                    >
+                      ×
+                    </button>
+                    <span className="font-label text-[10px] font-bold uppercase tracking-[0.14em] text-[#00A08C]">Try a colour</span>
+                    <h3 className="pr-4 font-display text-[17px] leading-[1.15]">{activePin.name}</h3>
+                    <div className="mt-2.5 flex gap-2" role="radiogroup" aria-label={`${activePin.name} colour`}>
+                      {activePin.swatches.filter(isAvailable).map((sw) => {
+                        const current = (colour?.pin === activePin.key ? colour.swatch : 'original') === sw.key;
+                        const pending = pendingColour?.pin === activePin.key && pendingColour.swatch === sw.key;
+                        return (
+                          <button
+                            key={sw.key}
+                            type="button"
+                            role="radio"
+                            aria-checked={current}
+                            aria-label={sw.key === 'original' ? `${sw.label} (original)` : sw.label}
+                            title={sw.label}
+                            disabled={generating}
+                            onClick={() => selectSwatch(activePin.key, sw.key)}
+                            className={cn(
+                              'relative h-8 w-8 flex-none rounded-full shadow-[inset_0_0_0_1px_rgba(0,0,0,0.12)] transition-transform hover:scale-110 disabled:cursor-wait',
+                              current && 'ring-2 ring-[#00A08C] ring-offset-2',
+                              pending && 'ring-2 ring-[#8FE3D4] ring-offset-2',
+                            )}
+                            style={{ background: sw.hex }}
+                          >
+                            {sw.key === 'original' && (
+                              <span className="absolute -bottom-0.5 -right-0.5 grid h-3.5 w-3.5 place-items-center rounded-full bg-white text-[8px] font-bold text-[#00594E] shadow">↺</span>
+                            )}
+                          </button>
+                        );
+                      })}
+                    </div>
+                    <p className="mt-2 font-label text-[12px] text-[#4F6F6A]">{swatchCaption(activePin)}</p>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
 
             <figcaption className="mt-3 flex justify-between gap-3 font-label text-[12px] tracking-[0.04em] text-white/60">
               <span>
                 {styleKey
                   ? `● ${styleKey} redesign — tap another style to compare`
-                  : '● Tap a dot for an example item and price'}
+                  : '● Tap a dot, then pick a colour'}
               </span>
-              <span>{styleKey ? `${room.label} · ${styleKey}` : `${room.label} · example prices`}</span>
+              <span>
+                {styleKey
+                  ? `${room.label} · ${styleKey}`
+                  : appliedSwatch && appliedPin
+                    ? `${appliedPin.name} · ${appliedSwatch.label}`
+                    : room.label}
+              </span>
             </figcaption>
 
             <div role="tablist" aria-label="Choose a room" className="mt-[18px] grid grid-cols-2 gap-2.5">
               {DEMO_ROOMS.map((r) => {
                 const selected = r.key === roomKey;
-                const pct = Math.round((r.items.length / MAX_ITEMS) * 100);
                 return (
                   <button
                     key={r.key}
@@ -351,24 +477,20 @@ export function HeroStage({ onStageBoxMount }: { onStageBoxMount?: (el: HTMLDivE
                     aria-selected={selected}
                     onClick={() => selectRoom(r.key)}
                     className={cn(
-                      'grid grid-cols-[auto_1fr_auto] items-center gap-3 rounded-full py-2.5 pl-[18px] pr-3 text-white shadow-[inset_0_0_0_1px_rgba(255,255,255,0.14)] transition-colors',
+                      'flex items-center justify-between gap-3 rounded-full py-2.5 pl-[18px] pr-3 text-white shadow-[inset_0_0_0_1px_rgba(255,255,255,0.14)] transition-colors',
                       selected ? 'bg-[#00A08C]' : 'bg-[#08463E] hover:bg-[#0E7466]',
                     )}
                   >
                     <span className="whitespace-nowrap font-label text-[15px] font-bold">{r.label}</span>
-                    <span className="h-2 overflow-hidden rounded-full bg-white/10">
-                      <span
-                        className={cn('block h-full rounded-full', selected ? 'bg-white' : 'bg-[linear-gradient(180deg,#7FD3C6,#2FA896)]')}
-                        style={{ width: `${pct}%` }}
-                      />
-                    </span>
-                    <span
-                      className={cn(
-                        'grid h-7 min-w-7 place-items-center rounded-full font-label text-[12px]',
-                        selected ? 'bg-white text-[#00594E]' : 'bg-white/[0.08]',
-                      )}
-                    >
-                      {r.items.length}
+                    {/* A peek at the colours on offer in that room. */}
+                    <span className="flex -space-x-1.5" aria-hidden>
+                      {r.pins.map((pin) => (
+                        <span
+                          key={pin.key}
+                          className={cn('h-4 w-4 rounded-full ring-2', selected ? 'ring-[#00A08C]' : 'ring-[#08463E]')}
+                          style={{ background: pin.swatches[1]?.hex }}
+                        />
+                      ))}
                     </span>
                   </button>
                 );

@@ -1,14 +1,14 @@
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Logo } from '@/components/brand/Logo';
-import { Menu, X } from 'lucide-react';
+import { Menu, Smartphone, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
-import { PHASE1_PLAN, pence } from '@/lib/billing';
 import { cn } from '@/lib/utils';
 import { useAuthStore } from '@/stores/authStore';
 
-const INTRO = pence(PHASE1_PLAN.introPrice ?? 0.69);
+/** The homepage's "Get the app" section. */
+const GET_APP_HREF = '/#get-app';
 
 const navLinks = [
   { href: '/#how-it-works', label: 'How it works' },
@@ -22,7 +22,6 @@ const navLinks = [
 export function Navbar({ overHero = false }: { overHero?: boolean }) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const { user } = useAuthStore();
-  const account = user ? { to: '/app', label: 'Dashboard' } : { to: '/login', label: 'Sign in' };
   const [scrolled, setScrolled] = useState(false);
 
   // Full-width and transparent at the top; a floating glass pill once the page moves.
@@ -54,13 +53,13 @@ export function Navbar({ overHero = false }: { overHero?: boolean }) {
           <Logo inverted={light} />
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-8">
+          <div className="hidden md:flex items-center gap-5 lg:gap-8">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 to={link.href}
                 className={cn(
-                  'text-sm font-medium transition-colors',
+                  'whitespace-nowrap text-sm font-medium transition-colors',
                   light ? 'text-white/85 hover:text-white' : 'text-muted-foreground hover:text-foreground',
                 )}
               >
@@ -70,21 +69,23 @@ export function Navbar({ overHero = false }: { overHero?: boolean }) {
           </div>
 
           {/* Desktop CTAs */}
-          <div className="hidden md:flex items-center gap-3">
+          <div className="hidden md:flex items-center gap-4 pl-5 lg:pl-8">
             <Link
-              to={account.to}
+              to={GET_APP_HREF}
               className={cn(
-                'text-sm font-medium transition-colors',
+                'inline-flex items-center gap-1.5 whitespace-nowrap text-sm font-medium transition-colors',
                 light ? 'text-white/85 hover:text-white' : 'text-muted-foreground hover:text-foreground',
               )}
             >
-              {account.label}
+              <Smartphone className="hidden h-4 w-4 lg:block" /> Get the app
             </Link>
-            <Link to={user ? '/pricing' : '/signup'}>
-              <Button variant="hero" size="sm">
-                Start for {INTRO}
-              </Button>
-            </Link>
+            {user ? (
+              <Link to="/app">
+                <Button variant="hero" size="sm">Dashboard</Button>
+              </Link>
+            ) : (
+              <AuthPill light={light} />
+            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -113,21 +114,55 @@ export function Navbar({ overHero = false }: { overHero?: boolean }) {
                 </Link>
               ))}
               <div className="flex flex-col gap-2 pt-4 border-t border-border/30">
-                <Link to={account.to} onClick={() => setMobileOpen(false)}>
-                  <Button variant="outline" className="w-full">
-                    {account.label}
+                <Link to={GET_APP_HREF} onClick={() => setMobileOpen(false)}>
+                  <Button variant="outline" className="w-full gap-2">
+                    <Smartphone className="h-4 w-4" /> Get the app
                   </Button>
                 </Link>
-                <Link to={user ? '/pricing' : '/signup'} onClick={() => setMobileOpen(false)}>
-                  <Button variant="hero" className="w-full">
-                    Start for {INTRO}
-                  </Button>
-                </Link>
+                {user ? (
+                  <Link to="/app" onClick={() => setMobileOpen(false)}>
+                    <Button variant="hero" className="w-full">Dashboard</Button>
+                  </Link>
+                ) : (
+                  <div className="grid grid-cols-2 gap-2">
+                    <Link to="/signup" onClick={() => setMobileOpen(false)}>
+                      <Button variant="hero" className="w-full">Sign up</Button>
+                    </Link>
+                    <Link to="/login" onClick={() => setMobileOpen(false)}>
+                      <Button variant="outline" className="w-full">Sign in</Button>
+                    </Link>
+                  </div>
+                )}
               </div>
             </div>
           </div>
         )}
       </div>
     </nav>
+  );
+}
+
+/** One pill, two doors: "Sign up" (filled) and "Sign in" (quiet), split by a hairline. */
+function AuthPill({ light }: { light: boolean }) {
+  return (
+    <div
+      className={cn(
+        'flex items-center rounded-full p-1 text-sm font-semibold transition-colors',
+        light ? 'bg-white/10 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.22)]' : 'bg-secondary/70 shadow-[inset_0_0_0_1px_hsl(var(--border))]',
+      )}
+    >
+      <Link
+        to="/login"
+        className={cn('whitespace-nowrap rounded-full px-3 py-1.5 transition-colors lg:px-3.5', light ? 'text-white/90 hover:text-white' : 'text-foreground/75 hover:text-foreground')}
+      >
+        Sign in
+      </Link>
+      <Link
+        to="/signup"
+        className="whitespace-nowrap rounded-full bg-gradient-to-r from-primary to-accent px-4 py-1.5 text-primary-foreground shadow-md transition-transform hover:scale-[1.03] active:scale-[0.98]"
+      >
+        Sign up
+      </Link>
+    </div>
   );
 }

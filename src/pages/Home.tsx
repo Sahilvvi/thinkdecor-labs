@@ -18,6 +18,7 @@ import { PricingTeaser } from '@/components/premium/PricingTeaser';
 import { AboutBlurb } from '@/components/premium/AboutBlurb';
 import { Testimonials } from '@/components/premium/Testimonials';
 import { BlogTeaser } from '@/components/premium/BlogTeaser';
+import { GetTheApp } from '@/components/premium/GetTheApp';
 import { CursorAura, ScrollProgress } from '@/components/motion/primitives';
 import type { TrustItem } from '@/components/motion/hooks';
 import { StackPanel, StackPanelGroup } from '@/components/motion/StackPanels';
@@ -139,6 +140,11 @@ export default function Home() {
           {/* ================= TESTIMONIALS ================= */}
           <StackPanel className="bg-gradient-to-b from-[#E6F4F1] to-white">
             <Testimonials />
+          </StackPanel>
+
+          {/* ================= GET THE APP ================= */}
+          <StackPanel id="get-app" className="scroll-mt-24">
+            <GetTheApp />
           </StackPanel>
 
           {/* ================= ABOUT ================= */}

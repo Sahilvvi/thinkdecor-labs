@@ -45,3 +45,6 @@ MAIN-TOP.mp4
 
 # Supabase CLI link cache (project ref, CLI version) — local only
 supabase/.temp/
+
+# hand-off folder for generating hero swatch images
+hero-colour-kit/
