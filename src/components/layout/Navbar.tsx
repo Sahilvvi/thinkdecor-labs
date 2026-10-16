@@ -23,20 +23,11 @@ export function Navbar({ overHero = false }: { overHero?: boolean }) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const { user } = useAuthStore();
   const [scrolled, setScrolled] = useState(false);
-  // Tucks away while reading down the page, comes back the moment you scroll up.
-  const [tucked, setTucked] = useState(false);
 
   // Full-width and transparent at the top; a floating glass pill once the page moves.
+  // It always stays on screen: a bar that vanishes on scroll read as a glitch.
   useEffect(() => {
-    let last = window.scrollY;
-    const onScroll = () => {
-      const y = window.scrollY;
-      setScrolled(y > 24);
-      if (Math.abs(y - last) > 6) {
-        setTucked(y > 400 && y > last);
-        last = y;
-      }
-    };
+    const onScroll = () => setScrolled(window.scrollY > 24);
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
@@ -50,12 +41,7 @@ export function Navbar({ overHero = false }: { overHero?: boolean }) {
   const light = !raised;
 
   return (
-    <nav
-      className={cn(
-        'fixed inset-x-0 top-0 z-50 px-3 pt-3 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] sm:px-4',
-        tucked && !mobileOpen && '-translate-y-[120%]',
-      )}
-    >
+    <nav className="fixed inset-x-0 top-0 z-50 px-3 pt-3 sm:px-4">
       <div
         className={cn(
           'mx-auto rounded-[22px] border px-4 transition-all duration-500 sm:px-6',
