@@ -9,6 +9,9 @@ import { DEMO_ROOMS, DEMO_STYLES, type StyleKey } from '@/lib/heroRooms';
 /** How long the "Mantha AI is redesigning…" beat plays before the new photo swaps in. */
 const GENERATE_MS = 700;
 
+/** Style names the hero's top line flips through. */
+const FLIP_STYLES = ['7 styles', 'Minimal', 'Scandinavian', 'Japanese', 'Japandi', 'Maximalism', 'Classic', 'Noir'];
+
 /**
  * Hero — an illustrative example room (not the visitor's own photo): tap a
  * dot on the sofa, floor or furniture and pick a colour to see it change,
@@ -77,9 +80,11 @@ export function HeroStage({ onStageBoxMount }: { onStageBoxMount?: (el: HTMLDivE
     pin.swatches.filter((sw) => sw.key !== 'original' && isAvailable(sw)).map((sw) => `${pin.name} → ${sw.label}`),
   );
   const [ideaIndex, setIdeaIndex] = useState(0);
+  const [flipIndex, setFlipIndex] = useState(0);
   useEffect(() => {
     const t = window.setInterval(() => setIdeaIndex((n) => n + 1), 2600);
-    return () => window.clearInterval(t);
+    const f = window.setInterval(() => setFlipIndex((n) => n + 1), 2200);
+    return () => { window.clearInterval(t); window.clearInterval(f); };
   }, []);
   const idea = ideas.length ? ideas[ideaIndex % ideas.length] : null;
 
@@ -132,6 +137,8 @@ export function HeroStage({ onStageBoxMount }: { onStageBoxMount?: (el: HTMLDivE
     }
     const sw = room.pins.find((p) => p.key === pinKey)?.swatches.find((x) => x.key === swatchKey);
     if (!sw) return;
+    // a tiny tap of feedback on phones that support it (Android)
+    navigator.vibrate?.(12);
     setPendingColour({ pin: pinKey, swatch: swatchKey });
     // Swap only once the photo has actually loaded (and the processing beat
     // has played), so the stage never shows a blank frame.
@@ -192,8 +199,34 @@ export function HeroStage({ onStageBoxMount }: { onStageBoxMount?: (el: HTMLDivE
       <div className="relative grid items-start gap-[clamp(24px,4vw,56px)] lg:grid-cols-[5fr_7fr]">
         {/* ---------------- copy ---------------- */}
         <div className="flex flex-col gap-[22px] pt-2">
-          <span className="font-label text-[11px] font-bold uppercase tracking-[0.16em] text-[#8FE3D4]">
-            Mantha AI · 7 styles · Describe any change
+          {/* announcement pill */}
+          <a
+            href="#get-app"
+            className="group inline-flex w-max items-center gap-2 rounded-full bg-white/[0.07] py-1 pl-1 pr-3 text-[12.5px] text-white/85 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.14)] transition-colors hover:bg-white/[0.12]"
+          >
+            <span className="rounded-full bg-[#00A08C] px-2 py-0.5 font-label text-[10.5px] font-bold uppercase tracking-[0.08em] text-white">✦ New</span>
+            The Think Decor app for iPhone &amp; Android
+            <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
+          </a>
+
+          <span className="flex items-center gap-1.5 whitespace-nowrap font-label text-[11px] font-bold uppercase leading-[1.35em] tracking-[0.16em] text-[#8FE3D4]">
+            Mantha AI ·{' '}
+            {/* style name that flips on its own */}
+            <span className="relative inline-flex h-[1.35em] min-w-[11.2em] overflow-hidden">
+              <AnimatePresence mode="popLayout" initial={false}>
+                <motion.span
+                  key={FLIP_STYLES[flipIndex % FLIP_STYLES.length]}
+                  initial={{ y: '100%', opacity: 0 }}
+                  animate={{ y: '0%', opacity: 1 }}
+                  exit={{ y: '-100%', opacity: 0 }}
+                  transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+                  className="absolute left-0 top-0 whitespace-nowrap leading-[1.35em] text-white"
+                >
+                  {FLIP_STYLES[flipIndex % FLIP_STYLES.length]}
+                </motion.span>
+              </AnimatePresence>
+            </span>
+            <span className="hidden 2xl:inline">· Describe any change</span>
           </span>
 
           <h1 className="font-display text-[clamp(2.75rem,6.2vw,5.5rem)] font-medium leading-[0.98] text-white">
@@ -412,6 +445,7 @@ export function HeroStage({ onStageBoxMount }: { onStageBoxMount?: (el: HTMLDivE
                     key={`${room.key}-${pin.key}`}
                     type="button"
                     aria-label={`Change the ${pin.name.toLowerCase()} colour`}
+                    data-cursor="Tap"
                     aria-expanded={open}
                     onClick={(e) => {
                       e.stopPropagation();
@@ -539,6 +573,11 @@ export function HeroStage({ onStageBoxMount }: { onStageBoxMount?: (el: HTMLDivE
           </figure>
         </div>
       </div>
+      {/* scroll hint — the 360° room is right below */}
+      <a href="#every-angle" className="relative mx-auto mt-8 hidden w-max flex-col items-center gap-2.5 font-label text-[10.5px] font-bold uppercase tracking-[0.2em] text-white/55 transition-colors hover:text-white/85 lg:flex">
+        Scroll to explore
+        <span aria-hidden className="scroll-line block h-10 w-px origin-top bg-gradient-to-b from-[#8FE3D4] to-transparent" />
+      </a>
     </section>
   );
 }

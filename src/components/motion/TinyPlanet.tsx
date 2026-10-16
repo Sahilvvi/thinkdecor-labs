@@ -282,7 +282,7 @@ export function TinyPlanet() {
           {failed ? (
             <img src={PANO} alt="360° photo of an open-plan living and dining room" className="absolute inset-0 h-full w-full object-cover" />
           ) : (
-            <canvas ref={canvasRef} aria-label="360° photo of an open-plan living room, shown as a spinning little planet that unfolds into the room as you scroll" role="img" className="absolute inset-0 h-full w-full" />
+            <canvas ref={canvasRef} data-cursor="Scroll" aria-label="360° photo of an open-plan living room, shown as a spinning little planet that unfolds into the room as you scroll" role="img" className="absolute inset-0 h-full w-full" />
           )}
 
           {/* portal ring around the planet */}

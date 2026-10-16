@@ -28,10 +28,10 @@ export interface ColourPin {
 type RoomKey = 'living' | 'bedroom' | 'kitchen' | 'hall';
 
 const BASE_IMAGE: Record<RoomKey, string> = {
-  living: '/assets/rooms/hero.jpg',
-  bedroom: '/assets/rooms/room-bedroom.jpg',
-  kitchen: '/assets/rooms/room-kitchen.jpg',
-  hall: '/assets/rooms/room-hall.jpg',
+  living: '/assets/rooms/hero.webp',
+  bedroom: '/assets/rooms/room-bedroom.webp',
+  kitchen: '/assets/rooms/room-kitchen.webp',
+  hall: '/assets/rooms/room-hall.webp',
 };
 
 function pinsFor(room: RoomKey): ColourPin[] {
@@ -44,7 +44,7 @@ function pinsFor(room: RoomKey): ColourPin[] {
       key: s.key,
       label: s.label,
       hex: s.hex,
-      image: s.key === 'original' ? BASE_IMAGE[room] : `/assets/rooms/colours/${room}-${pin.key}-${s.key}.jpg`,
+      image: s.key === 'original' ? BASE_IMAGE[room] : `/assets/rooms/colours/${room}-${pin.key}-${s.key}.webp`,
     })),
   }));
 }
@@ -66,52 +66,52 @@ export const DEMO_ROOMS: DemoRoom[] = [
   {
     key: 'living',
     label: 'Living room',
-    image: '/assets/rooms/hero.jpg',
+    image: '/assets/rooms/hero.webp',
     alt: 'Warm living room with a dark leather chaise sofa, oak wall cabinets, glass side tables and a floor lamp',
     styles: {
-      Minimal: { image: '/assets/rooms/room-living-minimal.jpg', alt: 'Living room redesigned in a minimal style' },
-      Maximalism: { image: '/assets/rooms/room-living-maximalism.jpg', alt: 'Living room redesigned in a maximalist style' },
-      Scandinavian: { image: '/assets/rooms/room-living-scandinavian.jpg', alt: 'Living room redesigned in a Scandinavian style' },
-      Japanese: { image: '/assets/rooms/room-living-japanese.jpg', alt: 'Living room redesigned in a Japanese style' },
+      Minimal: { image: '/assets/rooms/room-living-minimal.webp', alt: 'Living room redesigned in a minimal style' },
+      Maximalism: { image: '/assets/rooms/room-living-maximalism.webp', alt: 'Living room redesigned in a maximalist style' },
+      Scandinavian: { image: '/assets/rooms/room-living-scandinavian.webp', alt: 'Living room redesigned in a Scandinavian style' },
+      Japanese: { image: '/assets/rooms/room-living-japanese.webp', alt: 'Living room redesigned in a Japanese style' },
     },
     pins: pinsFor('living'),
   },
   {
     key: 'bedroom',
     label: 'Bedroom',
-    image: '/assets/rooms/room-bedroom.jpg',
+    image: '/assets/rooms/room-bedroom.webp',
     alt: 'Bedroom with a black wooden double bed, gallery wall, reading lamp and grey rug',
     styles: {
-      Minimal: { image: '/assets/rooms/room-bedroom-minimal.jpg', alt: 'Bedroom redesigned in a minimal style' },
-      Maximalism: { image: '/assets/rooms/room-bedroom-maximalism.jpg', alt: 'Bedroom redesigned in a maximalist style' },
-      Scandinavian: { image: '/assets/rooms/room-bedroom-scandinavian.jpg', alt: 'Bedroom redesigned in a Scandinavian style' },
-      Japanese: { image: '/assets/rooms/room-bedroom-japanese.jpg', alt: 'Bedroom redesigned in a Japanese style' },
+      Minimal: { image: '/assets/rooms/room-bedroom-minimal.webp', alt: 'Bedroom redesigned in a minimal style' },
+      Maximalism: { image: '/assets/rooms/room-bedroom-maximalism.webp', alt: 'Bedroom redesigned in a maximalist style' },
+      Scandinavian: { image: '/assets/rooms/room-bedroom-scandinavian.webp', alt: 'Bedroom redesigned in a Scandinavian style' },
+      Japanese: { image: '/assets/rooms/room-bedroom-japanese.webp', alt: 'Bedroom redesigned in a Japanese style' },
     },
     pins: pinsFor('bedroom'),
   },
   {
     key: 'kitchen',
     label: 'Kitchen',
-    image: '/assets/rooms/room-kitchen.jpg',
+    image: '/assets/rooms/room-kitchen.webp',
     alt: 'Oak kitchen with built-in ovens, white pendant lamp and a dining table with black chairs',
     styles: {
-      Minimal: { image: '/assets/rooms/room-kitchen-minimal.jpg', alt: 'Kitchen redesigned in a minimal style' },
-      Maximalism: { image: '/assets/rooms/room-kitchen-maximalism.jpg', alt: 'Kitchen redesigned in a maximalist style' },
-      Scandinavian: { image: '/assets/rooms/room-kitchen-scandinavian.jpg', alt: 'Kitchen redesigned in a Scandinavian style' },
-      Japanese: { image: '/assets/rooms/room-kitchen-japanese.jpg', alt: 'Kitchen redesigned in a Japanese style' },
+      Minimal: { image: '/assets/rooms/room-kitchen-minimal.webp', alt: 'Kitchen redesigned in a minimal style' },
+      Maximalism: { image: '/assets/rooms/room-kitchen-maximalism.webp', alt: 'Kitchen redesigned in a maximalist style' },
+      Scandinavian: { image: '/assets/rooms/room-kitchen-scandinavian.webp', alt: 'Kitchen redesigned in a Scandinavian style' },
+      Japanese: { image: '/assets/rooms/room-kitchen-japanese.webp', alt: 'Kitchen redesigned in a Japanese style' },
     },
     pins: pinsFor('kitchen'),
   },
   {
     key: 'hall',
     label: 'Hall',
-    image: '/assets/rooms/room-hall.jpg',
+    image: '/assets/rooms/room-hall.webp',
     alt: 'Dark hallway with a white console table, arched mirror, gallery wall and roses',
     styles: {
-      Minimal: { image: '/assets/rooms/room-hall-minimal.jpg', alt: 'Hall redesigned in a minimal style' },
-      Maximalism: { image: '/assets/rooms/room-hall-maximalism.jpg', alt: 'Hall redesigned in a maximalist style' },
-      Scandinavian: { image: '/assets/rooms/room-hall-scandinavian.jpg', alt: 'Hall redesigned in a Scandinavian style' },
-      Japanese: { image: '/assets/rooms/room-hall-japanese.jpg', alt: 'Hall redesigned in a Japanese style' },
+      Minimal: { image: '/assets/rooms/room-hall-minimal.webp', alt: 'Hall redesigned in a minimal style' },
+      Maximalism: { image: '/assets/rooms/room-hall-maximalism.webp', alt: 'Hall redesigned in a maximalist style' },
+      Scandinavian: { image: '/assets/rooms/room-hall-scandinavian.webp', alt: 'Hall redesigned in a Scandinavian style' },
+      Japanese: { image: '/assets/rooms/room-hall-japanese.webp', alt: 'Hall redesigned in a Japanese style' },
     },
     pins: pinsFor('hall'),
   },
@@ -125,9 +125,9 @@ export interface DemoStyle {
 }
 
 export const DEMO_STYLES: DemoStyle[] = [
-  { key: 'Minimal', label: 'Minimal', image: '/assets/rooms/s-minimal.jpg', alt: 'Minimal bedroom with oak drawers and a round mirror' },
-  { key: 'Maximalism', label: 'Maximalism', image: '/assets/rooms/s-maximal.jpg', alt: 'Colourful maximalist living room with bright wall cabinets' },
-  { key: 'Scandinavian', label: 'Scandinavian', image: '/assets/rooms/s-scandi.jpg', alt: 'Bright Scandinavian dining room with white chairs and plants' },
-  { key: 'Japanese', label: 'Japanese', image: '/assets/rooms/s-japanese.jpg', alt: 'Calm Japanese-style corner with pale wood, linen curtain and daybed' },
+  { key: 'Minimal', label: 'Minimal', image: '/assets/rooms/s-minimal.webp', alt: 'Minimal bedroom with oak drawers and a round mirror' },
+  { key: 'Maximalism', label: 'Maximalism', image: '/assets/rooms/s-maximal.webp', alt: 'Colourful maximalist living room with bright wall cabinets' },
+  { key: 'Scandinavian', label: 'Scandinavian', image: '/assets/rooms/s-scandi.webp', alt: 'Bright Scandinavian dining room with white chairs and plants' },
+  { key: 'Japanese', label: 'Japanese', image: '/assets/rooms/s-japanese.webp', alt: 'Calm Japanese-style corner with pale wood, linen curtain and daybed' },
 ];
 

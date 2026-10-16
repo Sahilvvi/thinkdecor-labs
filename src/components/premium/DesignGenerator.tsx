@@ -58,7 +58,7 @@ const TEMPLATE_GRID = [
     key: 'nordic-light',
     label: 'Nordic Light',
     tag: 'Paint · Floor',
-    image: '/assets/rooms/t-scandi.jpg',
+    image: '/assets/rooms/t-scandi.webp',
     alt: 'Light Scandinavian dining room',
     swatches: ['#F2EFE9', '#C9B79C', '#8FB5B8'],
   },
@@ -66,7 +66,7 @@ const TEMPLATE_GRID = [
     key: 'warm-classic',
     label: 'Warm Classic',
     tag: 'Paint',
-    image: '/assets/rooms/t-classic.jpg',
+    image: '/assets/rooms/t-classic.webp',
     alt: 'Warm classic living room with fireplace',
     swatches: ['#E8DCC4', '#F6F1E6', '#B7A58B'],
   },
@@ -74,7 +74,7 @@ const TEMPLATE_GRID = [
     key: 'evening-noir',
     label: 'Evening Noir',
     tag: 'Paint · Wallpaper',
-    image: '/assets/rooms/t-noir.jpg',
+    image: '/assets/rooms/t-noir.webp',
     alt: 'Dark moody bedroom lit by lamps',
     swatches: ['#2A2521', '#6E5A45', '#D8C6A8'],
   },
@@ -82,7 +82,7 @@ const TEMPLATE_GRID = [
     key: 'soft-japandi',
     label: 'Soft Japandi',
     tag: 'Paint · Floor',
-    image: '/assets/rooms/t-japandi.jpg',
+    image: '/assets/rooms/t-japandi.webp',
     alt: 'Calm bedroom with rattan and plants',
     swatches: ['#F3F1EC', '#CDB892', '#7C8A6A'],
   },
@@ -90,7 +90,7 @@ const TEMPLATE_GRID = [
     key: 'harbour-teal',
     label: 'Harbour Teal',
     tag: 'Paint · Textiles',
-    image: '/assets/rooms/t-teal.jpg',
+    image: '/assets/rooms/t-teal.webp',
     alt: 'Living room with teal sofa and curtains',
     swatches: ['#2F7F86', '#1F1F1F', '#E6D9BF'],
   },
@@ -291,7 +291,7 @@ export function DesignGenerator() {
                 className="relative aspect-[4/3] select-none overflow-hidden rounded-[18px] bg-[hsl(168_28%_96%)]"
               >
                 {/* base photo — always present underneath every phase */}
-                <img loading="lazy" decoding="async"
+                <img data-curtain loading="lazy" decoding="async"
                   src={beforeImage}
                   alt={uploaded ? 'Your uploaded room' : 'Example empty room, ready for a redesign'}
                   draggable={false}
@@ -561,7 +561,7 @@ export function DesignGenerator() {
                 aria-label={`Apply ${t.label} template`}
                 className="group relative block aspect-[4/4.4] overflow-hidden rounded-[18px] bg-foreground"
               >
-                <img loading="lazy" decoding="async"
+                <img data-curtain loading="lazy" decoding="async"
                   src={t.image}
                   alt={t.alt}
                   className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
@@ -596,7 +596,7 @@ export function DesignGenerator() {
               aria-label="Create your own template"
               className="group relative block aspect-[4/4.4] overflow-hidden rounded-[18px] bg-[hsl(28_30%_30%)]"
             >
-              <img loading="lazy" decoding="async" src="/assets/rooms/t-own.jpg" alt="" className="h-full w-full object-cover opacity-35 grayscale transition-opacity duration-500 group-hover:opacity-45" />
+              <img loading="lazy" decoding="async" src="/assets/rooms/t-own.webp" alt="" className="h-full w-full object-cover opacity-35 grayscale transition-opacity duration-500 group-hover:opacity-45" />
               <span className="pointer-events-none absolute left-3.5 top-3.5 flex h-9 w-9 items-center justify-center rounded-full bg-primary text-[22px] leading-none text-primary-foreground">+</span>
               <span className="pointer-events-none absolute inset-x-3.5 bottom-3.5">
                 <span className="block font-label text-[10.5px] uppercase tracking-[0.08em] text-[#8FE3D4]">Your mix</span>

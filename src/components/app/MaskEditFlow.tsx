@@ -7,6 +7,7 @@ import {
 import { useVoiceInput } from '@/hooks/useVoiceInput';
 import { MaskCanvas, type MaskCanvasHandle, type Stroke } from '@/components/app/MaskCanvas';
 import { StoredCompare } from '@/components/app/StoredImage';
+import { DesigningPreview } from '@/components/app/DesigningPreview';
 import { ShopThisLook } from '@/components/app/ShopThisLook';
 import {
   FREE_SIGNUP_CREDITS, GenerationError, OutOfCreditsError, RateLimitError,
@@ -373,12 +374,7 @@ export function MaskEditFlow({
                       onStrokesChange={setStrokes}
                       onStrokeCountChange={setStrokeCount}
                     />
-                    {generate.isPending && (
-                      <div className="turn-wait-in" style={{ position: 'absolute', inset: 0, background: 'rgba(250,248,244,.72)', backdropFilter: 'blur(3px)', borderRadius: 16, zIndex: 5 }}>
-                        <Loader2 className="spin" color="var(--brass)" width={28} height={28} />
-                        <span style={{ fontWeight: 600, fontSize: 13.5 }}>{generatingLabel}</span>
-                      </div>
-                    )}
+                    {generate.isPending && <DesigningPreview overlay label={`Mantha AI · ${generatingLabel.replace(/…$/, '')}`} />}
                   </div>
                   <p className="muted" style={{ marginTop: 12, fontSize: 12.5 }}>
                     Paint over the {mode === 'cleanup' ? 'thing you want gone' : 'thing you want swapped out'} — the red marks the spot, it won't show up in the result.
@@ -520,7 +516,7 @@ export function MaskEditFlow({
         ) : cleanBeforeRef && (
           <div className="card r" style={{ ['--i' as string]: 3, marginTop: 20, overflow: 'hidden' }}>
             <div style={{ maxWidth: 'min(100%, calc(70vh * 1.3334))', margin: '0 auto' }}>
-              <StoredCompare before={cleanBeforeRef} after={result.output_image_url} generationId={result.id} />
+              <StoredCompare before={cleanBeforeRef} after={result.output_image_url} generationId={result.id} intro="reveal" />
             </div>
             <div style={{ padding: '0 16px' }}><ShopThisLook generationId={result.id} /></div>
             <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: 10, padding: 16 }}>

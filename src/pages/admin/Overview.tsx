@@ -33,7 +33,7 @@ const RANGE_COPY: Record<OverviewRange, { title: [string, string]; window: strin
   all: { title: ['Everything, at a ', 'glance'], window: 'all time', chart: 'Last 30 days', signups: 'all time' },
 };
 
-const TEMPLATE_SAMPLES = ['/assets/rooms/t-scandi.jpg', '/assets/rooms/t-classic.jpg', '/assets/rooms/t-japandi.jpg'];
+const TEMPLATE_SAMPLES = ['/assets/rooms/t-scandi.webp', '/assets/rooms/t-classic.webp', '/assets/rooms/t-japandi.webp'];
 
 export default function Overview() {
   const [range, setRange] = useState<OverviewRange>('7d');

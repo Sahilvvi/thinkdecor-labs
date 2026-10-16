@@ -185,7 +185,7 @@ function ScreenUpload({ phase }: { phase: Phase }) {
             className="absolute inset-0 aspect-square w-full object-cover"
           />
           <img
-            src="/assets/rooms/step-upload.jpg"
+            src="/assets/rooms/step-upload.webp"
             alt=""
             className="aspect-square w-full rounded-[10px] object-cover"
             style={{ opacity: uploaded ? 0 : 1, transition: 'opacity 0.3s' }}
@@ -206,7 +206,7 @@ function ScreenUpload({ phase }: { phase: Phase }) {
           </figcaption>
         </figure>
         <figure className="m-0">
-          <img src="/assets/rooms/thumbs/t-scandi.jpg" alt="" className="aspect-square w-full rounded-[10px] object-cover" />
+          <img src="/assets/rooms/thumbs/t-scandi.webp" alt="" className="aspect-square w-full rounded-[10px] object-cover" />
           <figcaption className="mt-[3px] text-[9.5px] font-semibold text-foreground">
             Dining nook<span className="block text-[9px] font-normal text-[#4F6F6A]">Yesterday</span>
           </figcaption>
@@ -218,10 +218,10 @@ function ScreenUpload({ phase }: { phase: Phase }) {
 }
 
 const SWATCHES = [
-  { img: 't-scandi.jpg', name: 'Scandinavian', meta: 'Room style' },
-  { img: 't-blush.jpg', name: 'Warm Natural', meta: 'Room style' },
-  { img: 't-classic.jpg', name: 'Classic', meta: 'Room style' },
-  { img: 't-japandi.jpg', name: 'Japandi', meta: 'Room style' },
+  { img: 't-scandi.webp', name: 'Scandinavian', meta: 'Room style' },
+  { img: 't-blush.webp', name: 'Warm Natural', meta: 'Room style' },
+  { img: 't-classic.webp', name: 'Classic', meta: 'Room style' },
+  { img: 't-japandi.webp', name: 'Japandi', meta: 'Room style' },
 ];
 
 function ScreenTemplates({ phase }: { phase: Phase }) {
@@ -279,8 +279,8 @@ function ScreenTemplates({ phase }: { phase: Phase }) {
 function ScreenSaved({ phase }: { phase: Phase }) {
   const saving = phase === 'saving';
   const saved = [
-    { img: 't-classic.jpg', label: 'Front lounge · Classic', meta: 'Saved' },
-    { img: 't-noir.jpg', label: 'Bedroom · Japandi', meta: 'Saved' },
+    { img: 't-classic.webp', label: 'Front lounge · Classic', meta: 'Saved' },
+    { img: 't-noir.webp', label: 'Bedroom · Japandi', meta: 'Saved' },
   ];
 
   return (

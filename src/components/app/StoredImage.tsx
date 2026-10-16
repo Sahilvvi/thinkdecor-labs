@@ -1,4 +1,4 @@
-import type { ImgHTMLAttributes } from 'react';
+import { useState, type ImgHTMLAttributes } from 'react';
 import { BeforeAfterSlider } from '@/components/shared/BeforeAfterSlider';
 import { useStoredImageUrl } from '@/lib/generation';
 import { useGenerationProducts } from '@/lib/products';
@@ -9,11 +9,26 @@ type StoredImageProps = Omit<ImgHTMLAttributes<HTMLImageElement>, 'src'> & {
   src?: string | null;
 };
 
-/** <img> for room photos: signs private bucket paths on demand, with a placeholder while it does. */
-export function StoredImage({ src, className, alt = '', ...rest }: StoredImageProps) {
+/**
+ * <img> for room photos: signs private bucket paths on demand. A soft shimmer
+ * holds the space while the link is signed and the image downloads, then the
+ * photo sharpens in over it.
+ */
+export function StoredImage({ src, className, alt = '', style, onLoad, ...rest }: StoredImageProps) {
   const url = useStoredImageUrl(src);
-  if (!url) return <div className={cn('animate-pulse bg-secondary', className)} aria-hidden />;
-  return <img src={url} alt={alt} className={className} {...rest} />;
+  const [loaded, setLoaded] = useState(false);
+  if (!url) return <div className={cn('shimmer', className)} style={style} aria-hidden />;
+  return (
+    <img
+      src={url}
+      alt={alt}
+      // shimmer shows as the img's own background until the photo paints over it
+      className={cn(loaded ? 'photo-in' : 'shimmer', className)}
+      style={style}
+      onLoad={(e) => { setLoaded(true); onLoad?.(e); }}
+      {...rest}
+    />
+  );
 }
 
 /** Before/after slider for a stored photo and its redesign. */
@@ -22,6 +37,7 @@ export function StoredCompare({
   after,
   aspectRatio = 'aspect-[4/3]',
   generationId,
+  intro,
 }: {
   before: string;
   after?: string | null;
@@ -29,13 +45,15 @@ export function StoredCompare({
   /** When given, shows a clickable "shop this" dot for any real product that
    *  was composited into this result and could be located in the image. */
   generationId?: string | null;
+  /** See BeforeAfterSlider: 'reveal' for a result that was just made. */
+  intro?: 'reveal' | 'nudge' | 'none';
 }) {
   const beforeUrl = useStoredImageUrl(before);
   const afterUrl = useStoredImageUrl(after ?? before);
   const { data: hotspots } = useGenerationProducts(generationId);
 
   if (!beforeUrl || !afterUrl) {
-    return <div className={cn('w-full animate-pulse bg-secondary', aspectRatio)} aria-hidden />;
+    return <div className={cn('shimmer w-full', aspectRatio)} aria-hidden />;
   }
 
   return (
@@ -46,6 +64,7 @@ export function StoredCompare({
       afterAlt="The redesigned room"
       aspectRatio={aspectRatio}
       hotspots={hotspots}
+      intro={intro}
     />
   );
 }

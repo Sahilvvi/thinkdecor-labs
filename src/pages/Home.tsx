@@ -15,13 +15,14 @@ import { FloorPlanRecognition } from '@/components/premium/FloorPlanRecognition'
 import { DesignGenerator } from '@/components/premium/DesignGenerator';
 import { EarlyBirdStrip } from '@/components/premium/EarlyBirdStrip';
 import { PricingTeaser } from '@/components/premium/PricingTeaser';
-import { AboutBlurb } from '@/components/premium/AboutBlurb';
 import { Testimonials } from '@/components/premium/Testimonials';
 import { BlogTeaser } from '@/components/premium/BlogTeaser';
 import { GetTheApp } from '@/components/premium/GetTheApp';
 import { FeatureBento } from '@/components/premium/FeatureBento';
 import { StyleGallery } from '@/components/motion/StyleGallery';
 import { TinyPlanet } from '@/components/motion/TinyPlanet';
+import { CurtainReveals } from '@/components/motion/CurtainReveals';
+import { MobileCtaBar } from '@/components/motion/MobileCtaBar';
 import { CursorAura, ScrollProgress } from '@/components/motion/primitives';
 import type { TrustItem } from '@/components/motion/hooks';
 import { StackPanel, StackPanelGroup } from '@/components/motion/StackPanels';
@@ -100,6 +101,8 @@ export default function Home() {
       <div>
         <ScrollProgress />
         <CursorAura />
+        <CurtainReveals />
+        <MobileCtaBar />
         <Navbar overHero />
 
         <main className="relative z-10 overflow-clip">
@@ -110,14 +113,11 @@ export default function Home() {
           the next one slides up over it, scaling and dimming as it's
           covered — a deck of cards, not a flat scroll. See StackPanels.tsx.
 
-          Order matches the design prototype (Hero → How it works → offer
-          strip → Mantha/templates → Testimonials → About → Comparison →
-          Pricing → FAQ) exactly — every prototype section, in the
-          prototype's own sequence, nothing from outside that list allowed
-          to interrupt it. Everything below FAQ (Room Anatomy, Roadmap, AI
-          Measurement, Floor Plan Recognition, Who it's for, final CTA,
-          Newsletter) has no equivalent in the prototype — kept for now, to
-          be arranged later.
+          Order tells one story: show it (hero, 360° room) → how it works →
+          what Mantha can do (templates, features, style gallery) → proof
+          (testimonials) → the app → price → what's coming → reading →
+          questions → the final ask. Pinned scroll sections (TinyPlanet,
+          StyleGallery) sit between panel groups, never inside a panel.
         */}
         <StackPanelGroup className="px-3 sm:px-4">
           <StackPanel>
@@ -137,26 +137,12 @@ export default function Home() {
           </StackPanel>
 
           <StackPanel>
-            <EarlyBirdStrip />
-          </StackPanel>
-
-          <StackPanel>
             <DesignGenerator />
           </StackPanel>
-
-          {/* StyleRing hidden — doesn't match the site's vibe (wrong/placeholder
-              photos, e.g. an empty garage under "Warm Natural"). Needs a proper
-              rebuild before it goes back in; tracked in the pending changes list. */}
 
           <StackPanel className="bg-gradient-to-b from-[#F4FAF8] to-white">
             <FeatureBento />
           </StackPanel>
-
-          {/* ================= TESTIMONIALS ================= */}
-          <StackPanel className="bg-gradient-to-b from-[#E6F4F1] to-white">
-            <Testimonials />
-          </StackPanel>
-
         </StackPanelGroup>
 
         {/* Pinned, scroll-driven section sits between stacks, not inside a
@@ -166,18 +152,51 @@ export default function Home() {
         </div>
 
         <StackPanelGroup className="px-3 sm:px-4">
+          {/* ================= TESTIMONIALS ================= */}
+          <StackPanel className="bg-gradient-to-b from-[#E6F4F1] to-white">
+            <Testimonials />
+          </StackPanel>
+
           {/* ================= GET THE APP ================= */}
           <StackPanel id="get-app" className="scroll-mt-24">
             <GetTheApp />
           </StackPanel>
 
-          {/* ================= ABOUT ================= */}
+          {/* ================= PRICING (with the intro offer) ================= */}
           <StackPanel>
-            <AboutBlurb />
+            <EarlyBirdStrip />
+            <PricingTeaser />
           </StackPanel>
 
+          {/* ================= COMING SOON: measurement + floor plans, one panel ================= */}
+          <StackPanel id="measurement" className="scroll-mt-24 bg-background py-16 lg:py-20">
+            <div className="container mx-auto max-w-[1200px] px-6 sm:px-8">
+              <div className="grid gap-12 lg:grid-cols-[0.92fr_1.08fr] lg:items-center">
+                <div>
+                  <Reveal>
+                    <p className="text-[11px] font-medium uppercase tracking-[0.24em] text-primary">In development</p>
+                    <h2 className="mt-5 text-[clamp(2rem,4.2vw,3.2rem)] font-bold leading-[1.06] tracking-[-0.025em] text-foreground">
+                      Room Measurement
+                    </h2>
+                    <p className="mt-6 max-w-[46ch] text-[16px] leading-relaxed text-foreground/58">
+                      Record a room with your phone and Think Decor returns a precise, editable
+                      floor plan — wall lengths, room dimensions, doors, windows and total area.
+                      Not available yet: measurement is in development.
+                    </p>
+                  </Reveal>
+                </div>
+
+                <Reveal y={36} blur={16}>
+                  <FloorPlanStage />
+                </Reveal>
+              </div>
+            </div>
+            <FloorPlanRecognition />
+          </StackPanel>
+
+          {/* ========================= BLOG TEASER ========================= */}
           <StackPanel>
-            <PricingTeaser />
+            <BlogTeaser />
           </StackPanel>
 
           {/* ============================ FAQ ============================ */}
@@ -259,48 +278,9 @@ export default function Home() {
           </div>
           </StackPanel>
 
-          {/*
-            ── Not in the prototype ──
-            Everything below has no equivalent section in the design
-            prototype. Kept in the build for now; order/placement still to
-            be decided.
-          */}
-          <StackPanel id="measurement" className="scroll-mt-24 bg-background py-16 lg:py-20">
-            <div className="container mx-auto max-w-[1200px] px-6 sm:px-8">
-              <div className="grid gap-12 lg:grid-cols-[0.92fr_1.08fr] lg:items-center">
-                <div>
-                  <Reveal>
-                    <p className="text-[11px] font-medium uppercase tracking-[0.24em] text-primary">In development</p>
-                    <h2 className="mt-5 text-[clamp(2rem,4.2vw,3.2rem)] font-bold leading-[1.06] tracking-[-0.025em] text-foreground">
-                      Room Measurement
-                    </h2>
-                    <p className="mt-6 max-w-[46ch] text-[16px] leading-relaxed text-foreground/58">
-                      Record a room with your phone and Think Decor returns a precise, editable
-                      floor plan — wall lengths, room dimensions, doors, windows and total area.
-                      Not available yet: measurement is in development.
-                    </p>
-                  </Reveal>
-                </div>
-
-                <Reveal y={36} blur={16}>
-                  <FloorPlanStage />
-                </Reveal>
-              </div>
-            </div>
-          </StackPanel>
-
-          <StackPanel>
-            <FloorPlanRecognition />
-          </StackPanel>
-
           {/* ========================= FINAL CTA ========================= */}
           <StackPanel>
             <HangingCta trust={CTA_TRUST} freeCredits={FREE_SIGNUP_CREDITS} />
-          </StackPanel>
-
-          {/* ========================= BLOG TEASER ========================= */}
-          <StackPanel>
-            <BlogTeaser />
           </StackPanel>
 
           {/* ========================= NEWSLETTER ========================= */}

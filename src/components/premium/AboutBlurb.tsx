@@ -85,7 +85,7 @@ export function AboutBlurb() {
               <Tilt max={5} innerClassName="rounded-[26px]">
                 <div className="relative aspect-[4/3] overflow-hidden rounded-[26px] border border-foreground/[0.08] shadow-[0_30px_70px_-30px_hsl(168_30%_15%/0.4)]">
                   <img
-                    src="/assets/about-repaint.jpg"
+                    src="/assets/about-repaint.webp"
                     alt="Mantha previewing a new wall colour on a living room, same room and light, on a phone held up to the real room"
                     loading="lazy"
                     className="absolute inset-0 h-full w-full object-cover"

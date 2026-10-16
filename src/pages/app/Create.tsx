@@ -10,6 +10,7 @@ import { SEO } from '@/components/shared/SEO';
 import { useVoiceInput } from '@/hooks/useVoiceInput';
 import { useAuthStore } from '@/stores/authStore';
 import { StoredCompare, StoredImage } from '@/components/app/StoredImage';
+import { DesigningPreview } from '@/components/app/DesigningPreview';
 import { ShopThisLook } from '@/components/app/ShopThisLook';
 import { MaskCanvas, type MaskCanvasHandle } from '@/components/app/MaskCanvas';
 import {
@@ -385,18 +386,16 @@ export default function Create() {
             {turns.map((turn) => (
               <div key={turn.id} className="turn-card">
                 <div className="turn-media">
-                  {turn.status === 'pending' && (
-                    <div className="turn-wait">
-                      <StoredImage src={turn.sourceRef} style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'blur(6px)', opacity: 0.6 }} />
-                      <div className="turn-wait-in">
-                        <Loader2 className="spin" color="var(--brass)" width={28} height={28} />
-                        <span style={{ fontWeight: 600, fontSize: 13.5 }}>Redesigning your room…</span>
-                      </div>
-                    </div>
-                  )}
+                  {turn.status === 'pending' && <DesigningPreview sourceRef={turn.sourceRef} />}
                   {turn.status === 'done' && turn.result && (
                     <>
-                      <StoredCompare before={turn.result.input_image_url} after={turn.result.output_image_url} generationId={turn.result.id} />
+                      <StoredCompare
+                        before={turn.result.input_image_url}
+                        after={turn.result.output_image_url}
+                        generationId={turn.result.id}
+                        // just made: the new design wipes in over the original
+                        intro={Date.now() - new Date(turn.result.created_at).getTime() < 60_000 ? 'reveal' : 'nudge'}
+                      />
                       <div style={{ marginTop: 12 }}><ShopThisLook generationId={turn.result.id} /></div>
                     </>
                   )}

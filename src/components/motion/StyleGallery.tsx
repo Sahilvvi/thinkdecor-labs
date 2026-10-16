@@ -14,14 +14,14 @@ import { ArrowRight } from 'lucide-react';
  */
 
 const CARDS = [
-  { style: 'Scandinavian', room: 'Living room', image: '/assets/rooms/room-living-scandinavian.jpg' },
-  { style: 'Japanese', room: 'Bedroom', image: '/assets/rooms/room-bedroom-japanese.jpg' },
-  { style: 'Maximalism', room: 'Living room', image: '/assets/rooms/room-living-maximalism.jpg' },
-  { style: 'Minimal', room: 'Kitchen', image: '/assets/rooms/room-kitchen-minimal.jpg' },
-  { style: 'Scandinavian', room: 'Hall', image: '/assets/rooms/room-hall-scandinavian.jpg' },
-  { style: 'Maximalism', room: 'Bedroom', image: '/assets/rooms/room-bedroom-maximalism.jpg' },
-  { style: 'Japanese', room: 'Kitchen', image: '/assets/rooms/room-kitchen-japanese.jpg' },
-  { style: 'Minimal', room: 'Living room', image: '/assets/rooms/room-living-minimal.jpg' },
+  { style: 'Scandinavian', room: 'Living room', image: '/assets/rooms/room-living-scandinavian.webp' },
+  { style: 'Japanese', room: 'Bedroom', image: '/assets/rooms/room-bedroom-japanese.webp' },
+  { style: 'Maximalism', room: 'Living room', image: '/assets/rooms/room-living-maximalism.webp' },
+  { style: 'Minimal', room: 'Kitchen', image: '/assets/rooms/room-kitchen-minimal.webp' },
+  { style: 'Scandinavian', room: 'Hall', image: '/assets/rooms/room-hall-scandinavian.webp' },
+  { style: 'Maximalism', room: 'Bedroom', image: '/assets/rooms/room-bedroom-maximalism.webp' },
+  { style: 'Japanese', room: 'Kitchen', image: '/assets/rooms/room-kitchen-japanese.webp' },
+  { style: 'Minimal', room: 'Living room', image: '/assets/rooms/room-living-minimal.webp' },
 ];
 
 export function StyleGallery() {
@@ -77,7 +77,7 @@ export function StyleGallery() {
             </Link>
           </div>
 
-          <motion.div ref={trackRef} style={{ x }} className="relative flex min-h-0 flex-1 gap-4 px-6 sm:gap-5 sm:px-10">
+          <motion.div ref={trackRef} style={{ x }} data-cursor="Scroll" className="relative flex min-h-0 flex-1 gap-4 px-6 sm:gap-5 sm:px-10">
             {CARDS.map((c, i) => (
               <article
                 key={c.image}

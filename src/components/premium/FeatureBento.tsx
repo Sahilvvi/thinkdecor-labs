@@ -150,14 +150,14 @@ function Compare() {
   const loop = { duration: 5, repeat: Infinity, repeatType: 'reverse' as const, ease: [0.65, 0, 0.35, 1] as const };
   return (
     <div className="absolute inset-0">
-      <img src="/assets/rooms/hero.jpg" alt="" className="absolute inset-0 h-full w-full object-cover" />
+      <img src="/assets/rooms/hero.webp" alt="" className="absolute inset-0 h-full w-full object-cover" />
       <motion.div
         className="absolute inset-0"
         initial={{ clipPath: 'inset(0 85% 0 0)' }}
         animate={{ clipPath: 'inset(0 15% 0 0)' }}
         transition={loop}
       >
-        <img src="/assets/rooms/room-living-scandinavian.jpg" alt="" className="absolute inset-0 h-full w-full object-cover" />
+        <img src="/assets/rooms/room-living-scandinavian.webp" alt="" className="absolute inset-0 h-full w-full object-cover" />
       </motion.div>
       <motion.span
         aria-hidden
@@ -176,7 +176,7 @@ function Share() {
   return (
     <div className="relative">
       <div className="flex -space-x-6">
-        {['/assets/rooms/room-living-minimal.jpg', '/assets/rooms/room-bedroom-japanese.jpg', '/assets/rooms/room-kitchen-scandinavian.jpg'].map((src, i) => (
+        {['/assets/rooms/room-living-minimal.webp', '/assets/rooms/room-bedroom-japanese.webp', '/assets/rooms/room-kitchen-scandinavian.webp'].map((src, i) => (
           <motion.img
             key={src}
             src={src}

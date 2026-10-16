@@ -36,6 +36,9 @@ export function HangingCta({ trust, freeCredits }: { trust: TrustItem[]; freeCre
             onPointerLeave={() => target.set(0)}
             className="relative overflow-hidden rounded-[32px] bg-[linear-gradient(135deg,hsl(168_100%_14%),hsl(168_85%_20%)_55%,hsl(166_70%_27%))] text-white shadow-[0_34px_80px_-28px_hsl(168_100%_17%/0.55)]"
           >
+            {/* glow that swells as the card scrolls into view (CSS scroll-driven
+                where supported; a static glow elsewhere) */}
+            <div aria-hidden className="cta-glow pointer-events-none absolute left-1/2 top-1/2 h-[140%] w-[90%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(closest-side,rgba(143,227,212,0.32),rgba(0,160,140,0.12)_55%,transparent)] blur-2xl" />
             <div
               aria-hidden
               className="pointer-events-none absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.06)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.06)_1px,transparent_1px)] bg-[size:64px_64px] [mask-image:radial-gradient(ellipse_70%_80%_at_75%_40%,#000,transparent)]"

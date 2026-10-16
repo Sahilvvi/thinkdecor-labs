@@ -74,7 +74,7 @@ export function BlogTeaser() {
                 className="group flex h-full flex-col overflow-hidden rounded-[22px] bg-card shadow-[inset_0_0_0_1px_hsl(var(--border))] transition-all duration-300 hover:-translate-y-1 hover:shadow-[inset_0_0_0_1px_hsl(var(--primary)/0.35),0_24px_40px_-26px_hsl(168_40%_15%/0.5)]"
               >
                 <figure className="relative m-0 aspect-video overflow-hidden">
-                  <img
+                  <img data-curtain
                     src={p.cover_url || FALLBACK_COVER}
                     alt={p.title}
                     loading="lazy"

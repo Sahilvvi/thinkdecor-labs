@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { toast } from 'sonner';
-import { Check, Columns3, Download, Link2, RefreshCw, Share2, Trash2, X } from 'lucide-react';
+import { Check, ChevronLeft, ChevronRight, Columns3, Download, Link2, RefreshCw, Share2, Trash2, X } from 'lucide-react';
 
 import { SEO } from '@/components/shared/SEO';
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@/components/ui/dialog';
@@ -57,6 +57,25 @@ export default function Library() {
   const visible = query
     ? generations?.filter((g) => searchTextFor(g).includes(query))
     : generations;
+
+  // Step through designs in the detail view without closing it.
+  const viewIndex = viewing && visible ? visible.findIndex((g) => g.id === viewing.id) : -1;
+  const step = (dir: 1 | -1) => {
+    if (!visible || viewIndex < 0) return;
+    const next = visible[viewIndex + dir];
+    if (next) setViewing(next);
+  };
+  useEffect(() => {
+    if (!viewing) return;
+    const onKey = (e: KeyboardEvent) => {
+      // the before/after slider uses the arrow keys itself when focused
+      if ((e.target as HTMLElement)?.getAttribute?.('role') === 'slider') return;
+      if (e.key === 'ArrowRight') step(1);
+      if (e.key === 'ArrowLeft') step(-1);
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  });
 
   // Overview links straight to one design with ?open=<id>.
   const openId = searchParams.get('open');
@@ -277,10 +296,37 @@ export default function Library() {
             <>
               <DialogTitle>{titleFor(viewing)}</DialogTitle>
               <DialogDescription>
-                Created {formatDate(viewing.created_at)} — drag to compare your photo with the result.
+                Created {formatDate(viewing.created_at)} — drag to compare, or hold for your original.{visible && visible.length > 1 ? ' ← → to browse.' : ''}
               </DialogDescription>
-              <div className="overflow-hidden rounded-2xl border border-border/70">
-                <StoredCompare before={viewing.input_image_url} after={viewing.output_image_url} generationId={viewing.id} />
+              <div className="relative">
+                <div className="overflow-hidden rounded-2xl border border-border/70">
+                  <StoredCompare key={viewing.id} before={viewing.input_image_url} after={viewing.output_image_url} generationId={viewing.id} />
+                </div>
+                {visible && visible.length > 1 && (
+                  <>
+                    <button
+                      type="button"
+                      onClick={() => step(-1)}
+                      disabled={viewIndex <= 0}
+                      aria-label="Previous design"
+                      className="absolute left-2 top-1/2 z-30 grid h-10 w-10 -translate-y-1/2 place-items-center rounded-full bg-white/90 text-foreground shadow-lg backdrop-blur transition hover:scale-105 disabled:pointer-events-none disabled:opacity-0 sm:-left-5"
+                    >
+                      <ChevronLeft className="h-5 w-5" />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => step(1)}
+                      disabled={viewIndex >= visible.length - 1}
+                      aria-label="Next design"
+                      className="absolute right-2 top-1/2 z-30 grid h-10 w-10 -translate-y-1/2 place-items-center rounded-full bg-white/90 text-foreground shadow-lg backdrop-blur transition hover:scale-105 disabled:pointer-events-none disabled:opacity-0 sm:-right-5"
+                    >
+                      <ChevronRight className="h-5 w-5" />
+                    </button>
+                    <span className="absolute bottom-3 left-1/2 z-30 -translate-x-1/2 rounded-full bg-black/45 px-2.5 py-1 text-[11px] font-medium text-white backdrop-blur-sm">
+                      {viewIndex + 1} / {visible.length}
+                    </span>
+                  </>
+                )}
               </div>
               <ShopThisLook generationId={viewing.id} />
               {viewing.prompt && (

@@ -395,7 +395,7 @@ async function pull(c: Caller) {
     demo: demoUsage.length,
     signups: authUsers.filter((u: any) => u.created_at >= since30).length,
     firstDesign: firstDesignUsers.size,
-    paid: new Set(subs.filter((s: any) => s.created_at >= since30 && ["active", "trialing", "past_due", "canceled"].includes(s.status)).map((s: any) => s.user_id)).size,
+    paid: new Set(subs.filter((s: any) => s.user_id && s.created_at >= since30 && ["active", "trialing", "past_due", "canceled"].includes(s.status)).map((s: any) => s.user_id)).size,
   };
 
   // ---- retention heat map
@@ -475,7 +475,9 @@ async function pull(c: Caller) {
   const avgCostPerGen = okEvents30.length ? sum(okEvents30.map((g: any) => Number(g.cost_gbp ?? 0))) / okEvents30.length : null;
 
   // average credits a paying subscriber actually uses per month (from the ledger)
-  const subscriberIds = new Set<string>(activeSubs.map((s: any) => s.user_id));
+  // An "unclaimed" subscription (the webhook recorded it but couldn't attach it to an account yet)
+  // has user_id = NULL: leave it out, or the ledger lookup below gets `in.(null)` and fails on a uuid cast.
+  const subscriberIds = new Set<string>(activeSubs.map((s: any) => s.user_id).filter(Boolean));
   let avgUsed: number | null = null;
   if (subscriberIds.size) {
     const led = await fetchAll("credit_ledger", "user_id, delta, reason, created_at", (q: any) => q.in("user_id", [...subscriberIds]).lt("delta", 0).gte("created_at", since30));
