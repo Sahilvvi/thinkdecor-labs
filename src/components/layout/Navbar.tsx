@@ -5,10 +5,8 @@ import { Menu, Smartphone, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 import { cn } from '@/lib/utils';
+import { PLAY_STORE_URL } from '@/lib/appLinks';
 import { useAuthStore } from '@/stores/authStore';
-
-/** The homepage's "Get the app" section. */
-const GET_APP_HREF = '/#get-app';
 
 const navLinks = [
   { href: '/#how-it-works', label: 'How it works' },
@@ -71,15 +69,17 @@ export function Navbar({ overHero = false }: { overHero?: boolean }) {
 
           {/* Desktop CTAs */}
           <div className="hidden md:flex items-center gap-4 pl-5 lg:pl-8">
-            <Link
-              to={GET_APP_HREF}
+            <a
+              href={PLAY_STORE_URL}
+              target="_blank"
+              rel="noopener noreferrer"
               className={cn(
                 'inline-flex items-center gap-1.5 whitespace-nowrap text-sm font-medium transition-colors',
                 light ? 'text-white/85 hover:text-white' : 'text-muted-foreground hover:text-foreground',
               )}
             >
               <Smartphone className="hidden h-4 w-4 lg:block" /> Get the app
-            </Link>
+            </a>
             {user ? (
               <Link to="/app">
                 <Button variant="hero" size="sm">Dashboard</Button>
@@ -115,11 +115,11 @@ export function Navbar({ overHero = false }: { overHero?: boolean }) {
                 </Link>
               ))}
               <div className="flex flex-col gap-2 pt-4 border-t border-border/30">
-                <Link to={GET_APP_HREF} onClick={() => setMobileOpen(false)}>
+                <a href={PLAY_STORE_URL} target="_blank" rel="noopener noreferrer" onClick={() => setMobileOpen(false)}>
                   <Button variant="outline" className="w-full gap-2">
                     <Smartphone className="h-4 w-4" /> Get the app
                   </Button>
-                </Link>
+                </a>
                 {user ? (
                   <Link to="/app" onClick={() => setMobileOpen(false)}>
                     <Button variant="hero" className="w-full">Dashboard</Button>
