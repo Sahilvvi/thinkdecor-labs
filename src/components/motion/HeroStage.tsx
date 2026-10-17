@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { PLAY_STORE_URL } from '@/lib/appLinks';
 import { ArrowRight, Sparkles } from 'lucide-react';
 import { Magnetic, Reveal, RevealWords, Stagger, staggerItem } from '@/components/premium/Motion';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -327,16 +327,18 @@ export function HeroStage({ onStageBoxMount }: { onStageBoxMount?: (el: HTMLDivE
 
           <Reveal delay={0.48} className="mt-1 flex flex-wrap items-center gap-3">
             <Magnetic>
-              <Link
-                to="/signup"
+              <a
+                href={PLAY_STORE_URL}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="group relative inline-flex items-center gap-3 overflow-hidden rounded-full bg-[#00A08C] py-2 pl-7 pr-2 text-[15px] font-semibold text-white shadow-[0_20px_46px_-14px_rgba(0,160,140,0.5)] transition-transform duration-300 hover:scale-[1.03] active:scale-[0.97]"
               >
-                <span className="relative">Try it free</span>
+                <span className="relative">Try our app</span>
                 <span className="relative flex h-10 w-10 items-center justify-center overflow-hidden rounded-full bg-white/15">
                   <ArrowRight className="h-4 w-4 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-x-7" />
                   <ArrowRight className="absolute h-4 w-4 -translate-x-7 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-x-0" />
                 </span>
-              </Link>
+              </a>
             </Magnetic>
           </Reveal>
 
