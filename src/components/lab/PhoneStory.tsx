@@ -12,12 +12,17 @@ import { ScrollWords } from '@/components/lab/KineticType';
  * of the flow, and at step iii the redesigned room card lifts off the glass
  * along the Z axis and hovers above it.
  * CSS 3D only — no WebGL, no model file. Outside a StackPanel so it can pin.
- * On phones the copy sits above the phone, so the pose is toned down (a full
- * turn warps a small phone and lifts it into the copy) and the phone is sized
- * to whatever height is left under the copy.
+ * The phone is always drawn at one design size (PHONE_W × PHONE_H) and scaled
+ * as a whole, so its screens never reflow or overlap however small it gets.
+ * On phones the copy sits above it, so the pose is toned down (a full turn
+ * warps a small phone and lifts it into the copy) and the phone is sized by
+ * width, rising from the bottom of the card with its lower part faded out —
+ * fitting the whole height there made it too small to read.
  */
 
 const AFTER_PHOTO = '/assets/rooms/room-living-scandinavian.webp';
+const PHONE_H = 600;
+const PHONE_W = Math.round((PHONE_H * 9) / 19);
 
 const STEPS = [
   { numeral: 'i', title: 'Upload your image', body: 'Take one photo of any room on your phone, or pick one from your gallery.' },
@@ -63,12 +68,28 @@ export function PhoneStory() {
   // the left, tilted up for the first step and down for the last
   // how much of that pose to use: all of it on desktop, a hint of it on phones
   const pose = useMotionValue(1);
+  // how big to draw the phone: fit the box on desktop; on phones fill most of
+  // the width and let the card clip the bottom
+  const box = useRef<HTMLDivElement>(null);
+  const [fit, setFit] = useState(0.6);
   useEffect(() => {
     const mq = window.matchMedia('(max-width: 767px)');
-    const set = () => pose.set(mq.matches ? 0.35 : 1);
-    set();
-    mq.addEventListener('change', set);
-    return () => mq.removeEventListener('change', set);
+    const el = box.current;
+    const measure = () => {
+      pose.set(mq.matches ? 0.35 : 1);
+      if (!el) return;
+      const r = el.getBoundingClientRect();
+      if (!r.width || !r.height) return;
+      const next = mq.matches
+        ? Math.min(1, (r.width * 0.7) / PHONE_W, (r.height * 1.9) / PHONE_H)
+        : Math.min(1, r.height / PHONE_H, r.width / PHONE_W);
+      setFit(Math.max(0.3, next));
+    };
+    measure();
+    const ro = new ResizeObserver(measure);
+    if (el) ro.observe(el);
+    mq.addEventListener('change', measure);
+    return () => { ro.disconnect(); mq.removeEventListener('change', measure); };
   }, [pose]);
   const rotY = usePosed(pose, useTransform(p, [0, 0.3, 0.42, 0.62, 0.74, 1], [26, 16, 6, 8, -10, -16]));
   const rotX = usePosed(pose, useTransform(p, [0, 0.3, 0.42, 0.62, 0.74, 1], [10, 6, 0, 0, -6, -4]));
@@ -131,10 +152,15 @@ export function PhoneStory() {
             </div>
 
             {/* ---------- the phone ---------- */}
-            <div className="flex min-h-0 flex-1 items-center justify-center [perspective:1400px] md:flex-none">
+            <div ref={box} className="flex min-h-0 flex-1 items-start justify-center pt-1 md:h-[min(600px,calc(100svh-150px))] md:flex-none md:items-center md:pt-0">
+              <div className="relative flex-none" style={{ width: PHONE_W * fit, height: PHONE_H * fit }}>
+              <div
+                className="absolute left-0 top-0 origin-top-left [perspective:1400px]"
+                style={{ width: PHONE_W, height: PHONE_H, transform: `scale(${fit})` }}
+              >
               <motion.div
                 style={{ rotateY: rotY, rotateX: rotX, rotateZ: rotZ, y: lift, transformStyle: 'preserve-3d' }}
-                className="relative h-full max-h-[520px] md:h-[min(600px,calc(100svh-150px))] md:max-h-none"
+                className="relative h-full"
               >
                 <div className="relative h-full [transform-style:preserve-3d]" style={{ aspectRatio: '9 / 19' }}>
                   {/* body thickness: stacked plates behind the glass */}
@@ -188,8 +214,13 @@ export function PhoneStory() {
                   </motion.div>
                 </div>
               </motion.div>
+              </div>
+              </div>
             </div>
           </div>
+
+          {/* phones: the phone rises out of the bottom of the card; fade its cut edge */}
+          <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-20 bg-gradient-to-b from-transparent to-[#EEF8F6] md:hidden" />
         </div>
       </div>
     </section>
