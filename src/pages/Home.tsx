@@ -10,8 +10,7 @@ import { Footer } from '@/components/layout/Footer';
 import { SEO } from '@/components/shared/SEO';
 import { motion } from 'framer-motion';
 import { Magnetic, Reveal, Stagger, staggerItem } from '@/components/premium/Motion';
-import { FloorPlanStage } from '@/components/premium/FloorPlanStage';
-import { FloorPlanRecognition } from '@/components/premium/FloorPlanRecognition';
+import { ComingSoonStrip } from '@/components/premium/ComingSoonStrip';
 import { DesignGenerator } from '@/components/premium/DesignGenerator';
 import { EarlyBirdStrip } from '@/components/premium/EarlyBirdStrip';
 import { PricingTeaser } from '@/components/premium/PricingTeaser';
@@ -23,11 +22,19 @@ import { StyleGallery } from '@/components/motion/StyleGallery';
 import { TinyPlanet } from '@/components/motion/TinyPlanet';
 import { CurtainReveals } from '@/components/motion/CurtainReveals';
 import { MobileCtaBar } from '@/components/motion/MobileCtaBar';
-import { CursorAura, ScrollProgress } from '@/components/motion/primitives';
+import { ScrollProgress } from '@/components/motion/primitives';
 import type { TrustItem } from '@/components/motion/hooks';
 import { StackPanel, StackPanelGroup } from '@/components/motion/StackPanels';
 import { HeroStage } from '@/components/motion/HeroStage';
-import { HowItWorks } from '@/components/motion/HowItWorks';
+import { PhoneStory } from '@/components/lab/PhoneStory';
+import { EngineScroll } from '@/components/lab/EngineScroll';
+import { RewindStory } from '@/components/lab/RewindStory';
+import { LightScrub } from '@/components/lab/LightScrub';
+import { TypePortal } from '@/components/lab/TypePortal';
+import { RoomCourier } from '@/components/lab/RoomCourier';
+import { SmoothScroll } from '@/components/lab/SmoothScroll';
+import { TimeOfDay } from '@/components/lab/TimeOfDay';
+import { ScrollWords } from '@/components/lab/KineticType';
 import { HangingCta } from '@/components/motion/HangingCta';
 import { NewsletterBand } from '@/components/motion/NewsletterBand';
 import { FREE_SIGNUP_CREDITS } from '@/lib/generation';
@@ -35,8 +42,10 @@ import { PHASE1_PLAN, money, pence } from '@/lib/billing';
 import { organizationSchema, softwareApplicationSchema, faqPageSchema } from '@/lib/schema';
 
 /* ---------------------------------------------------------------- *
- *  Homepage — a motion-led layout: 3D hero, a pinned "how it works"
- *  story, the style carousel and an interactive Mantha explainer.
+ *  Homepage — a motion-led layout: a full-screen type portal that dives
+ *  through its last "T" onto the hero, a pinned "how it works" story, the Mantha
+ *  explainer, then the free generator early. Once a visitor uploads a
+ *  photo there, the light section and the closing card show their room.
  *  Copy matches the product today: photo redesigns are live; room
  *  scanning, measured plans and exports are labelled "coming soon".
  * ---------------------------------------------------------------- */
@@ -99,8 +108,10 @@ export default function Home() {
       />
 
       <div>
+        <SmoothScroll />
+        <TimeOfDay />
+        <RoomCourier />
         <ScrollProgress />
-        <CursorAura />
         <CurtainReveals />
         <MobileCtaBar />
         <Navbar overHero />
@@ -113,33 +124,52 @@ export default function Home() {
           the next one slides up over it, scaling and dimming as it's
           covered — a deck of cards, not a flat scroll. See StackPanels.tsx.
 
-          Order tells one story: show it (hero, 360° room) → how it works →
-          what Mantha can do (templates, features, style gallery) → proof
-          (testimonials) → the app → price → what's coming → reading →
-          questions → the final ask. Pinned scroll sections (TinyPlanet,
-          StyleGallery) sit between panel groups, never inside a panel.
+          Order tells one story: through the "T" (type portal) → hero →
+          how it works → what Mantha is → try it on your own room, early →
+          your room in real light → why think first → features → styles →
+          every angle → proof → the app → price → what's coming → reading →
+          questions → the final ask. Pinned scroll sections sit between
+          panel groups, never inside a panel.
         */}
+        {/* The opener sits over the hero: "THINK IT FIRST." with a room through
+            the letters; scrolling dives through the closing "T" onto the hero. */}
+        <TypePortal>
+          <StackPanelGroup className="px-3 sm:px-4">
+            <StackPanel>
+              <HeroStage />
+            </StackPanel>
+          </StackPanelGroup>
+        </TypePortal>
+
+        {/* Lab: one 3D phone, choreographed by scroll (pinned, so outside the panels). */}
+        <div className="pt-4">
+          <PhoneStory />
+        </div>
+
+        {/* Lab: "What is Mantha?" as a scroll-scrubbed deconstruction of a room. */}
+        <div className="pt-4">
+          <EngineScroll />
+        </div>
+
+        {/* Try it early, while the visitor is curious. An upload here personalises
+            the light section below and the closing card. */}
         <StackPanelGroup className="px-3 sm:px-4">
           <StackPanel>
-            <HeroStage />
+            <DesignGenerator hideIntro />
+          </StackPanel>
+
+          {/* Lab: one room (or the visitor's), relit from first light to night. */}
+          <StackPanel className="bg-gradient-to-b from-white to-[#F4FAF8]">
+            <LightScrub />
           </StackPanel>
         </StackPanelGroup>
 
-        {/* Pinned, scroll-driven sections sit between stacks, not inside a
-            StackPanel: panels are overflow-hidden, which breaks sticky pinning. */}
+        {/* Lab: why think first — a day-14 regret, rewound to day 0. Pinned. */}
         <div className="pt-4">
-          <TinyPlanet />
+          <RewindStory />
         </div>
 
         <StackPanelGroup className="px-3 sm:px-4">
-          <StackPanel className="bg-gradient-to-b from-white to-[#EEF8F6]">
-            <HowItWorks />
-          </StackPanel>
-
-          <StackPanel>
-            <DesignGenerator />
-          </StackPanel>
-
           <StackPanel className="bg-gradient-to-b from-[#F4FAF8] to-white">
             <FeatureBento />
           </StackPanel>
@@ -149,6 +179,11 @@ export default function Home() {
             StackPanel: panels are overflow-hidden, which breaks sticky pinning. */}
         <div className="pt-4">
           <StyleGallery />
+        </div>
+
+        {/* Every angle: the 360° room, after the styles. Pinned, so between stacks. */}
+        <div className="pt-4">
+          <TinyPlanet />
         </div>
 
         <StackPanelGroup className="px-3 sm:px-4">
@@ -168,30 +203,9 @@ export default function Home() {
             <PricingTeaser />
           </StackPanel>
 
-          {/* ================= COMING SOON: measurement + floor plans, one panel ================= */}
-          <StackPanel id="measurement" className="scroll-mt-24 bg-background py-16 lg:py-20">
-            <div className="container mx-auto max-w-[1200px] px-6 sm:px-8">
-              <div className="grid gap-12 lg:grid-cols-[0.92fr_1.08fr] lg:items-center">
-                <div>
-                  <Reveal>
-                    <p className="text-[11px] font-medium uppercase tracking-[0.24em] text-primary">In development</p>
-                    <h2 className="mt-5 text-[clamp(2rem,4.2vw,3.2rem)] font-bold leading-[1.06] tracking-[-0.025em] text-foreground">
-                      Room Measurement
-                    </h2>
-                    <p className="mt-6 max-w-[46ch] text-[16px] leading-relaxed text-foreground/58">
-                      Record a room with your phone and Think Decor returns a precise, editable
-                      floor plan — wall lengths, room dimensions, doors, windows and total area.
-                      Not available yet: measurement is in development.
-                    </p>
-                  </Reveal>
-                </div>
-
-                <Reveal y={36} blur={16}>
-                  <FloorPlanStage />
-                </Reveal>
-              </div>
-            </div>
-            <FloorPlanRecognition />
+          {/* ================= COMING SOON: measurement + floor plans, one compact strip ================= */}
+          <StackPanel id="measurement" className="scroll-mt-24 bg-background">
+            <ComingSoonStrip />
           </StackPanel>
 
           {/* ========================= BLOG TEASER ========================= */}
@@ -214,9 +228,10 @@ export default function Home() {
                 </span>
                 Questions
               </p>
-              <h2 className="mt-4 text-[clamp(1.9rem,4vw,3.2rem)] font-bold tracking-[-0.02em] text-foreground">
-                Everything worth asking.
-              </h2>
+              <ScrollWords
+                className="mt-4 text-[clamp(1.9rem,4vw,3.2rem)] font-bold tracking-[-0.02em] text-foreground"
+                segments="Everything worth asking."
+              />
             </Reveal>
 
             <div className="mt-12 grid gap-8 lg:grid-cols-[0.8fr_1.2fr]">
@@ -284,14 +299,16 @@ export default function Home() {
           </StackPanel>
 
           {/* ========================= NEWSLETTER ========================= */}
-          <StackPanel>
+          <StackPanel id="newsletter" className="scroll-mt-24">
             <NewsletterBand />
           </StackPanel>
         </StackPanelGroup>
 
       </main>
 
-        <Footer />
+        <div className="relative z-10">
+          <Footer />
+        </div>
       </div>
     </div>
   );

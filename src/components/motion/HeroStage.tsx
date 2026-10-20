@@ -5,6 +5,9 @@ import { Magnetic, Reveal, RevealWords, Stagger, staggerItem } from '@/component
 import { AnimatePresence, motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { DEMO_ROOMS, DEMO_STYLES, type StyleKey } from '@/lib/heroRooms';
+import { DepthStage, type StageTransition } from '@/components/lab/DepthStage';
+import { MaterialWords } from '@/components/lab/KineticType';
+import { useIntroDone } from '@/lib/introState';
 
 /** How long the "Mantha AI is redesigning…" beat plays before the new photo swaps in. */
 const GENERATE_MS = 700;
@@ -39,6 +42,14 @@ export function HeroStage({ onStageBoxMount }: { onStageBoxMount?: (el: HTMLDivE
   const [missing, setMissing] = useState<Set<string>>(() => new Set());
   // Nudges the visitor toward the style tiles until they've tried one once.
   const [hasTriedStyle, setHasTriedStyle] = useState(false);
+  // How the next photo change plays on the depth stage: a wireframe sweep
+  // for rooms and styles, a ripple out from the dot for a colour swap.
+  const [transition, setTransition] = useState<StageTransition>({ mode: 'sweep' });
+  // The swatch under the pointer, previewed through a 2.5x loupe on the item.
+  const [loupe, setLoupe] = useState<{ pin: string; image: string; label: string } | null>(null);
+  // the headline waits for the cinematic intro, then plays its own entrance
+  const introDone = useIntroDone();
+  const [material, setMaterial] = useState('Sage velvet');
   const stageRef = useRef<HTMLDivElement>(null);
   const generateTimer = useRef<number | null>(null);
 
@@ -53,7 +64,6 @@ export function HeroStage({ onStageBoxMount }: { onStageBoxMount?: (el: HTMLDivE
   const stageImage = styled ?? (appliedSwatch && appliedSwatch.key !== 'original'
     ? { image: appliedSwatch.image, alt: `${room.alt}, with the ${appliedPin!.name.toLowerCase()} in ${appliedSwatch.label.toLowerCase()}` }
     : room);
-  const stageKey = `${room.key}:${styleKey ?? 'base'}:${colour ? `${colour.pin}-${colour.swatch}` : ''}`;
   const generating = pendingStyle !== null || pendingColour !== null;
   const pendingLabel = pendingStyle
     ?? (pendingColour ? room.pins.find((p) => p.key === pendingColour.pin)?.swatches.find((s) => s.key === pendingColour.swatch)?.label : null);
@@ -95,6 +105,7 @@ export function HeroStage({ onStageBoxMount }: { onStageBoxMount?: (el: HTMLDivE
     setOpenPin(null);
     setColour(null);
     setStyleKey(null);
+    setTransition({ mode: 'sweep' });
     setRoomKey(key);
   };
 
@@ -103,6 +114,7 @@ export function HeroStage({ onStageBoxMount }: { onStageBoxMount?: (el: HTMLDivE
     setOpenPin(null);
     setColour(null);
     setHasTriedStyle(true);
+    setTransition({ mode: 'sweep' });
     if (styleKey === key) {
       setStyleKey(null);
       return;
@@ -115,6 +127,7 @@ export function HeroStage({ onStageBoxMount }: { onStageBoxMount?: (el: HTMLDivE
   };
 
   const togglePin = (index: number) => {
+    setLoupe(null);
     setOpenPin((cur) => (cur === index ? null : index));
     // Warm the cache so the swap after a swatch tap is instant, and drop any
     // swatch whose photo hasn't been generated yet rather than offering a
@@ -131,11 +144,14 @@ export function HeroStage({ onStageBoxMount }: { onStageBoxMount?: (el: HTMLDivE
     if (generating) return;
     const current = colour?.pin === pinKey ? colour.swatch : 'original';
     if (current === swatchKey) return;
+    const pin = room.pins.find((p) => p.key === pinKey);
+    setTransition({ mode: 'ripple', origin: [(pin?.x ?? 50) / 100, (pin?.y ?? 50) / 100] });
+    setLoupe(null);
     if (swatchKey === 'original') {
       setColour(null);
       return;
     }
-    const sw = room.pins.find((p) => p.key === pinKey)?.swatches.find((x) => x.key === swatchKey);
+    const sw = pin?.swatches.find((x) => x.key === swatchKey);
     if (!sw) return;
     // a tiny tap of feedback on phones that support it (Android)
     navigator.vibrate?.(12);
@@ -230,9 +246,25 @@ export function HeroStage({ onStageBoxMount }: { onStageBoxMount?: (el: HTMLDivE
           </span>
 
           <h1 className="font-display text-[clamp(2.75rem,6.2vw,5.5rem)] font-medium leading-[0.98] text-white">
-            <RevealWords text="Think it before" className="block" delay={0.1} />
+            {introDone ? <RevealWords text="Think it before" className="block" delay={0.1} /> : <span className="block opacity-0">Think it before</span>}
             <span className="relative block w-max italic font-normal text-[#8FE3D4]">
-              <RevealWords text="you buy it." delay={0.22} />
+              {/* filled with real materials, cycling: sage velvet, oak, marble, bouclé */}
+              <MaterialWords text="you buy it." play={introDone} delay={0.22} onMaterial={setMaterial} />
+              <AnimatePresence mode="wait">
+                {introDone && (
+                  <motion.span
+                    key={material}
+                    initial={{ opacity: 0, y: 6 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -6 }}
+                    transition={{ duration: 0.35, delay: 0.1 }}
+                    className="absolute right-0 top-full mt-[0.42em] whitespace-nowrap font-mono text-[10.5px] not-italic leading-none tracking-[0.18em] text-[#8FE3D4]/75"
+                    aria-hidden
+                  >
+                    — IN {material.toUpperCase()}
+                  </motion.span>
+                )}
+              </AnimatePresence>
               {/* hand-drawn underline that draws itself in after the words land */}
               <svg aria-hidden viewBox="0 0 220 24" preserveAspectRatio="none" className="pointer-events-none absolute -bottom-[0.14em] left-[38%] h-[0.3em] w-[62%] overflow-visible">
                 <motion.path
@@ -242,7 +274,7 @@ export function HeroStage({ onStageBoxMount }: { onStageBoxMount?: (el: HTMLDivE
                   strokeWidth="5"
                   strokeLinecap="round"
                   initial={{ pathLength: 0 }}
-                  animate={{ pathLength: 1 }}
+                  animate={{ pathLength: introDone ? 1 : 0 }}
                   transition={{ duration: 1.1, delay: 0.9, ease: [0.65, 0, 0.35, 1] }}
                 />
               </svg>
@@ -297,6 +329,7 @@ export function HeroStage({ onStageBoxMount }: { onStageBoxMount?: (el: HTMLDivE
                     <button
                       type="button"
                       aria-pressed={styleKey === s.key}
+                      data-cursor="Apply"
                       disabled={generating}
                       onClick={() => selectStyle(s.key)}
                       className={cn(
@@ -362,21 +395,15 @@ export function HeroStage({ onStageBoxMount }: { onStageBoxMount?: (el: HTMLDivE
           <figure className="m-0">
             <div
               ref={(el) => { stageRef.current = el; onStageBoxMount?.(el); }}
+              data-courier="hero"
+              data-courier-src={stageImage.image}
               className="relative aspect-[1024/765] overflow-hidden rounded-[20px]"
               onClick={() => setOpenPin(null)}
             >
-              <AnimatePresence initial={false}>
-                <motion.img
-                  key={stageKey}
-                  src={stageImage.image}
-                  alt={stageImage.alt}
-                  initial={{ opacity: 0, scale: 1.06 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
-                  className="absolute inset-0 h-full w-full object-cover"
-                />
-              </AnimatePresence>
+              {/* 2.5D depth stage: cursor/tilt parallax, plus a wireframe
+                  scan wave (styles, rooms) or a ripple from the dot (colours)
+                  whenever the photo changes. */}
+              <DepthStage src={stageImage.image} alt={stageImage.alt} transition={transition} />
               <AnimatePresence mode="wait">
                 {!styleKey && openPin === null && !generating && !colour && idea && (
                   <motion.span
@@ -392,17 +419,7 @@ export function HeroStage({ onStageBoxMount }: { onStageBoxMount?: (el: HTMLDivE
                 )}
               </AnimatePresence>
 
-              {/* Light sweep that plays once per room/style change — a small
-                  "reveal" flourish so the swap reads as a redesign, not a
-                  blunt image replace. */}
-              <motion.div
-                key={`sweep-${stageKey}`}
-                aria-hidden
-                initial={{ x: '-130%', opacity: 0 }}
-                animate={{ x: '230%', opacity: [0, 0.5, 0] }}
-                transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
-                className="pointer-events-none absolute inset-y-0 left-0 z-[1] w-1/3 -skew-x-12 bg-[linear-gradient(90deg,transparent,rgba(255,255,255,0.55),transparent)]"
-              />
+              <MaterialLoupe loupe={loupe} room={room} stage={stageRef.current} popoverLeft={popStyle?.left} />
 
               {/* "Mantha AI is redesigning…" beat — plays over the old photo
                   for GENERATE_MS before the new one swaps in, so applying a
@@ -447,7 +464,7 @@ export function HeroStage({ onStageBoxMount }: { onStageBoxMount?: (el: HTMLDivE
                     key={`${room.key}-${pin.key}`}
                     type="button"
                     aria-label={`Change the ${pin.name.toLowerCase()} colour`}
-                    data-cursor="Tap"
+                    data-cursor="Tap to swap"
                     aria-expanded={open}
                     onClick={(e) => {
                       e.stopPropagation();
@@ -508,6 +525,10 @@ export function HeroStage({ onStageBoxMount }: { onStageBoxMount?: (el: HTMLDivE
                             title={sw.label}
                             disabled={generating}
                             onClick={() => selectSwatch(activePin.key, sw.key)}
+                            onPointerEnter={() => sw.key !== 'original' && !current && setLoupe({ pin: activePin.key, image: sw.image, label: sw.label })}
+                            onPointerLeave={() => setLoupe(null)}
+                            onFocus={() => sw.key !== 'original' && !current && setLoupe({ pin: activePin.key, image: sw.image, label: sw.label })}
+                            onBlur={() => setLoupe(null)}
                             className={cn(
                               'relative h-8 w-8 flex-none rounded-full shadow-[inset_0_0_0_1px_rgba(0,0,0,0.12)] transition-transform hover:scale-110 disabled:cursor-wait',
                               current && 'ring-2 ring-[#00A08C] ring-offset-2',
@@ -575,11 +596,76 @@ export function HeroStage({ onStageBoxMount }: { onStageBoxMount?: (el: HTMLDivE
           </figure>
         </div>
       </div>
-      {/* scroll hint — the 360° room is right below */}
-      <a href="#every-angle" className="relative mx-auto mt-8 hidden w-max flex-col items-center gap-2.5 font-label text-[10.5px] font-bold uppercase tracking-[0.2em] text-white/55 transition-colors hover:text-white/85 lg:flex">
+      {/* scroll hint — the room's story starts right below */}
+      <a href="#how-it-works" className="relative mx-auto mt-8 hidden w-max flex-col items-center gap-2.5 font-label text-[10.5px] font-bold uppercase tracking-[0.2em] text-white/55 transition-colors hover:text-white/85 lg:flex">
         Scroll to explore
         <span aria-hidden className="scroll-line block h-10 w-px origin-top bg-gradient-to-b from-[#8FE3D4] to-transparent" />
       </a>
     </section>
+  );
+}
+
+/**
+ * A 2.5x magnifying loupe over the item being recoloured: hovering a swatch
+ * previews that material's weave or grain right on the sofa (or floor, or
+ * cabinet), before committing. Sits beside the colour popover, not under it.
+ */
+function MaterialLoupe({
+  loupe,
+  room,
+  stage,
+  popoverLeft,
+}: {
+  loupe: { pin: string; image: string; label: string } | null;
+  room: (typeof DEMO_ROOMS)[number];
+  stage: HTMLDivElement | null;
+  popoverLeft?: number;
+}) {
+  const ZOOM = 2.5;
+  const pin = loupe ? room.pins.find((p) => p.key === loupe.pin) : undefined;
+  const W = stage?.clientWidth ?? 0;
+  const H = stage?.clientHeight ?? 0;
+  const size = Math.min(170, W * 0.32);
+  const r = size / 2;
+  let cx = 0;
+  let cy = 0;
+  if (pin && W) {
+    const px = (pin.x / 100) * W;
+    const py = (pin.y / 100) * H;
+    // put the loupe on the side away from the popover
+    const popOnRight = popoverLeft !== undefined && popoverLeft > px;
+    cx = Math.max(r + 6, Math.min(W - r - 6, popOnRight ? px - r * 0.75 : px + r * 0.75));
+    cy = Math.max(r + 6, Math.min(H - r - 6, py - r * 0.35));
+  }
+  return (
+    <AnimatePresence>
+      {loupe && pin && W > 0 && (
+        <motion.div
+          key={loupe.image}
+          aria-hidden
+          initial={{ opacity: 0, scale: 0.6 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.7 }}
+          transition={{ type: 'spring', stiffness: 380, damping: 26 }}
+          className="pointer-events-none absolute z-[4] rounded-full"
+          style={{ left: cx - r, top: cy - r, width: size, height: size }}
+        >
+          <span
+            className="absolute inset-0 rounded-full shadow-[0_20px_44px_-12px_rgba(0,0,0,0.6),inset_0_0_0_1px_rgba(255,255,255,0.65),inset_0_0_0_6px_rgba(255,255,255,0.14)]"
+            style={{
+              backgroundImage: `url(${loupe.image})`,
+              backgroundSize: `${W * ZOOM}px ${H * ZOOM}px`,
+              backgroundPosition: `${-((pin.x / 100) * W * ZOOM - r)}px ${-((pin.y / 100) * H * ZOOM - r)}px`,
+            }}
+          />
+          {/* glass: a soft specular arc and a frosted rim */}
+          <span className="absolute inset-0 rounded-full bg-[radial-gradient(120%_70%_at_30%_10%,rgba(255,255,255,0.38),transparent_45%)]" />
+          <span className="absolute -inset-[5px] rounded-full border-[5px] border-white/25 shadow-[0_0_0_1px_rgba(0,0,0,0.15)]" />
+          <span className="absolute -bottom-3 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-[#00231D]/80 px-2.5 py-1 font-mono text-[9.5px] uppercase tracking-[0.14em] text-[#8FE3D4] backdrop-blur-md">
+            2.5× · {loupe.label}
+          </span>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 }

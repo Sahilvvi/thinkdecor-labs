@@ -579,3 +579,17 @@ img.curtain.curtain-in { clip-path: inset(0 0 0 0); transform: none; }
 @media (prefers-reduced-motion: reduce) {
   .scroll-line, .cta-glow { animation: none; }
 }
+
+/* ---------- Experimental "lab" upgrades ---------- */
+
+
+
+/* Bounding-box shimmer for the "describe a change" playground. */
+@keyframes lab-shimmer { from { transform: translateX(-120%); } to { transform: translateX(220%); } }
+.lab-shimmer { animation: lab-shimmer 1.4s cubic-bezier(0.45, 0, 0.25, 1) infinite; }
+@keyframes lab-dash { to { stroke-dashoffset: -24; } }
+.lab-dash { animation: lab-dash 0.9s linear infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .lab-shimmer, .lab-dash { animation: none; }
+}

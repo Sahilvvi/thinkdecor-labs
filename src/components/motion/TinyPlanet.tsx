@@ -276,7 +276,7 @@ export function TinyPlanet() {
   }, []);
 
   return (
-    <section ref={sectionRef} id="every-angle" className="relative h-[460vh] px-3 sm:px-4">
+    <section ref={sectionRef} id="every-angle" className="relative h-[300vh] px-3 sm:px-4">
       <div className="sticky top-0 flex h-[100svh] items-stretch pb-4 pt-[84px]">
         <div className="relative w-full overflow-hidden rounded-[28px] bg-[radial-gradient(80%_70%_at_50%_45%,#00463D,#002923_70%)]">
           {failed ? (

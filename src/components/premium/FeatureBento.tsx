@@ -2,6 +2,9 @@ import { useEffect, useState, type PointerEvent, type ReactNode } from 'react';
 import { motion } from 'framer-motion';
 import { Check, Download, Link2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { PromptMorph } from '@/components/lab/PromptMorph';
+import { SpringCompare } from '@/components/lab/SpringCompare';
+import { ScrollWords } from '@/components/lab/KineticType';
 
 /**
  * Feature bento — five cards, each with a small looping illustration of the
@@ -14,9 +17,10 @@ export function FeatureBento() {
       <div className="container mx-auto max-w-[1200px] px-6 sm:px-8">
         <div className="mx-auto max-w-[640px] text-center">
           <p className="font-label text-[11px] font-bold uppercase tracking-[0.2em] text-primary">Everything in one app</p>
-          <h2 className="mt-4 font-display text-[clamp(2rem,4.4vw,3.6rem)] font-medium leading-[1.02] text-foreground">
-            Your pocket <span className="italic font-normal text-[#00A08C]">interior designer.</span>
-          </h2>
+          <ScrollWords
+            className="mt-4 font-display text-[clamp(2rem,4.4vw,3.6rem)] font-medium leading-[1.02] text-foreground"
+            segments={[{ text: 'Your pocket ' }, { text: 'interior designer.', className: 'italic font-normal text-[#00A08C]' }]}
+          />
         </div>
 
         <div className="mt-12 grid gap-4 md:grid-cols-6">
@@ -26,13 +30,24 @@ export function FeatureBento() {
           <Card className="md:col-span-3" title="Style templates" body="Not sure where to start? Pick a finished look and Mantha AI restyles the whole room.">
             <StyleChips />
           </Card>
-          <Card className="md:col-span-2" title="Describe a change" body={'Type it like you\'d say it: "lighter floors", "a green velvet sofa".'}>
-            <Typing />
+          <article className="relative overflow-hidden rounded-[24px] border border-border bg-[linear-gradient(160deg,#F4FAF8,#E6F3F0)] p-5 shadow-[0_18px_40px_-30px_rgba(0,52,45,0.45)] sm:p-7 md:col-span-6">
+            <div className="mb-5 flex flex-wrap items-end justify-between gap-2">
+              <h3 className="font-display text-[clamp(22px,2.4vw,30px)] leading-tight text-foreground">Describe a change</h3>
+              <p className="max-w-[46ch] text-[14.5px] leading-relaxed text-foreground/65">
+                Type it like you&rsquo;d say it, and watch the room follow the words.
+              </p>
+            </div>
+            <PromptMorph />
+          </article>
+          <Card className="md:col-span-3" mediaClassName="h-[230px]" title="Before and after" body="Compare the redesign against your real room before you buy a thing.">
+            <SpringCompare
+              before="/assets/rooms/hero.webp"
+              after="/assets/rooms/room-living-scandinavian.webp"
+              autoplay
+              className="absolute inset-0"
+            />
           </Card>
-          <Card className="md:col-span-2" title="Before and after" body="Compare the redesign against your real room before you buy a thing.">
-            <Compare />
-          </Card>
-          <Card className="md:col-span-2" title="Save, download, share" body="Every design is kept in your library to download or send as a link.">
+          <Card className="md:col-span-3" mediaClassName="h-[230px]" title="Save, download, share" body="Every design is kept in your library to download or send as a link.">
             <Share />
           </Card>
         </div>
@@ -41,7 +56,7 @@ export function FeatureBento() {
   );
 }
 
-function Card({ title, body, children, className }: { title: string; body: string; children: ReactNode; className?: string }) {
+function Card({ title, body, children, className, mediaClassName }: { title: string; body: string; children: ReactNode; className?: string; mediaClassName?: string }) {
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
   const onMove = (e: PointerEvent<HTMLElement>) => {
     const r = e.currentTarget.getBoundingClientRect();
@@ -69,7 +84,7 @@ function Card({ title, body, children, className }: { title: string; body: strin
         className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
         style={{ background: 'radial-gradient(380px circle at var(--mx,50%) var(--my,0%), rgba(0,160,140,0.12), transparent 45%)' }}
       />
-      <div className="relative grid h-[150px] place-items-center overflow-hidden rounded-[16px] bg-[linear-gradient(160deg,#EEF8F6,#E3F1EE)]">
+      <div className={cn('relative grid h-[150px] place-items-center overflow-hidden rounded-[16px] bg-[linear-gradient(160deg,#EEF8F6,#E3F1EE)]', mediaClassName)}>
         {children}
       </div>
       <h3 className="relative mt-5 font-display text-[22px] leading-tight text-foreground">{title}</h3>
@@ -117,57 +132,6 @@ function StyleChips() {
           {s}
         </span>
       ))}
-    </div>
-  );
-}
-
-const PROMPTS = ['make the sofa green velvet', 'lighter oak floors', 'warmer, cosier lighting'];
-
-function Typing() {
-  const [p, setP] = useState(0);
-  const [n, setN] = useState(0);
-  useEffect(() => {
-    const full = PROMPTS[p];
-    // type, hold, then move on to the next prompt
-    const t = window.setTimeout(() => {
-      if (n < full.length) setN(n + 1);
-      else { setN(0); setP((p + 1) % PROMPTS.length); }
-    }, n < full.length ? 55 : 1600);
-    return () => window.clearTimeout(t);
-  }, [n, p]);
-  return (
-    <div className="w-[86%] rounded-[14px] bg-white px-4 py-3 text-[14px] text-[#00332C] shadow-[0_10px_24px_-14px_rgba(0,0,0,0.4)]">
-      <span className="font-label text-[10px] font-bold uppercase tracking-[0.14em] text-[#00A08C]">Describe a change</span>
-      <p className="mt-1 min-h-[21px]">
-        {PROMPTS[p].slice(0, n)}
-        <span className="ml-0.5 inline-block h-4 w-[2px] translate-y-0.5 animate-pulse bg-[#00A08C]" />
-      </p>
-    </div>
-  );
-}
-
-function Compare() {
-  const loop = { duration: 5, repeat: Infinity, repeatType: 'reverse' as const, ease: [0.65, 0, 0.35, 1] as const };
-  return (
-    <div className="absolute inset-0">
-      <img src="/assets/rooms/hero.webp" alt="" className="absolute inset-0 h-full w-full object-cover" />
-      <motion.div
-        className="absolute inset-0"
-        initial={{ clipPath: 'inset(0 85% 0 0)' }}
-        animate={{ clipPath: 'inset(0 15% 0 0)' }}
-        transition={loop}
-      >
-        <img src="/assets/rooms/room-living-scandinavian.webp" alt="" className="absolute inset-0 h-full w-full object-cover" />
-      </motion.div>
-      <motion.span
-        aria-hidden
-        className="absolute inset-y-0 w-[2px] bg-white shadow-[0_0_12px_rgba(255,255,255,0.9)]"
-        initial={{ left: '15%' }}
-        animate={{ left: '85%' }}
-        transition={loop}
-      />
-      <span className="absolute bottom-2 left-2 rounded-full bg-black/45 px-2 py-0.5 font-label text-[10px] font-bold text-white">After</span>
-      <span className="absolute bottom-2 right-2 rounded-full bg-black/45 px-2 py-0.5 font-label text-[10px] font-bold text-white">Before</span>
     </div>
   );
 }

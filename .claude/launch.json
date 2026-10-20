@@ -8,6 +8,12 @@
       "port": 8080
     },
     {
+      "name": "dev-8081",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev", "--", "--port", "8081", "--strictPort"],
+      "port": 8081
+    },
+    {
       "name": "shopops-ai",
       "runtimeExecutable": "npm",
       "runtimeArgs": ["--prefix", "C:\\Users\\autiy\\OneDrive\\Desktop\\shopops-ai", "run", "dev"],

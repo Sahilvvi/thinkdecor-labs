@@ -17,10 +17,11 @@ import { Reveal } from '@/components/premium/Motion';
  * here is that it should always be moving, not freeze on one frame.
  */
 
-const BEFORE_PHOTO = '/assets/samples/empty_room.png';
-const AFTER_PHOTO = '/assets/samples/styled_room.png';
+// the same living room as the hero, so the homepage tells one room's story
+const BEFORE_PHOTO = '/assets/rooms/hero.webp';
+const AFTER_PHOTO = '/assets/rooms/room-living-scandinavian.webp';
 
-type Phase = 'idle' | 'tap' | 'uploading' | 'uploaded' | 'templates' | 'saving';
+export type Phase = 'idle' | 'tap' | 'uploading' | 'uploaded' | 'templates' | 'saving';
 
 const SEQUENCE: { phase: Phase; ms: number }[] = [
   { phase: 'idle', ms: 1100 },
@@ -91,7 +92,7 @@ function Phone({ label, active, children }: { label: string; active: boolean; ch
   );
 }
 
-function ScreenUpload({ phase }: { phase: Phase }) {
+export function ScreenUpload({ phase }: { phase: Phase }) {
   const uploaded = UPLOADED_FROM.includes(phase);
   const uploading = phase === 'uploading';
   const tapping = phase === 'tap';
@@ -109,7 +110,7 @@ function ScreenUpload({ phase }: { phase: Phase }) {
         <b className="block font-display text-[19px] font-medium leading-[1.1] text-foreground">Your rooms</b>
       </div>
 
-      <div className="relative mx-3.5 my-2 overflow-hidden rounded-[14px]">
+      <div data-courier="phone-tile" className="relative mx-3.5 my-2 overflow-hidden rounded-[14px]">
         {/* Idle / tap: dashed upload tile */}
         <motion.div
           animate={{ opacity: uploading || uploaded ? 0 : 1, scale: tapping ? 0.95 : 1 }}
@@ -224,7 +225,7 @@ const SWATCHES = [
   { img: 't-japandi.webp', name: 'Japandi', meta: 'Room style' },
 ];
 
-function ScreenTemplates({ phase }: { phase: Phase }) {
+export function ScreenTemplates({ phase }: { phase: Phase }) {
   const active = phase === 'templates';
   const selected = active || phase === 'saving';
 
@@ -276,7 +277,7 @@ function ScreenTemplates({ phase }: { phase: Phase }) {
   );
 }
 
-function ScreenSaved({ phase }: { phase: Phase }) {
+export function ScreenSaved({ phase }: { phase: Phase }) {
   const saving = phase === 'saving';
   const saved = [
     { img: 't-classic.webp', label: 'Front lounge · Classic', meta: 'Saved' },
@@ -291,7 +292,7 @@ function ScreenSaved({ phase }: { phase: Phase }) {
         <b className="block font-display text-[19px] font-medium leading-[1.1] text-foreground">Your preview</b>
       </div>
       <div className="relative mx-3.5 mt-1.5 overflow-hidden rounded-[14px]" style={{ aspectRatio: '4/3.4' }}>
-        <img src={BEFORE_PHOTO} alt="Empty room before its redesign" className="absolute inset-0 h-full w-full object-cover" />
+        <img src={BEFORE_PHOTO} alt="Living room before its redesign" className="absolute inset-0 h-full w-full object-cover" />
         <motion.div
           className="absolute inset-0 overflow-hidden"
           initial={false}

@@ -1,17 +1,18 @@
-import {
-  useCallback, useEffect, useRef, useState,
-} from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
   AnimatePresence, motion, useReducedMotion,
 } from 'framer-motion';
 import {
-  ArrowLeftRight, ArrowRight, RefreshCw, Sparkles, Upload,
+  ArrowRight, RefreshCw, Sparkles, Upload,
 } from 'lucide-react';
 import { Reveal, Stagger, staggerItem } from './Motion';
 import { cn } from '@/lib/utils';
 import { supabase } from '@/integrations/supabase/client';
 import { downscaleImage } from '@/lib/image';
+import { clearVisitorRoom, setVisitorRoom } from '@/lib/visitorRoom';
+import { SpringCompare } from '@/components/lab/SpringCompare';
+import { ScrollWords } from '@/components/lab/KineticType';
 
 /** Persisted across visits so the free homepage try is one-per-device, not one-per-tab. */
 const DEVICE_ID_KEY = 'thinkdecor_demo_device_id';
@@ -113,29 +114,25 @@ type Phase = 'idle' | 'generating' | 'result' | 'used';
  * attempt from the same device/IP is turned away with a sign-up nudge
  * instead of a second free generation.
  */
-export function DesignGenerator() {
+export function DesignGenerator({ hideIntro = false }: { hideIntro?: boolean } = {}) {
   const reduce = useReducedMotion();
   const [uploaded, setUploaded] = useState<{ url: string; name: string; file: File } | null>(null);
   const [dragging, setDragging] = useState(false);
   const [phase, setPhase] = useState<Phase>('idle');
-  const [split, setSplit] = useState(50);
-  const [hinted, setHinted] = useState(false);
   const [prompt, setPrompt] = useState('');
   const [resultImage, setResultImage] = useState<string | null>(null);
   const [statusIndex, setStatusIndex] = useState(0);
   const [elapsed, setElapsed] = useState(0);
   const [error, setError] = useState<string | null>(null);
   const objectUrl = useRef<string | null>(null);
-  const hintTimer = useRef<number | null>(null);
   const statusTimer = useRef<number | null>(null);
   const boxRef = useRef<HTMLDivElement>(null);
-  const draggingSeam = useRef(false);
   const deviceId = useRef<string>();
   if (!deviceId.current) deviceId.current = getDeviceId();
 
   useEffect(() => () => {
+    clearVisitorRoom();
     if (objectUrl.current) URL.revokeObjectURL(objectUrl.current);
-    if (hintTimer.current) window.clearTimeout(hintTimer.current);
     if (statusTimer.current) window.clearInterval(statusTimer.current);
   }, []);
 
@@ -156,6 +153,8 @@ export function DesignGenerator() {
     const url = URL.createObjectURL(file);
     objectUrl.current = url;
     setUploaded({ url, name: file.name, file });
+    // later sections switch to the visitor's own room
+    setVisitorRoom({ before: url, after: null });
   };
 
   const start = async () => {
@@ -194,11 +193,10 @@ export function DesignGenerator() {
       }
 
       const { imageBase64: outB64, mimeType } = data as { imageBase64: string; mimeType: string };
-      setResultImage(`data:${mimeType};base64,${outB64}`);
+      const result = `data:${mimeType};base64,${outB64}`;
+      setResultImage(result);
+      if (uploaded) setVisitorRoom({ before: uploaded.url, after: result });
       setPhase('result');
-      setSplit(50);
-      setHinted(true);
-      hintTimer.current = window.setTimeout(() => setHinted(false), 1600);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Something went wrong. Please try again.');
       setPhase('idle');
@@ -208,18 +206,11 @@ export function DesignGenerator() {
   };
 
   const reset = () => {
-    if (hintTimer.current) window.clearTimeout(hintTimer.current);
     if (statusTimer.current) window.clearInterval(statusTimer.current);
     setError(null);
     setResultImage(null);
     setPhase('idle');
   };
-
-  const setFromEvent = useCallback((clientX: number) => {
-    const r = boxRef.current?.getBoundingClientRect();
-    if (!r) return;
-    setSplit(Math.min(100, Math.max(0, ((clientX - r.left) / r.width) * 100)));
-  }, []);
 
   return (
     <section id="generator" className="relative scroll-mt-24 bg-background py-16 lg:py-24">
@@ -235,6 +226,32 @@ export function DesignGenerator() {
       <div className="container relative mx-auto max-w-[1200px] px-6 sm:px-8">
         <div className="grid items-start gap-12 lg:grid-cols-2 lg:gap-16">
           {/* ---------- copy ---------- */}
+          {hideIntro ? (
+            <div className="lg:pt-10">
+              <Reveal>
+                <p className="text-[11px] font-medium uppercase tracking-[0.24em] text-primary">Try Mantha · free</p>
+                <ScrollWords
+                  className="mt-3 font-display text-[clamp(2.2rem,4.6vw,3.8rem)] font-medium leading-[1] text-foreground"
+                  segments={[{ text: 'See it on a ' }, { text: 'real', className: 'italic text-[#00A08C]' }, { text: ' room.' }]}
+                />
+                <p className="mt-5 max-w-[46ch] text-[16.5px] leading-relaxed text-foreground/62">
+                  One free redesign, right here. Drop in a photo of your own room, or use ours,
+                  describe a style if you like, and tap Start recreating.
+                </p>
+              </Reveal>
+              <Stagger className="mt-7 flex flex-wrap gap-2">
+                {CAPABILITIES.map((c) => (
+                  <motion.li
+                    key={c}
+                    variants={staggerItem}
+                    className="list-none rounded-full bg-card px-3.5 py-2 font-label text-[13.5px] font-bold text-foreground shadow-[inset_0_0_0_1px_hsl(168_20%_88%)]"
+                  >
+                    {c}
+                  </motion.li>
+                ))}
+              </Stagger>
+            </div>
+          ) : (
           <div>
             <Reveal>
               <p className="flex items-center gap-2 text-[11px] font-medium uppercase tracking-[0.24em] text-primary">
@@ -277,17 +294,13 @@ export function DesignGenerator() {
               ))}
             </Stagger>
           </div>
+          )}
 
           {/* ---------- interactive demo card ---------- */}
           <Reveal delay={0.15} y={24}>
             <div className="rounded-[26px] border border-foreground/[0.1] bg-card p-4 shadow-[0_30px_80px_-40px_hsl(168_30%_15%/0.25)]">
               <div
                 ref={boxRef}
-                onMouseMove={(e) => draggingSeam.current && setFromEvent(e.clientX)}
-                onMouseUp={() => { draggingSeam.current = false; }}
-                onMouseLeave={() => { draggingSeam.current = false; }}
-                onTouchMove={(e) => draggingSeam.current && setFromEvent(e.touches[0].clientX)}
-                onTouchEnd={() => { draggingSeam.current = false; }}
                 className="relative aspect-[4/3] select-none overflow-hidden rounded-[18px] bg-[hsl(168_28%_96%)]"
               >
                 {/* base photo — always present underneath every phase */}
@@ -411,43 +424,13 @@ export function DesignGenerator() {
                     transition={{ duration: 0.4 }}
                     className="absolute inset-0"
                   >
-                    <div
-                      style={{ clipPath: `polygon(${split}% 0, 100% 0, 100% 100%, ${split}% 100%)` }}
+                    <SpringCompare
+                      before={beforeImage}
+                      after={resultImage}
+                      beforeLabel={uploaded ? 'Your photo' : 'Before'}
+                      afterLabel="Your redesign"
                       className="absolute inset-0"
-                    >
-                      <img loading="lazy" decoding="async"
-                        src={resultImage}
-                        alt="Your Mantha redesign"
-                        draggable={false}
-                        className="absolute inset-0 h-full w-full object-cover"
-                      />
-                    </div>
-
-                    <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/25 via-transparent to-transparent" />
-
-                    <div
-                      className="pointer-events-none absolute inset-y-0 w-[3px] bg-white shadow-[0_0_18px_rgba(0,0,0,0.5)]"
-                      style={{ left: `${split}%` }}
                     />
-                    <motion.button
-                      type="button"
-                      aria-label="Drag to compare before and after"
-                      onMouseDown={(e) => { e.preventDefault(); draggingSeam.current = true; setHinted(false); }}
-                      onTouchStart={() => { draggingSeam.current = true; setHinted(false); }}
-                      animate={hinted ? { left: [`${split}%`, `${split - 10}%`, `${split + 10}%`, `${split}%`] } : undefined}
-                      transition={{ duration: 1.3, ease: 'easeInOut' }}
-                      className="absolute top-1/2 z-10 flex h-10 w-10 -translate-x-1/2 -translate-y-1/2 cursor-ew-resize items-center justify-center rounded-full border-2 border-white bg-primary text-primary-foreground shadow-[0_6px_20px_rgba(0,0,0,0.35)] transition-transform hover:scale-110 active:scale-95"
-                      style={!hinted ? { left: `${split}%` } : undefined}
-                    >
-                      <ArrowLeftRight className="h-4 w-4" />
-                    </motion.button>
-
-                    <span className="pointer-events-none absolute left-3 top-3 rounded-full bg-black/55 px-3 py-1.5 font-label text-[10.5px] font-medium uppercase tracking-[0.08em] text-white">
-                      {uploaded ? 'Your photo' : 'Before'}
-                    </span>
-                    <span className="pointer-events-none absolute right-3 top-3 rounded-full bg-primary/90 px-3 py-1.5 font-label text-[10.5px] font-medium uppercase tracking-[0.08em] text-primary-foreground">
-                      Your redesign
-                    </span>
                   </motion.div>
                 )}
               </div>
