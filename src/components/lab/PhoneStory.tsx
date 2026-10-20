@@ -14,10 +14,9 @@ import { ScrollWords } from '@/components/lab/KineticType';
  * CSS 3D only — no WebGL, no model file. Outside a StackPanel so it can pin.
  * The phone is always drawn at one design size (PHONE_W × PHONE_H) and scaled
  * as a whole, so its screens never reflow or overlap however small it gets.
- * On phones the copy sits above it, so the pose is toned down (a full turn
- * warps a small phone and lifts it into the copy) and the phone is sized by
- * width, rising from the bottom of the card with its lower part faded out —
- * fitting the whole height there made it too small to read.
+ * On phones the copy sits above it, compacted so the whole phone fits below
+ * at a readable size, and the pose is toned down (a full turn warps a small
+ * phone and lifts it into the copy).
  */
 
 const AFTER_PHOTO = '/assets/rooms/room-living-scandinavian.webp';
@@ -81,7 +80,7 @@ export function PhoneStory() {
       const r = el.getBoundingClientRect();
       if (!r.width || !r.height) return;
       const next = mq.matches
-        ? Math.min(1, (r.width * 0.7) / PHONE_W, (r.height * 1.9) / PHONE_H)
+        ? Math.min(1, (r.width * 0.75) / PHONE_W, r.height / PHONE_H)
         : Math.min(1, r.height / PHONE_H, r.width / PHONE_W);
       setFit(Math.max(0.3, next));
     };
@@ -110,14 +109,14 @@ export function PhoneStory() {
   return (
     <section ref={ref} id="how-it-works" className="relative scroll-mt-0 px-3 sm:px-4" style={{ height: '260vh' }}>
       <style>{'@keyframes spin{to{transform:rotate(360deg)}}'}</style>
-      <div className="sticky top-0 flex h-[100svh] flex-col justify-center pt-[76px] pb-[84px] md:pb-3">
+      <div className="sticky top-0 flex h-[100svh] flex-col justify-center pt-[70px] pb-[80px] md:pb-3 md:pt-[76px]">
         <div className="relative flex h-full overflow-hidden rounded-[28px] bg-gradient-to-b from-white to-[#EEF8F6]">
           <div aria-hidden className="pointer-events-none absolute -right-20 top-10 h-[30rem] w-[30rem] rounded-full bg-[radial-gradient(circle,rgba(0,160,140,0.16),transparent_65%)] blur-2xl" />
 
-          <div className="relative flex w-full flex-col gap-4 px-5 py-5 sm:px-10 md:grid md:grid-cols-[1fr_1fr] md:items-center md:py-6 lg:px-16">
+          <div className="relative flex w-full flex-col gap-3 px-4 py-4 sm:px-10 md:grid md:gap-4 md:grid-cols-[1fr_1fr] md:items-center md:py-6 lg:px-16">
             {/* ---------- copy ---------- */}
             <div>
-              <p className="flex items-center gap-2 text-[11px] font-medium uppercase tracking-[0.24em] text-primary">
+              <p className="hidden items-center gap-2 text-[11px] font-medium uppercase tracking-[0.24em] text-primary md:flex">
                 <span className="relative flex h-1.5 w-1.5">
                   <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-70" />
                   <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-primary" />
@@ -125,22 +124,22 @@ export function PhoneStory() {
                 Features
               </p>
               <ScrollWords
-                className="mt-3 font-display text-[clamp(36px,5vw,68px)] font-medium leading-[1] text-foreground"
+                className="font-display text-[30px] font-medium leading-[1] text-foreground md:mt-3 md:text-[clamp(36px,5vw,68px)]"
                 segments={[{ text: 'How it ' }, { text: 'works', className: 'italic text-[#00A08C]' }]}
               />
-              <ol className="mt-6 grid gap-2 md:mt-10 md:gap-4">
+              <ol className="mt-3 grid gap-2 md:mt-10 md:gap-4">
                 {STEPS.map((s, i) => (
                   <motion.li
                     key={s.numeral}
                     animate={{ opacity: step === i ? 1 : 0.35, x: step === i ? 0 : -6 }}
                     transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-                    className={`list-none rounded-[20px] px-5 py-3 transition-[background,box-shadow] duration-500 md:py-4 ${step === i ? 'bg-white shadow-[0_14px_34px_-18px_rgba(0,89,78,0.4)]' : ''} ${step === i ? '' : 'hidden md:block'}`}
+                    className={`list-none rounded-[18px] px-4 py-2.5 transition-[background,box-shadow] duration-500 md:rounded-[20px] md:px-5 md:py-4 ${step === i ? 'bg-white shadow-[0_14px_34px_-18px_rgba(0,89,78,0.4)]' : ''} ${step === i ? '' : 'hidden md:block'}`}
                   >
-                    <span className="flex items-baseline gap-4">
-                      <span className="w-6 flex-none font-display text-[28px] italic leading-none text-[#00A08C]">{s.numeral}</span>
+                    <span className="flex items-baseline gap-3 md:gap-4">
+                      <span className="w-6 flex-none font-display text-[24px] italic leading-none text-[#00A08C] md:text-[28px]">{s.numeral}</span>
                       <span>
-                        <b className="block font-label text-[17px] font-bold text-primary">{s.title}</b>
-                        <span className="block text-[14px] leading-[1.4] text-muted-foreground">{s.body}</span>
+                        <b className="block font-label text-[15.5px] font-bold text-primary md:text-[17px]">{s.title}</b>
+                        <span className="block text-[13px] leading-[1.38] text-muted-foreground md:text-[14px] md:leading-[1.4]">{s.body}</span>
                       </span>
                     </span>
                   </motion.li>
@@ -152,7 +151,7 @@ export function PhoneStory() {
             </div>
 
             {/* ---------- the phone ---------- */}
-            <div ref={box} className="flex min-h-0 flex-1 items-start justify-center pt-1 md:h-[min(600px,calc(100svh-150px))] md:flex-none md:items-center md:pt-0">
+            <div ref={box} className="flex min-h-0 flex-1 items-center justify-center md:h-[min(600px,calc(100svh-150px))] md:flex-none">
               <div className="relative flex-none" style={{ width: PHONE_W * fit, height: PHONE_H * fit }}>
               <div
                 className="absolute left-0 top-0 origin-top-left [perspective:1400px]"
@@ -218,9 +217,6 @@ export function PhoneStory() {
               </div>
             </div>
           </div>
-
-          {/* phones: the phone rises out of the bottom of the card; fade its cut edge */}
-          <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-20 bg-gradient-to-b from-transparent to-[#EEF8F6] md:hidden" />
         </div>
       </div>
     </section>
