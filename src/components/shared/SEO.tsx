@@ -25,6 +25,11 @@ interface SEOProps {
 // noindex covers the ones crawlers are allowed to fetch.)
 const NOINDEX_PATH = /^\/(app|admin|super|login|signup|forgot-password|reset-password|checkout|demo)(\/|$)/;
 
+// A whole deployment can opt out of search (e.g. a test copy of the site on its
+// own Vercel project) with VITE_SITE_NOINDEX=1. Off unless set, so production is
+// unaffected.
+const SITE_NOINDEX = import.meta.env.VITE_SITE_NOINDEX === '1';
+
 function absolute(url: string): string {
   if (/^https?:\/\//i.test(url)) return url;
   return `${SITE_URL}${url.startsWith('/') ? '' : '/'}${url}`;
@@ -57,7 +62,7 @@ export function SEO({
   const { pathname } = useLocation();
 
   useEffect(() => {
-    const hidden = noindex ?? NOINDEX_PATH.test(pathname);
+    const hidden = SITE_NOINDEX || (noindex ?? NOINDEX_PATH.test(pathname));
     const url = canonical ?? `${SITE_URL}${pathname === '/' ? '/' : pathname.replace(/\/$/, '')}`;
     const img = absolute(image || DEFAULT_IMAGE);
 
