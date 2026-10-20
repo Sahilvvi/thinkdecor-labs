@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import {
-  AnimatePresence, motion, useMotionTemplate, useScroll, useSpring, useTransform,
+  AnimatePresence, motion, useMotionTemplate, useMotionValue, useScroll, useSpring, useTransform, type MotionValue,
 } from 'framer-motion';
 import { ScreenSaved, ScreenTemplates, ScreenUpload, type Phase } from '@/components/motion/HowItWorks';
 import { ScrollWords } from '@/components/lab/KineticType';
@@ -12,6 +12,9 @@ import { ScrollWords } from '@/components/lab/KineticType';
  * of the flow, and at step iii the redesigned room card lifts off the glass
  * along the Z axis and hovers above it.
  * CSS 3D only — no WebGL, no model file. Outside a StackPanel so it can pin.
+ * On phones the copy sits above the phone, so the pose is toned down (a full
+ * turn warps a small phone and lifts it into the copy) and the phone is sized
+ * to whatever height is left under the copy.
  */
 
 const AFTER_PHOTO = '/assets/rooms/room-living-scandinavian.webp';
@@ -34,6 +37,11 @@ function phaseAt(p: number): Phase {
 
 const stepOf = (p: number) => (p < 0.36 ? 0 : p < 0.68 ? 1 : 2);
 
+/** an angle scaled by how much of the pose this screen size uses */
+function usePosed(pose: MotionValue<number>, angle: MotionValue<number>) {
+  return useTransform([angle, pose], ([a, k]: number[]) => a * k);
+}
+
 export function PhoneStory() {
   const ref = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end end'] });
@@ -53,15 +61,24 @@ export function PhoneStory() {
 
   // the phone's pose follows the step being read: turned towards the copy on
   // the left, tilted up for the first step and down for the last
-  const rotY = useTransform(p, [0, 0.3, 0.42, 0.62, 0.74, 1], [26, 16, 6, 8, -10, -16]);
-  const rotX = useTransform(p, [0, 0.3, 0.42, 0.62, 0.74, 1], [10, 6, 0, 0, -6, -4]);
-  const rotZ = useTransform(p, [0, 0.36, 0.68, 1], [-3, 0, 1.5, 0]);
-  const lift = useTransform(p, [0, 0.5, 1], [0, -14, 0]);
+  // how much of that pose to use: all of it on desktop, a hint of it on phones
+  const pose = useMotionValue(1);
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 767px)');
+    const set = () => pose.set(mq.matches ? 0.35 : 1);
+    set();
+    mq.addEventListener('change', set);
+    return () => mq.removeEventListener('change', set);
+  }, [pose]);
+  const rotY = usePosed(pose, useTransform(p, [0, 0.3, 0.42, 0.62, 0.74, 1], [26, 16, 6, 8, -10, -16]));
+  const rotX = usePosed(pose, useTransform(p, [0, 0.3, 0.42, 0.62, 0.74, 1], [10, 6, 0, 0, -6, -4]));
+  const rotZ = usePosed(pose, useTransform(p, [0, 0.36, 0.68, 1], [-3, 0, 1.5, 0]));
+  const lift = useTransform([useTransform(p, [0, 0.5, 1], [0, -14, 0]), pose], ([a, k]: number[]) => (k < 1 ? 0 : a));
 
   // step iii: the result card lifts off the screen
   const pop = useTransform(p, [0.76, 0.86], [0, 1]);
-  const popZ = useTransform(pop, (v) => v * 130);
-  const popScale = useTransform(pop, [0, 1], [0.86, 1.06]);
+  const popZ = useTransform([pop, pose], ([v, k]: number[]) => v * 130 * k);
+  const popScale = useTransform([pop, pose], ([v, k]: number[]) => 0.86 + v * (k < 1 ? 0.12 : 0.2));
   const popShadow = useMotionTemplate`0 ${useTransform(pop, (v) => 10 + v * 50)}px ${useTransform(pop, (v) => 20 + v * 60)}px -20px rgba(0,40,34,${useTransform(pop, (v) => 0.25 + v * 0.35)})`;
 
   const glare = useTransform(p, [0, 1], ['-40%', '140%']);
@@ -76,7 +93,7 @@ export function PhoneStory() {
         <div className="relative flex h-full overflow-hidden rounded-[28px] bg-gradient-to-b from-white to-[#EEF8F6]">
           <div aria-hidden className="pointer-events-none absolute -right-20 top-10 h-[30rem] w-[30rem] rounded-full bg-[radial-gradient(circle,rgba(0,160,140,0.16),transparent_65%)] blur-2xl" />
 
-          <div className="relative grid w-full items-center gap-4 px-6 py-6 sm:px-10 md:grid-cols-[1fr_1fr] lg:px-16">
+          <div className="relative flex w-full flex-col gap-4 px-5 py-5 sm:px-10 md:grid md:grid-cols-[1fr_1fr] md:items-center md:py-6 lg:px-16">
             {/* ---------- copy ---------- */}
             <div>
               <p className="flex items-center gap-2 text-[11px] font-medium uppercase tracking-[0.24em] text-primary">
@@ -114,10 +131,10 @@ export function PhoneStory() {
             </div>
 
             {/* ---------- the phone ---------- */}
-            <div className="flex min-h-0 items-center justify-center [perspective:1400px]">
+            <div className="flex min-h-0 flex-1 items-center justify-center [perspective:1400px] md:flex-none">
               <motion.div
                 style={{ rotateY: rotY, rotateX: rotX, rotateZ: rotZ, y: lift, transformStyle: 'preserve-3d' }}
-                className="relative h-[min(560px,calc(100svh-400px))] min-h-[250px] md:h-[min(600px,calc(100svh-150px))]"
+                className="relative h-full max-h-[520px] md:h-[min(600px,calc(100svh-150px))] md:max-h-none"
               >
                 <div className="relative h-full [transform-style:preserve-3d]" style={{ aspectRatio: '9 / 19' }}>
                   {/* body thickness: stacked plates behind the glass */}
