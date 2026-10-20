@@ -92,7 +92,7 @@ export function RewindStory() {
 
   return (
     <section ref={ref} id="rewind" className="relative px-3 sm:px-4" style={{ height: '250vh' }}>
-      <div className="sticky top-0 flex h-[100svh] flex-col justify-center pt-[76px] pb-3">
+      <div className="sticky top-0 flex h-[100svh] flex-col justify-center pt-[76px] pb-[84px] md:pb-3">
         <div className="relative flex h-full flex-col overflow-hidden rounded-[28px] bg-[#081814] text-white">
           {/* mood light: warm regret, then cool relief */}
           <motion.div aria-hidden style={{ opacity: warmGlow }} className="pointer-events-none absolute inset-0 bg-[radial-gradient(55%_60%_at_72%_45%,rgba(255,120,95,0.20),transparent_70%),radial-gradient(40%_50%_at_10%_90%,rgba(255,170,120,0.08),transparent_70%)]" />
@@ -106,15 +106,15 @@ export function RewindStory() {
             <p className="hidden font-mono text-[10.5px] uppercase tracking-[0.2em] text-white/40 sm:block">Why think first · an illustrative story</p>
             <ol className="flex w-full gap-2 sm:w-auto sm:gap-3">
               {COPY.map((c, i) => (
-                <li key={c.k} className="flex-1 sm:w-[118px] sm:flex-none">
+                <li key={c.k} className={`${beat === i ? 'flex-[2.2]' : 'flex-1'} transition-[flex-grow] duration-300 sm:w-[118px] sm:flex-none`}>
                   <div className="h-[3px] overflow-hidden rounded-full bg-white/12">
                     <motion.div
                       style={{ scaleX: seg[i], backgroundColor: i === 0 ? CORAL : i === 1 ? '#FFFFFF' : MINT }}
                       className="h-full origin-left rounded-full"
                     />
                   </div>
-                  <p className={`mt-2 font-mono text-[9.5px] uppercase tracking-[0.16em] transition-colors duration-300 ${beat === i ? 'text-white' : 'text-white/35'}`}>
-                    <span className="opacity-60">0{i + 1}</span> {c.step}
+                  <p className={`mt-2 whitespace-nowrap font-mono text-[9.5px] uppercase tracking-[0.16em] transition-colors duration-300 ${beat === i ? 'text-white' : 'text-white/35'}`}>
+                    <span className="opacity-60">0{i + 1}</span>{' '}<span className={beat === i ? '' : 'hidden sm:inline'}>{c.step}</span>
                   </p>
                 </li>
               ))}

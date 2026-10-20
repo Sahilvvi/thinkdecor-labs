@@ -78,7 +78,7 @@ export function StyleGallery() {
       // One screen of pinned time per screen of horizontal travel, plus the frame itself.
       style={{ height: `calc(100svh + ${distance}px)` }}
     >
-      <div className="sticky top-0 flex h-[100svh] flex-col justify-center overflow-hidden pt-[84px] pb-4">
+      <div className="sticky top-0 flex h-[100svh] flex-col justify-center overflow-hidden pt-[84px] pb-[84px] md:pb-4">
         <div className="relative flex h-full flex-col justify-center overflow-hidden rounded-[28px] bg-[linear-gradient(170deg,#003B33,#00332C_60%,#002923)] py-8 text-white">
           <div
             aria-hidden

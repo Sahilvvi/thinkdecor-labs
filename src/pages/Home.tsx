@@ -306,7 +306,7 @@ export default function Home() {
 
       </main>
 
-        <div className="relative z-10">
+        <div className="relative z-10 bg-background">
           <Footer />
         </div>
       </div>

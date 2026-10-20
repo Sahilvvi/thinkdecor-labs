@@ -147,9 +147,9 @@ export function ComingSoonStrip() {
                   <Visual />
                 </div>
                 <div className="p-6">
-                  <div className="flex items-center justify-between gap-3">
-                    <h3 className="text-[19px] font-bold tracking-[-0.01em] text-foreground">{title}</h3>
-                    <span className="rounded-full bg-[#F2A93B]/12 px-2.5 py-1 font-mono text-[9.5px] uppercase tracking-[0.14em] text-[#9A6A12]">Coming soon</span>
+                  <div className="flex items-start justify-between gap-3">
+                    <h3 className="min-w-0 text-[19px] font-bold leading-snug tracking-[-0.01em] text-foreground">{title}</h3>
+                    <span className="mt-0.5 shrink-0 whitespace-nowrap rounded-full bg-[#F2A93B]/12 px-2.5 py-1 font-mono text-[9.5px] uppercase tracking-[0.14em] text-[#9A6A12]">Coming soon</span>
                   </div>
                   <p className="mt-2.5 text-[14.5px] leading-relaxed text-foreground/62">{body}</p>
                 </div>

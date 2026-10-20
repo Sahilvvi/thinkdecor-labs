@@ -303,7 +303,7 @@ export function LightScrub() {
               <span className="font-mono text-[10.5px] uppercase tracking-[0.16em] text-white/75">{label.name}</span>
             </span>
             <span className="absolute bottom-3 right-3 rounded-full bg-black/40 px-2.5 py-1 font-mono text-[9.5px] uppercase tracking-[0.14em] text-white/70 backdrop-blur-md">
-              {own ? 'Your photo · ' : ''}Light simulation · illustrative
+              <span className="hidden sm:inline">{own ? 'Your photo · ' : ''}Light simulation · </span>Illustrative
             </span>
             {!touched && (
               <span className="absolute bottom-3 left-3 rounded-full bg-[#00A08C]/90 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.14em] text-white">

@@ -83,7 +83,7 @@ export function EngineScroll() {
 
   return (
     <section ref={ref} id="engine" className="relative px-3 sm:px-4" style={{ height: '290vh' }}>
-      <div className="sticky top-0 flex h-[100svh] flex-col justify-center pt-[76px] pb-3">
+      <div className="sticky top-0 flex h-[100svh] flex-col justify-center pt-[76px] pb-[84px] md:pb-3">
         <div className="relative flex h-full overflow-hidden rounded-[28px] bg-[linear-gradient(170deg,#F7FBFA,#EAF5F2)]">
           <div aria-hidden className="pointer-events-none absolute inset-0 bg-[linear-gradient(rgba(0,89,78,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(0,89,78,0.05)_1px,transparent_1px)] bg-[size:48px_48px] [mask-image:radial-gradient(ellipse_80%_80%_at_70%_50%,#000,transparent)]" />
 

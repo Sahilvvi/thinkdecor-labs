@@ -97,11 +97,11 @@ const SWATCHES = ['#8A9F82', '#E9E1D3', '#B5603F', '#2C3E5C', '#C9962C', '#2F4A3
 
 function Swatches() {
   return (
-    <div className="flex gap-3">
+    <div className="flex gap-2 sm:gap-3">
       {SWATCHES.map((c, i) => (
         <motion.span
           key={c}
-          className="h-11 w-11 rounded-full shadow-[inset_0_0_0_1px_rgba(0,0,0,0.1),0_8px_16px_-8px_rgba(0,0,0,0.4)]"
+          className="h-9 w-9 rounded-full shadow-[inset_0_0_0_1px_rgba(0,0,0,0.1),0_8px_16px_-8px_rgba(0,0,0,0.4)] sm:h-11 sm:w-11"
           style={{ background: c }}
           animate={{ y: [0, -12, 0], scale: [1, 1.1, 1] }}
           transition={{ duration: 0.7, delay: i * 0.18, repeat: Infinity, repeatDelay: SWATCHES.length * 0.18, ease: 'easeInOut' }}

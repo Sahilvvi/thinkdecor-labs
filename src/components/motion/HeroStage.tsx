@@ -212,16 +212,16 @@ export function HeroStage({ onStageBoxMount }: { onStageBoxMount?: (el: HTMLDivE
         }}
       />
 
-      <div className="relative grid items-start gap-[clamp(24px,4vw,56px)] lg:grid-cols-[5fr_7fr]">
+      <div className="relative grid grid-cols-[minmax(0,1fr)] items-start gap-[clamp(24px,4vw,56px)] lg:grid-cols-[5fr_7fr]">
         {/* ---------------- copy ---------------- */}
-        <div className="flex flex-col gap-[22px] pt-2">
+        <div className="flex min-w-0 flex-col gap-[22px] pt-2">
           {/* announcement pill */}
           <a
             href="#get-app"
-            className="group inline-flex w-max items-center gap-2 rounded-full bg-white/[0.07] py-1 pl-1 pr-3 text-[12.5px] text-white/85 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.14)] transition-colors hover:bg-white/[0.12]"
+            className="group inline-flex w-max max-w-full items-center gap-2 rounded-full bg-white/[0.07] py-1 pl-1 pr-3 text-[12.5px] text-white/85 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.14)] transition-colors hover:bg-white/[0.12]"
           >
             <span className="rounded-full bg-[#00A08C] px-2 py-0.5 font-label text-[10.5px] font-bold uppercase tracking-[0.08em] text-white">✦ New</span>
-            The Think Decor app for iPhone &amp; Android
+            <span className="truncate">The Think Decor app<span className="hidden min-[400px]:inline"> for iPhone &amp; Android</span></span>
             <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
           </a>
 

@@ -72,7 +72,7 @@ export function PhoneStory() {
   return (
     <section ref={ref} id="how-it-works" className="relative scroll-mt-0 px-3 sm:px-4" style={{ height: '260vh' }}>
       <style>{'@keyframes spin{to{transform:rotate(360deg)}}'}</style>
-      <div className="sticky top-0 flex h-[100svh] flex-col justify-center pt-[76px] pb-3">
+      <div className="sticky top-0 flex h-[100svh] flex-col justify-center pt-[76px] pb-[84px] md:pb-3">
         <div className="relative flex h-full overflow-hidden rounded-[28px] bg-gradient-to-b from-white to-[#EEF8F6]">
           <div aria-hidden className="pointer-events-none absolute -right-20 top-10 h-[30rem] w-[30rem] rounded-full bg-[radial-gradient(circle,rgba(0,160,140,0.16),transparent_65%)] blur-2xl" />
 
