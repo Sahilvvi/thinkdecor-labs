@@ -29,7 +29,6 @@ import { StackPanel, StackPanelGroup } from '@/components/motion/StackPanels';
 import { HeroStage } from '@/components/motion/HeroStage';
 import { PhoneStory } from '@/components/lab/PhoneStory';
 import { EngineScroll } from '@/components/lab/EngineScroll';
-import { RewindStory } from '@/components/lab/RewindStory';
 import { TypePortal } from '@/components/lab/TypePortal';
 import { LogoIntro } from '@/components/lab/LogoIntro';
 import { RoomCourier } from '@/components/lab/RoomCourier';
@@ -128,7 +127,7 @@ export default function Home() {
 
           Order tells one story: through the "T" (type portal) → hero →
           how it works → what Mantha is → try it on your own room, early →
-          templates → why think first → features → every room → styles →
+          templates → features → every room → styles →
           every angle → proof → the app → price → what's coming → reading →
           questions → the final ask. Pinned scroll sections sit between
           panel groups, never inside a panel.
@@ -164,14 +163,7 @@ export default function Home() {
           <StackPanel>
             <TemplatesGrid />
           </StackPanel>
-        </StackPanelGroup>
 
-        {/* Lab: why think first — a day-14 regret, rewound to day 0. Pinned. */}
-        <div className="pt-4">
-          <RewindStory />
-        </div>
-
-        <StackPanelGroup className="px-3 sm:px-4">
           <StackPanel className="bg-gradient-to-b from-[#F4FAF8] to-white">
             <FeatureBento />
           </StackPanel>
