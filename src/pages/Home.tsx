@@ -12,7 +12,7 @@ import { motion } from 'framer-motion';
 import { Magnetic, Reveal, Stagger, staggerItem } from '@/components/premium/Motion';
 import { ComingSoonStrip } from '@/components/premium/ComingSoonStrip';
 import { ManthaStudio } from '@/components/lab/ManthaStudio';
-import { TemplateDeck } from '@/components/lab/TemplateDeck';
+import { TemplatesGrid } from '@/components/premium/TemplatesGrid';
 import { PricingStage } from '@/components/lab/PricingStage';
 import { RoomDive } from '@/components/lab/RoomDive';
 import { Testimonials } from '@/components/premium/Testimonials';
@@ -160,9 +160,9 @@ export default function Home() {
             <ManthaStudio />
           </StackPanel>
 
-          {/* Templates as a deck you flick through */}
-          <StackPanel className="bg-gradient-to-b from-[#F7F4EE] to-white">
-            <TemplateDeck />
+          {/* Templates: the original grid of finished looks */}
+          <StackPanel>
+            <TemplatesGrid />
           </StackPanel>
         </StackPanelGroup>
 
