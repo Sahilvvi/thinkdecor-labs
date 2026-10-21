@@ -13,8 +13,7 @@ import { Magnetic, Reveal, Stagger, staggerItem } from '@/components/premium/Mot
 import { ComingSoonStrip } from '@/components/premium/ComingSoonStrip';
 import { ManthaStudio } from '@/components/lab/ManthaStudio';
 import { TemplateDeck } from '@/components/lab/TemplateDeck';
-import { EarlyBirdStrip } from '@/components/premium/EarlyBirdStrip';
-import { PricingTeaser } from '@/components/premium/PricingTeaser';
+import { PricingStage } from '@/components/lab/PricingStage';
 import { Testimonials } from '@/components/premium/Testimonials';
 import { BlogTeaser } from '@/components/premium/BlogTeaser';
 import { GetTheApp } from '@/components/premium/GetTheApp';
@@ -206,9 +205,8 @@ export default function Home() {
           </StackPanel>
 
           {/* ================= PRICING (with the intro offer) ================= */}
-          <StackPanel>
-            <EarlyBirdStrip />
-            <PricingTeaser />
+          <StackPanel className="bg-gradient-to-b from-[#F7F4EE] to-white">
+            <PricingStage />
           </StackPanel>
 
           {/* ================= COMING SOON: measurement + floor plans, one compact strip ================= */}
