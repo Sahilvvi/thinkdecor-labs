@@ -31,6 +31,7 @@ import { EngineScroll } from '@/components/lab/EngineScroll';
 import { RewindStory } from '@/components/lab/RewindStory';
 import { LightScrub } from '@/components/lab/LightScrub';
 import { TypePortal } from '@/components/lab/TypePortal';
+import { LogoIntro } from '@/components/lab/LogoIntro';
 import { RoomCourier } from '@/components/lab/RoomCourier';
 import { SmoothScroll } from '@/components/lab/SmoothScroll';
 import { TimeOfDay } from '@/components/lab/TimeOfDay';
@@ -108,6 +109,7 @@ export default function Home() {
       />
 
       <div>
+        <LogoIntro />
         <SmoothScroll />
         <TimeOfDay />
         <RoomCourier />

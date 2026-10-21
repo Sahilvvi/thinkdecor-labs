@@ -1,6 +1,7 @@
 import { useEffect, useId, useLayoutEffect, useRef, useState, type ReactNode } from 'react';
-import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion';
+import { motion, useMotionValue, useReducedMotion, useScroll, useSpring, useTransform } from 'framer-motion';
 import { finishIntro } from '@/lib/introState';
+import { useLogoIntroDone } from '@/lib/logoIntro';
 
 /**
  * The opening frame, laid over the hero itself: "THINK IT FIRST." set
@@ -82,6 +83,35 @@ export function TypePortal({ children }: { children: ReactNode }) {
   const [layout, setLayout] = useState<Layout | null>(null);
   const [dive, setDive] = useState(() => (typeof window === 'undefined' ? 1000 : window.innerHeight * DIVE_VH));
   const zoomFrom = useRef({ x: 0, y: 0, cx: 0, cy: 0, max: 1 });
+  // the letters rise in once the logo intro has opened onto this screen
+  const ready = useLogoIntroDone();
+
+  // the room inside the letters follows the cursor, so the type feels like a
+  // window you can look through; on touch screens it drifts on its own
+  const lookX = useSpring(useMotionValue(0), { stiffness: 60, damping: 18 });
+  const lookY = useSpring(useMotionValue(0), { stiffness: 60, damping: 18 });
+  useEffect(() => {
+    if (reduce) return;
+    if (window.matchMedia('(pointer: coarse)').matches) {
+      let raf = 0;
+      const t0 = performance.now();
+      const drift = (now: number) => {
+        const t = (now - t0) / 1000;
+        lookX.set(Math.sin(t * 0.35) * 22);
+        lookY.set(Math.cos(t * 0.27) * 14);
+        raf = requestAnimationFrame(drift);
+      };
+      raf = requestAnimationFrame(drift);
+      return () => cancelAnimationFrame(raf);
+    }
+    const move = (e: PointerEvent) => {
+      if (window.scrollY > window.innerHeight) return;
+      lookX.set((e.clientX / window.innerWidth - 0.5) * -48);
+      lookY.set((e.clientY / window.innerHeight - 0.5) * -32);
+    };
+    window.addEventListener('pointermove', move, { passive: true });
+    return () => window.removeEventListener('pointermove', move);
+  }, [reduce, lookX, lookY]);
 
   // progress through the dive: the wrapper starts at the top of the page,
   // so it's simply how far you've scrolled over the dive distance
@@ -184,8 +214,8 @@ export function TypePortal({ children }: { children: ReactNode }) {
             src={PHOTO}
             alt=""
             fetchPriority="high"
-            style={{ opacity: reduce ? 1 : photo, scale: reduce ? 1 : photoScale }}
-            className="absolute inset-0 h-full w-full object-cover"
+            style={{ opacity: reduce ? 1 : photo, scale: reduce ? 1 : photoScale, x: lookX, y: lookY }}
+            className="absolute -inset-[4%] h-[108%] w-[108%] object-cover"
           />
 
           {/* the dark sheet with the letters cut out of it */}
@@ -201,8 +231,13 @@ export function TypePortal({ children }: { children: ReactNode }) {
                 <rect width={layout?.w ?? 0} height={layout?.h ?? 0} fill="white" />
                 <g ref={zoomA}>
                   {layout?.lines.map((l, i) => (
-                    <text
+                    <motion.g
                       key={l.text}
+                      initial={false}
+                      animate={ready || reduce ? { y: 0, opacity: 1 } : { y: layout.size * 0.5, opacity: 0 }}
+                      transition={{ delay: 0.15 + i * 0.14, duration: 1, ease: [0.16, 1, 0.3, 1] }}
+                    >
+                    <text
                       ref={(el) => { lineEls.current[i] = el; }}
                       x={layout.w / 2}
                       y={l.y}
@@ -215,6 +250,7 @@ export function TypePortal({ children }: { children: ReactNode }) {
                     >
                       {l.text}
                     </text>
+                    </motion.g>
                   ))}
                 </g>
               </mask>
@@ -222,9 +258,14 @@ export function TypePortal({ children }: { children: ReactNode }) {
             <rect width={layout?.w ?? 0} height={layout?.h ?? 0} fill={INK} mask={`url(#${maskId})`} />
             {/* a hairline around each letter, so the type reads as cut glass */}
             <motion.g ref={zoomB} style={{ opacity: reduce ? 1 : outline }}>
-              {layout?.lines.map((l) => (
-                <text
+              {layout?.lines.map((l, i) => (
+                <motion.g
                   key={l.text}
+                  initial={false}
+                  animate={ready || reduce ? { y: 0, opacity: 1 } : { y: layout.size * 0.5, opacity: 0 }}
+                  transition={{ delay: 0.15 + i * 0.14, duration: 1, ease: [0.16, 1, 0.3, 1] }}
+                >
+                <text
                   x={layout.w / 2}
                   y={l.y}
                   textAnchor="middle"
@@ -239,6 +280,7 @@ export function TypePortal({ children }: { children: ReactNode }) {
                 >
                   {l.text}
                 </text>
+                </motion.g>
               ))}
             </motion.g>
           </motion.svg>
@@ -246,10 +288,22 @@ export function TypePortal({ children }: { children: ReactNode }) {
           {/* the frame around the type: who we are, and a nudge to scroll */}
           {!reduce && (
             <>
-              <motion.div style={{ opacity: chrome }} className="absolute inset-x-0 top-[96px] flex justify-center px-6 text-center">
+              <motion.div
+                initial={false}
+                animate={{ y: ready ? 0 : 10, filter: ready ? 'blur(0px)' : 'blur(6px)' }}
+                transition={{ delay: 0.6, duration: 0.8 }}
+                style={{ opacity: ready ? chrome : 0 }}
+                className="absolute inset-x-0 top-[96px] flex justify-center px-6 text-center"
+              >
                 <p className="font-mono text-[10.5px] uppercase tracking-[0.28em] text-white/55">Think Decor · interior design from one photo</p>
               </motion.div>
-              <motion.div style={{ opacity: chrome }} className="absolute inset-x-0 bottom-8 flex flex-col items-center gap-3 px-6 text-center">
+              <motion.div
+                initial={false}
+                animate={{ y: ready ? 0 : 14, filter: ready ? 'blur(0px)' : 'blur(6px)' }}
+                transition={{ delay: 0.75, duration: 0.8 }}
+                style={{ opacity: ready ? chrome : 0 }}
+                className="absolute inset-x-0 bottom-8 flex flex-col items-center gap-3 px-6 text-center"
+              >
                 <p className="max-w-[36ch] font-display text-[clamp(1.05rem,1.6vw,1.35rem)] italic text-white/80">
                   See your room redesigned before you spend a penny.
                 </p>
