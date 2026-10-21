@@ -11,7 +11,8 @@ import { SEO } from '@/components/shared/SEO';
 import { motion } from 'framer-motion';
 import { Magnetic, Reveal, Stagger, staggerItem } from '@/components/premium/Motion';
 import { ComingSoonStrip } from '@/components/premium/ComingSoonStrip';
-import { DesignGenerator } from '@/components/premium/DesignGenerator';
+import { ManthaStudio } from '@/components/lab/ManthaStudio';
+import { TemplateDeck } from '@/components/lab/TemplateDeck';
 import { EarlyBirdStrip } from '@/components/premium/EarlyBirdStrip';
 import { PricingTeaser } from '@/components/premium/PricingTeaser';
 import { Testimonials } from '@/components/premium/Testimonials';
@@ -157,7 +158,12 @@ export default function Home() {
             the light section below and the closing card. */}
         <StackPanelGroup className="px-3 sm:px-4">
           <StackPanel>
-            <DesignGenerator hideIntro />
+            <ManthaStudio />
+          </StackPanel>
+
+          {/* Templates as a deck you flick through */}
+          <StackPanel className="bg-gradient-to-b from-[#F7F4EE] to-white">
+            <TemplateDeck />
           </StackPanel>
 
           {/* Lab: one room (or the visitor's), relit from first light to night. */}

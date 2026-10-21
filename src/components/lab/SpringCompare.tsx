@@ -13,6 +13,8 @@ import { cn } from '@/lib/utils';
  *
  * Mouse: just hover and move. Touch: drag. Keyboard: arrow keys.
  * With `autoplay`, it drifts back and forth on its own until touched.
+ * With `reveal`, it opens by sweeping the "after" across the whole photo and
+ * settling in the middle — the new design being painted on.
  */
 export function SpringCompare({
   before,
@@ -20,6 +22,7 @@ export function SpringCompare({
   beforeLabel = 'Before',
   afterLabel = 'After',
   autoplay = false,
+  reveal = false,
   className,
   labelClassName,
 }: {
@@ -28,15 +31,22 @@ export function SpringCompare({
   beforeLabel?: string;
   afterLabel?: string;
   autoplay?: boolean;
+  reveal?: boolean;
   className?: string;
   labelClassName?: string;
 }) {
   const box = useRef<HTMLDivElement>(null);
   const inView = useInView(box, { margin: '0px 0px -10% 0px' });
-  const target = useMotionValue(50);
+  const target = useMotionValue(reveal ? 100 : 50);
   const split = useSpring(target, { stiffness: 150, damping: 15, mass: 1 });
   const [touched, setTouched] = useState(false);
   const dragging = useRef(false);
+
+  useEffect(() => {
+    if (!reveal) return;
+    const controls = animate(target, [100, 0, 50], { duration: 2, times: [0, 0.55, 1], ease: [0.65, 0, 0.35, 1] });
+    return () => controls.stop();
+  }, [reveal, target]);
 
   useEffect(() => {
     if (!autoplay || touched || !inView) return;
