@@ -14,6 +14,7 @@ import { ComingSoonStrip } from '@/components/premium/ComingSoonStrip';
 import { ManthaStudio } from '@/components/lab/ManthaStudio';
 import { TemplateDeck } from '@/components/lab/TemplateDeck';
 import { PricingStage } from '@/components/lab/PricingStage';
+import { RoomDive } from '@/components/lab/RoomDive';
 import { Testimonials } from '@/components/premium/Testimonials';
 import { BlogTeaser } from '@/components/premium/BlogTeaser';
 import { GetTheApp } from '@/components/premium/GetTheApp';
@@ -29,7 +30,6 @@ import { HeroStage } from '@/components/motion/HeroStage';
 import { PhoneStory } from '@/components/lab/PhoneStory';
 import { EngineScroll } from '@/components/lab/EngineScroll';
 import { RewindStory } from '@/components/lab/RewindStory';
-import { LightScrub } from '@/components/lab/LightScrub';
 import { TypePortal } from '@/components/lab/TypePortal';
 import { LogoIntro } from '@/components/lab/LogoIntro';
 import { RoomCourier } from '@/components/lab/RoomCourier';
@@ -45,8 +45,8 @@ import { organizationSchema, softwareApplicationSchema, faqPageSchema } from '@/
 /* ---------------------------------------------------------------- *
  *  Homepage — a motion-led layout: a full-screen type portal that dives
  *  through its last "T" onto the hero, a pinned "how it works" story, the Mantha
- *  explainer, then the free generator early. Once a visitor uploads a
- *  photo there, the light section and the closing card show their room.
+ *  explainer, then Mantha Studio early. Once a visitor redesigns their own
+ *  photo there, the closing card shows their room.
  *  Copy matches the product today: photo redesigns are live; room
  *  scanning, measured plans and exports are labelled "coming soon".
  * ---------------------------------------------------------------- */
@@ -128,7 +128,7 @@ export default function Home() {
 
           Order tells one story: through the "T" (type portal) → hero →
           how it works → what Mantha is → try it on your own room, early →
-          your room in real light → why think first → features → styles →
+          templates → why think first → features → every room → styles →
           every angle → proof → the app → price → what's coming → reading →
           questions → the final ask. Pinned scroll sections sit between
           panel groups, never inside a panel.
@@ -153,8 +153,8 @@ export default function Home() {
           <EngineScroll />
         </div>
 
-        {/* Try it early, while the visitor is curious. An upload here personalises
-            the light section below and the closing card. */}
+        {/* Try it early, while the visitor is curious. A redesign here personalises
+            the closing card. */}
         <StackPanelGroup className="px-3 sm:px-4">
           <StackPanel>
             <ManthaStudio />
@@ -163,11 +163,6 @@ export default function Home() {
           {/* Templates as a deck you flick through */}
           <StackPanel className="bg-gradient-to-b from-[#F7F4EE] to-white">
             <TemplateDeck />
-          </StackPanel>
-
-          {/* Lab: one room (or the visitor's), relit from first light to night. */}
-          <StackPanel className="bg-gradient-to-b from-white to-[#F4FAF8]">
-            <LightScrub />
           </StackPanel>
         </StackPanelGroup>
 
@@ -184,6 +179,11 @@ export default function Home() {
 
         {/* Pinned, scroll-driven section sits between stacks, not inside a
             StackPanel: panels are overflow-hidden, which breaks sticky pinning. */}
+        {/* One photo, every room: a pinned dive from room to room through their windows */}
+        <div className="pt-4">
+          <RoomDive />
+        </div>
+
         <div className="pt-4">
           <StyleGallery />
         </div>
